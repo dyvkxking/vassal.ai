@@ -1,0 +1,26 @@
+'use client'
+
+import { http, createConfig } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
+import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
+
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'your-project-id'
+
+export const wagmiConfig = createConfig({
+  chains: [mainnet, sepolia],
+  connectors: [
+    injected(),
+    walletConnect({ projectId }),
+    coinbaseWallet({ appName: 'vassal.ai' }),
+  ],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+})
+
+declare module 'wagmi' {
+  interface Config {
+    readonly: typeof wagmiConfig
+  }
+}
