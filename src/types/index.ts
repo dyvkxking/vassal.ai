@@ -142,6 +142,7 @@ export interface Skill {
     byVersion: { version: string; amount: number; invocations: number }[];
     payoutHistory: { date: string; amount: number; status: string }[];
   };
+  integrationGuide?: string;
 }
 
 export interface EarningsBreakdown {
