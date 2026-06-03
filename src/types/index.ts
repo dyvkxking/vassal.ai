@@ -254,3 +254,66 @@ export interface SkillAnalytics {
   topUsingAgents: { agentId: string; agentName: string; invocations: number }[];
   errorRate: number;
 }
+
+// Governance Types
+export type ProposalStatus = "active" | "passed" | "failed" | "draft" | "queued";
+export type VoteChoice = "for" | "against" | "abstain";
+
+export interface Proposal {
+  id: string;
+  title: string;
+  summary: string;
+  category: string;
+  author: string;
+  status: ProposalStatus;
+  createdAt: string;
+  votesFor: number;
+  votesAgainst: number;
+  votesAbstain: number;
+  discussion: DiscussionEntry[];
+  content: {
+    motivation: string;
+    specification: string;
+    implementationPlan: string;
+    timeline: string;
+  };
+}
+
+export interface DiscussionEntry {
+  id: string;
+  address: string;
+  choice: VoteChoice;
+  comment: string;
+  timestamp: string;
+}
+
+export interface Vote {
+  id: string;
+  proposalId: string;
+  address: string;
+  choice: VoteChoice;
+  reason?: string;
+  timestamp: string;
+  votingPower: number;
+}
+
+export interface Delegation {
+  id: string;
+  delegator: string;
+  delegate: string;
+  amount: number;
+  timestamp: string;
+}
+
+export interface Delegator {
+  address: string;
+  amount: number;
+  lastActivity: string;
+}
+
+export interface GovernanceStats {
+  totalProposals: number;
+  participationRate: number;
+  avgVoteMargin: number;
+  proposalSuccessRate: number;
+}

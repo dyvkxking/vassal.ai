@@ -1,4 +1,4 @@
-import type { Agent, ProviderNode, Session, ApiKey, LoginEntry, ConnectedTool, LogEntry, EarningsBreakdown, AgentCategory, CategoryBreakdown, PricingTrend, TpmDistribution, QualityDistribution, ClientSession, FavoriteAgent, Skill, SkillAnalytics } from '@/types';
+import type { Agent, ProviderNode, Session, ApiKey, LoginEntry, ConnectedTool, LogEntry, EarningsBreakdown, AgentCategory, CategoryBreakdown, PricingTrend, TpmDistribution, QualityDistribution, ClientSession, FavoriteAgent, Skill, SkillAnalytics, Proposal, Vote, Delegator, Delegation, GovernanceStats } from '@/types';
 
 export const MOCK_AGENTS: Agent[] = [
   { id: 'agent-1', name: 'Alpha Miner', category: 'Web3', description: 'Advanced blockchain analysis agent', tpm: 5000000, tpmCap: 5000000, latencySla: 150, pricePerMinute: 0.05, pricePerSecond: 0.00083, qualityScore: 4.8, sessions: 1247, rating: 4.9, status: 'active', creator: '0x1234...abcd', createdAt: '2026-05-01', uptimeGuarantee: 99.5, isAvailable: true },
@@ -400,6 +400,138 @@ export function getTrendingSkills(limit = 5): Skill[] {
 export function getNewSkills(limit = 5): Skill[] {
   return [...MOCK_SKILLS].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, limit);
 }
+
+// Governance Mock Data
+export const MOCK_PROPOSALS: Proposal[] = [
+  {
+    id: "prop-001",
+    title: "Increase TPM Floor to 2M for All Agents",
+    summary: "Raise the minimum TPM floor requirement from 1M to 2M to improve network quality.",
+    category: "Protocol Upgrade",
+    author: "0x1234...abcd",
+    status: "active",
+    createdAt: "2026-06-01T10:00:00Z",
+    votesFor: 4500000,
+    votesAgainst: 1200000,
+    votesAbstain: 300000,
+    discussion: [
+      { id: "disc-001", address: "0xabcd...1234", choice: "for", comment: "Great proposal! The network needs higher quality standards.", timestamp: "2026-06-02T14:00:00Z" },
+      { id: "disc-002", address: "0xefgh...5678", choice: "against", comment: "This excludes smaller providers from participating.", timestamp: "2026-06-02T15:30:00Z" },
+      { id: "disc-003", address: "0xijkl...9012", choice: "for", comment: "Agreed, higher standards benefit everyone.", timestamp: "2026-06-03T09:00:00Z" },
+    ],
+    content: {
+      motivation: "Current network has many low-quality agents that degrade overall performance.",
+      specification: "Raise minimum TPM floor from 1M to 2M for all agent categories.",
+      implementationPlan: "1. Update contract constants\n2. 30-day grace period for existing agents\n3. Reject new agents below threshold",
+      timeline: "Implementation: 2 weeks after approval. Grace period: 30 days.",
+    },
+  },
+  {
+    id: "prop-002",
+    title: "Add DeFi Category to Agent Classifications",
+    summary: "Introduce DeFi as a new agent category for specialized agents.",
+    category: "SLA Threshold",
+    author: "0x5678...efgh",
+    status: "passed",
+    createdAt: "2026-05-25T08:00:00Z",
+    votesFor: 6200000,
+    votesAgainst: 800000,
+    votesAbstain: 200000,
+    discussion: [],
+    content: {
+      motivation: "Many agents are providing DeFi services but lack proper classification.",
+      specification: "Add 'DeFi' as a new AgentCategory option.",
+      implementationPlan: "1. Update enum in contract\n2. Update frontend dropdown\n3. Migrate existing agents",
+      timeline: "Implementation: 1 week after approval.",
+    },
+  },
+  {
+    id: "prop-003",
+    title: "Slash Amounts: Reduce Penalty from 50% to 30%",
+    summary: "Lower the slash amount for SLA violations to encourage more participation.",
+    category: "Slash Amounts",
+    author: "0x9abc...ijkl",
+    status: "failed",
+    createdAt: "2026-05-20T12:00:00Z",
+    votesFor: 1500000,
+    votesAgainst: 5500000,
+    votesAbstain: 500000,
+    discussion: [],
+    content: {
+      motivation: "High slash amounts discourage providers from joining.",
+      specification: "Reduce penalty from 50% to 30% of earnings.",
+      implementationPlan: "Update penalty calculation in contract.",
+      timeline: "Immediate effect after approval.",
+    },
+  },
+  {
+    id: "prop-004",
+    title: "Governance: Add Multi-Step Voting Process",
+    summary: "Implement a 3-step voting process for critical protocol upgrades.",
+    category: "Protocol Upgrade",
+    author: "0xdef0...mnop",
+    status: "draft",
+    createdAt: "2026-06-03T16:00:00Z",
+    votesFor: 0,
+    votesAgainst: 0,
+    votesAbstain: 0,
+    discussion: [],
+    content: {
+      motivation: "Critical upgrades need more careful deliberation.",
+      specification: "Introduce proposal discussion period, then voting period, then execution delay.",
+      implementationPlan: "1. Add discussion period (7 days)\n2. Voting period (5 days)\n3. Execution delay (3 days)",
+      timeline: "Implementation: 4 weeks after approval.",
+    },
+  },
+  {
+    id: "prop-005",
+    title: "Increase Latency SLA from 200ms to 180ms",
+    summary: "Tighten the latency requirement to improve user experience.",
+    category: "SLA Threshold",
+    author: "0x4321...qrst",
+    status: "queued",
+    createdAt: "2026-06-05T09:00:00Z",
+    votesFor: 0,
+    votesAgainst: 0,
+    votesAbstain: 0,
+    discussion: [],
+    content: {
+      motivation: "180ms provides better UX for real-time applications.",
+      specification: "Change max latency SLA from 200ms to 180ms.",
+      implementationPlan: "1. Update contract\n2. Notify providers\n3. 60-day compliance window",
+      timeline: "Implementation: 2 weeks after approval. Compliance window: 60 days.",
+    },
+  },
+];
+
+export function getProposalById(id: string): Proposal | undefined {
+  return MOCK_PROPOSALS.find((p) => p.id === id);
+}
+
+export const MOCK_VOTES: Vote[] = [
+  { id: "vote-001", proposalId: "prop-001", address: "0x1234...abcd", choice: "for", reason: "Good for network", timestamp: "2026-06-02T14:00:00Z", votingPower: 500000 },
+  { id: "vote-002", proposalId: "prop-001", address: "0x5678...efgh", choice: "against", reason: "Too restrictive", timestamp: "2026-06-02T15:30:00Z", votingPower: 300000 },
+  { id: "vote-003", proposalId: "prop-002", address: "0x1234...abcd", choice: "for", timestamp: "2026-05-26T10:00:00Z", votingPower: 500000 },
+];
+
+export const MOCK_DELEGATORS: Delegator[] = [
+  { address: "0xaaaa...1111", amount: 1500000, lastActivity: "2026-06-03T10:00:00Z" },
+  { address: "0xbbbb...2222", amount: 800000, lastActivity: "2026-06-02T15:00:00Z" },
+  { address: "0xcccc...3333", amount: 2200000, lastActivity: "2026-06-01T09:00:00Z" },
+];
+
+export const MOCK_DELEGATIONS: Delegation[] = [
+  { id: "del-001", delegator: "0xaaaa...1111", delegate: "0xCurrentDelegate", amount: 1500000, timestamp: "2026-05-15T10:00:00Z" },
+  { id: "del-002", delegator: "0xbbbb...2222", delegate: "0xCurrentDelegate", amount: 800000, timestamp: "2026-05-20T14:00:00Z" },
+  { id: "del-003", delegator: "0xcccc...3333", delegate: "0xCurrentDelegate", amount: 2200000, timestamp: "2026-06-01T08:00:00Z" },
+];
+
+export const GOVERNANCE_STATS: GovernanceStats = {
+  totalProposals: 47,
+  participationRate: 68.5,
+  avgVoteMargin: 12.3,
+  proposalSuccessRate: 72.3,
+};
 
 export const SKILL_CATEGORIES = ["Web3", "Data", "Analytics", "Infrastructure", "AI/ML", "Communication", "Security", "Automation"];
 
