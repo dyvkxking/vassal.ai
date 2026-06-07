@@ -247,7 +247,7 @@ export default function DelegationPage() {
                 max={100}
                 step={1}
                 value={[delegateAmount]}
-                onValueChange={(value) => setDelegateAmount(value[0])}
+                onValueChange={(v) => setDelegateAmount(Array.isArray(v) ? v[0] : v)}
               />
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>0%</span>

@@ -18,9 +18,3 @@ export const wagmiConfig = createConfig({
     [sepolia.id]: http(),
   },
 })
-
-declare module 'wagmi' {
-  interface Config {
-    readonly: typeof wagmiConfig
-  }
-}

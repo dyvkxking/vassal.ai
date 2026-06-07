@@ -93,8 +93,8 @@ export default function LauncherPage() {
     setHasSearched(true)
   }
 
-  const handleCategoryChange = (value: string) => {
-    setFilters({ ...filters, category: value === 'all' ? '' : value })
+  const handleCategoryChange = (value: string | null) => {
+    setFilters({ ...filters, category: value === 'all' ? '' : (value ?? '') })
   }
 
   return (
@@ -162,7 +162,7 @@ export default function LauncherPage() {
                 </div>
                 <Slider
                   value={[filters.tpmMin]}
-                  onValueChange={([v]) => setFilters({ ...filters, tpmMin: v })}
+                  onValueChange={(v) => setFilters({ ...filters, tpmMin: Array.isArray(v) ? v[0] : v })}
                   min={1000}
                   max={500000}
                   step={1000}
@@ -182,7 +182,7 @@ export default function LauncherPage() {
                 </div>
                 <Slider
                   value={[filters.latencyMax]}
-                  onValueChange={([v]) => setFilters({ ...filters, latencyMax: v })}
+                  onValueChange={(v) => setFilters({ ...filters, latencyMax: Array.isArray(v) ? v[0] : v })}
                   min={100}
                   max={10000}
                   step={100}
@@ -202,7 +202,7 @@ export default function LauncherPage() {
                 </div>
                 <Slider
                   value={[filters.priceMax * 1000]}
-                  onValueChange={([v]) => setFilters({ ...filters, priceMax: v / 1000 })}
+                  onValueChange={(v) => setFilters({ ...filters, priceMax: (Array.isArray(v) ? v[0] : v) / 1000 })}
                   min={0}
                   max={1000}
                   step={1}
@@ -222,7 +222,7 @@ export default function LauncherPage() {
                 </div>
                 <Slider
                   value={[filters.minQualityScore]}
-                  onValueChange={([v]) => setFilters({ ...filters, minQualityScore: v })}
+                  onValueChange={(v) => setFilters({ ...filters, minQualityScore: Array.isArray(v) ? v[0] : v })}
                   min={0}
                   max={100}
                   step={1}

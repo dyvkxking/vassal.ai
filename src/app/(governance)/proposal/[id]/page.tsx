@@ -149,7 +149,6 @@ function QuorumStatus({ current, required }: { current: number; required: number
       <Progress
         value={Math.min(percentage, 100)}
         className="h-2"
-        indicatorClassName={reached ? 'bg-green-500' : undefined}
       />
       {reached ? (
         <p className="text-xs text-green-600 flex items-center gap-1">

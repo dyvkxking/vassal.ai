@@ -342,7 +342,7 @@ function RentalSheet({ agent, open, onOpenChange }: { agent: Agent; open: boolea
             <div className="flex items-center gap-4">
               <Slider
                 value={[durationMinutes]}
-                onValueChange={([v]) => setDurationMinutes(v)}
+                onValueChange={(v) => setDurationMinutes(Array.isArray(v) ? v[0] : v)}
                 min={1}
                 max={60}
                 step={1}
@@ -358,7 +358,7 @@ function RentalSheet({ agent, open, onOpenChange }: { agent: Agent; open: boolea
             <div className="flex items-center gap-4">
               <Slider
                 value={[maxBudget]}
-                onValueChange={([v]) => setMaxBudget(v)}
+                onValueChange={(v) => setMaxBudget(Array.isArray(v) ? v[0] : v)}
                 min={1}
                 max={200}
                 step={1}
@@ -374,7 +374,7 @@ function RentalSheet({ agent, open, onOpenChange }: { agent: Agent; open: boolea
             <div className="flex items-center gap-4">
               <Slider
                 value={[slaStrictness]}
-                onValueChange={([v]) => setSlaStrictness(v)}
+                onValueChange={(v) => setSlaStrictness(Array.isArray(v) ? v[0] : v)}
                 min={50}
                 max={100}
                 step={5}

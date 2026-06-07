@@ -201,8 +201,7 @@ export default function SkillDetailPage() {
           <div className="flex flex-col md:flex-row md:items-start gap-6">
             {/* Avatar */}
             <Avatar className="w-20 h-20 md:w-24 md:h-24 border-2 border-border">
-              <AvatarImage src={skill.avatarUrl} />
-              <AvatarFallback className="text-2xl">
+                            <AvatarFallback className="text-2xl">
                 {skill.name.charAt(0)}
               </AvatarFallback>
             </Avatar>

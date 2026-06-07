@@ -100,7 +100,7 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
         </Label>
         <Slider
           value={[filters.latencyMax]}
-          onValueChange={(val) => update({ latencyMax: val[0] })}
+          onValueChange={(val) => update({ latencyMax: Array.isArray(val) ? val[0] : val })}
           min={100}
           max={10000}
           step={100}
@@ -132,7 +132,7 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
         </Label>
         <Slider
           value={[filters.minQualityScore]}
-          onValueChange={(val) => update({ minQualityScore: val[0] })}
+          onValueChange={(val) => update({ minQualityScore: Array.isArray(val) ? val[0] : val })}
           min={0}
           max={100}
           step={1}
@@ -177,10 +177,10 @@ export function FilterPanel({ filters, onChange }: FilterPanelProps) {
 export function FilterSheet({ filters, onChange }: FilterPanelProps) {
   return (
     <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline" size="sm" className="md:hidden">
-          Filters
-        </Button>
+      <SheetTrigger
+        render={<Button variant="outline" size="sm" className="md:hidden" />}
+      >
+        Filters
       </SheetTrigger>
       <SheetContent side="left" className="w-[300px] overflow-y-auto">
         <SheetHeader>

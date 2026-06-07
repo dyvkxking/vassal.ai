@@ -44,6 +44,16 @@ const STATUS_CONFIG = {
     variant: "outline" as const,
     className: "bg-muted text-muted-foreground",
   },
+  executed: {
+    label: "Executed",
+    variant: "secondary" as const,
+    className: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  },
+  expired: {
+    label: "Expired",
+    variant: "outline" as const,
+    className: "bg-muted text-muted-foreground",
+  },
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -223,6 +233,8 @@ function EmptyState({ filter }: { filter: FilterTab }) {
     passed: "No passed proposals yet",
     failed: "No failed proposals",
     draft: "No draft proposals",
+    executed: "No executed proposals",
+    expired: "No expired proposals",
   }
 
   return (

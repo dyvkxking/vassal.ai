@@ -1,0 +1,391 @@
+// Prisma schema for vassal.ai platform
+// Auto-generated from TypeScript types in src/types/index.ts
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============ ENUMS ============
+
+enum AgentStatus {
+  active
+  paused
+  draft
+  archived
+}
+
+enum AgentCategory {
+  web3
+  data
+  analytics
+  infrastructure
+  defi
+  nft
+  dao
+  ai_ml
+  gaming
+  social
+  other
+}
+
+enum SessionStatus {
+  pending
+  active
+  completed
+  failed
+  cancelled
+  disputed
+}
+
+enum NodeStatus {
+  online
+  offline
+  warning
+  maintenance
+}
+
+enum SkillStatus {
+  draft
+  under_review
+  approved
+  rejected
+  deprecated
+}
+
+enum ProposalCategory {
+  web3
+  data
+  analytics
+  infrastructure
+  defi
+  nft
+  dao
+  ai_ml
+  gaming
+  social
+  other
+}
+
+enum ProposalStatus {
+  draft
+  active
+  passed
+  failed
+  executed
+  expired
+}
+
+enum SlashType {
+  latency
+  tpm
+  uptime
+  heartbeat
+  custom
+  slash
+}
+
+enum StakePurpose {
+  provider
+  agent
+  delegation
+}
+
+enum VoteChoice {
+  for
+  against
+  abstain
+}
+
+enum UnlockRequestStatus {
+  pending
+  ready
+  claimed
+}
+
+// ============ AGENT ============
+
+model Agent {
+  id              String        @id @default(uuid())
+  creator         String        @db.VarChar(255)
+  name            String        @unique
+  description     String        @db.Text
+  category        AgentCategory
+  pricingType     String
+  pricePerMinute  Decimal?     @db.Decimal(10, 4)
+  pricePerSecond  Decimal? @db.Decimal(10, 4)
+  pricePerCall    Decimal?       @db.Decimal(10, 4)
+  flatPrice       Decimal?       @db.Decimal(10, 4)
+  qualityScore    Int            @default(0)
+  totalSessions   BigInt         @default(0)
+  avgRating       Decimal        @default(0) @db.Decimal(3, 2)
+  status          AgentStatus    @default(draft)
+  version         String         @default("1.0.0")
+  learningEnabled Boolean        @default(false)
+  avatarUrl       String?
+  bannerUrl       String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  // Relations
+  capabilities      AgentCapability[]
+  skillDependencies AgentSkillDependency[]
+  sessions          Session[]
+
+  // Indexes
+  @@index([creator])
+  @@index([category])
+  @@index([status])
+}
+
+model AgentCapability {
+  id          String  @id @default(uuid())
+  agentId     String
+  name        String
+  description String  @db.Text
+  tpmRequired Int
+  category    String
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+}
+
+model AgentSkillDependency {
+  agentId String
+  skillId String
+
+  agent  Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  skill  Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+
+  @@id([agentId, skillId])
+}
+
+// ============ SESSION ============
+
+model Session {
+  id                     String        @id @default(uuid())
+  client                 String        @db.VarChar(255)
+  agentId                String
+  providerNodeId         String
+  status                 SessionStatus @default(pending)
+  latencyThresholdMs     Int
+  tpmCap                 Int
+  uptimeGuaranteePercent Decimal       @db.Decimal(5, 2)
+  minStakeRequired       Decimal       @db.Decimal(10, 4)
+  startTime              DateTime
+  endTime                DateTime?
+  tpmUsed                Int           @default(0)
+  totalCost              Decimal       @default(0) @db.Decimal(10, 4)
+  avgLatencyMs           Int           @default(0)
+  p50LatencyMs           Int           @default(0)
+  p95LatencyMs           Int           @default(0)
+  p99LatencyMs           Int           @default(0)
+  latencyBreaches        Int           @default(0)
+  rating                 Int?
+  feedback               String?       @db.Text
+  learningSignal         Json?
+
+  // Relations
+  agent        Agent         @relation(fields: [agentId], references: [id])
+  providerNode ProviderNode  @relation(fields: [providerNodeId], references: [id])
+  slashEvents  SlashEvent[]
+
+  // Indexes
+  @@index([agentId])
+  @@index([providerNodeId])
+  @@index([status])
+  @@index([client, startTime])
+}
+
+// ============ SLASH EVENTS ============
+
+model SlashEvent {
+  id        String    @id @default(uuid())
+  sessionId String
+  type      SlashType
+  amount    Decimal   @db.Decimal(10, 4)
+  reason    String    @db.Text
+  createdAt DateTime  @default(now())
+
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+}
+
+// ============ PROVIDER ============
+
+model ProviderNode {
+  id                 String     @id @default(uuid())
+  operator           String     @db.VarChar(255)
+  status             NodeStatus @default(offline)
+  stakeAmount        Decimal    @db.Decimal(10, 4)
+  lockedStake        Decimal    @db.Decimal(10, 4)
+  availableStake     Decimal    @default(dbgenerated("stakeAmount - lockedStake")) @db.Decimal(10, 4)
+  cpuCores           Int
+  gpuModel           String?
+  gpuMemoryGb        Int?
+  ramGb              Int
+  diskGb             Int
+  bandwidthMbps      Int
+  location           String
+  totalSessions      BigInt     @default(0)
+  avgUptime          Decimal    @default(0) @db.Decimal(5, 2)
+  earningsTotal      Decimal    @default(0) @db.Decimal(10, 4)
+  earningsPending    Decimal    @default(0) @db.Decimal(10, 4)
+  lastHeartbeat      DateTime
+  registeredAt       DateTime
+  isGenesis          Boolean    @default(false)
+
+  // Relations
+  sessions Session[]
+
+  // Indexes
+  @@index([operator])
+  @@index([status])
+}
+
+// ============ SKILL ============
+
+model Skill {
+  id                 String      @id @default(uuid())
+  author             String      @db.VarChar(255)
+  name               String      @unique
+  description        String      @db.Text
+  category           String
+  version            String      @default("1.0.0")
+  pricePerInvocation Decimal @db.Decimal(10, 4)
+  usageCount         BigInt      @default(0)
+  avgRating          Decimal     @default(0) @db.Decimal(3, 2)
+  status             SkillStatus @default(draft)
+  inputSchema        Json
+  outputSchema       Json
+  parameters         Json
+  examples           Json
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  // Relations
+  dependentAgents AgentSkillDependency[]
+
+  // Indexes
+  @@index([author])
+  @@index([status])
+}
+
+// ============ PROPOSAL ============
+
+model Proposal {
+  id              String           @id @default(uuid())
+  author          String           @db.VarChar(255)
+  title           String
+  description     String           @db.Text
+  category        ProposalCategory
+  status          ProposalStatus   @default(draft)
+  votesFor        BigInt           @default(0)
+  votesAgainst    BigInt           @default(0)
+  votesAbstain    BigInt           @default(0)
+  totalVoters     Int              @default(0)
+  quorumRequired  BigInt           @default(100)
+  startTime       DateTime
+  endTime         DateTime
+  executionPlan   String?          @db.Text
+  createdAt       DateTime         @default(now())
+
+  // Relations
+  votes VoteRecord[]
+
+  // Indexes
+  @@index([author])
+  @@index([status])
+  @@index([startTime])
+  @@index([endTime])
+}
+
+// ============ VOTE RECORDS ============
+
+model VoteRecord {
+  id         String     @id @default(uuid())
+  proposalId String
+  voter      String     @db.VarChar(255)
+  vote       VoteChoice
+  weight BigInt     @default(0)
+  createdAt  DateTime   @default(now())
+
+  proposal Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+
+  @@unique([proposalId, voter])
+}
+
+// ============ STAKE POSITION ============
+
+model StakePosition {
+  id String        @id @default(uuid())
+  owner String        @db.VarChar(255)
+  amount          Decimal       @db.Decimal(10, 4)
+  lockedAmount    Decimal       @db.Decimal(10, 4)
+  availableStake  Decimal       @default(dbgenerated("amount - lockedAmount")) @db.Decimal(10, 4)
+  purpose         StakePurpose
+  associatedEntity String?
+  createdAt       DateTime      @default(now())
+  unlockingAt     DateTime?
+
+  // Indexes
+  @@index([owner])
+}
+
+// ============ UNLOCK REQUEST ============
+
+model UnlockRequest {
+  id          String             @id @default(uuid())
+  owner       String             @db.VarChar(255)
+  amount      Decimal            @db.Decimal(10, 4)
+  requestTime DateTime           @default(now())
+  releaseTime DateTime
+  status      UnlockRequestStatus @default(pending)
+
+  @@index([owner])
+  @@index([status])
+}
+
+// ============ USER PROFILE ============
+
+model UserProfile {
+  address String   @id @db.VarChar(255)
+  displayName             String?
+  avatarUrl               String?
+  bio                     String?  @db.Text
+  roles                   Json
+  isGenesisParticipant Boolean  @default(false)
+  joinedAt                DateTime @default(now())
+  totalSessionsAsProvider BigInt   @default(0)
+  totalSessionsAsClient   BigInt   @default(0)
+  agentsCreated           Int      @default(0)
+  skillsPublished         Int      @default(0)
+  proposalsVoted          Int      @default(0)
+
+  // Indexes
+  @@index([address])
+}
+
+// ============ NOTIFICATION ============
+
+model Notification {
+  id          String   @id @default(uuid())
+  userAddress String   @db.VarChar(255)
+  type        String
+  title       String
+  message     String   @db.Text
+  read        Boolean  @default(false)
+  link        String?
+  metadata    Json?
+  timestamp   DateTime @default(now())
+
+  // Indexes
+  @@index([userAddress])
+  @@index([timestamp])
+}

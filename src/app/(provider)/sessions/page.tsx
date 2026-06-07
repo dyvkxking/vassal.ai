@@ -402,7 +402,7 @@ interface FilterBarProps {
   agentId: string
   onDateFromChange: (v: string) => void
   onDateToChange: (v: string) => void
-  onAgentIdChange: (v: string) => void
+  onAgentIdChange: (v: string | null) => void
 }
 
 function FilterBar({
@@ -534,7 +534,7 @@ export default function ProviderSessionsPage() {
               agentId={agentFilter}
               onDateFromChange={setDateFrom}
               onDateToChange={setDateTo}
-              onAgentIdChange={setAgentFilter}
+              onAgentIdChange={(v) => setAgentFilter(v ?? "all")}
             />
           </div>
         </CardHeader>

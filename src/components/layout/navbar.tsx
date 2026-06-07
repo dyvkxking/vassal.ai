@@ -78,24 +78,23 @@ export function Navbar() {
               <NavigationMenuContent>
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                   <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href="/browse-agents"
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-violet-500/10 to-purple-500/10 p-6 no-underline outline-none focus:shadow-md"
-                      >
-                        <div className="mb-2 mt-4 text-lg font-medium">Agent Marketplace</div>
-                        <p className="text-sm text-muted-foreground">
-                          Browse and rent specialized AI agents with on-chain SLA guarantees.
-                        </p>
-                      </Link>
+                    <NavigationMenuLink
+                      href="/browse-agents"
+                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-violet-500/10 to-purple-500/10 p-6 no-underline outline-none focus:shadow-md"
+                    >
+                      <div className="mb-2 mt-4 text-lg font-medium">Agent Marketplace</div>
+                      <p className="text-sm text-muted-foreground">
+                        Browse and rent specialized AI agents with on-chain SLA guarantees.
+                      </p>
                     </NavigationMenuLink>
                   </li>
                   {MARKETPLACE_LINKS.map((link) => (
                     <li key={link.href}>
-                      <NavigationMenuLink asChild>
-                        <Link href={link.href} className={cn(navigationMenuTriggerStyle(), 'w-full')}>
-                          {link.label}
-                        </Link>
+                      <NavigationMenuLink
+                        href={link.href}
+                        className={cn(navigationMenuTriggerStyle(), 'w-full')}
+                      >
+                        {link.label}
                       </NavigationMenuLink>
                     </li>
                   ))}
@@ -109,10 +108,11 @@ export function Navbar() {
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
                   {PROVIDER_LINKS.map((link) => (
                     <li key={link.href}>
-                      <NavigationMenuLink asChild>
-                        <Link href={link.href} className={cn(navigationMenuTriggerStyle(), 'w-full')}>
-                          {link.label}
-                        </Link>
+                      <NavigationMenuLink
+                        href={link.href}
+                        className={cn(navigationMenuTriggerStyle(), 'w-full')}
+                      >
+                        {link.label}
                       </NavigationMenuLink>
                     </li>
                   ))}
@@ -126,10 +126,11 @@ export function Navbar() {
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
                   {BUILDER_LINKS.map((link) => (
                     <li key={link.href}>
-                      <NavigationMenuLink asChild>
-                        <Link href={link.href} className={cn(navigationMenuTriggerStyle(), 'w-full')}>
-                          {link.label}
-                        </Link>
+                      <NavigationMenuLink
+                        href={link.href}
+                        className={cn(navigationMenuTriggerStyle(), 'w-full')}
+                      >
+                        {link.label}
                       </NavigationMenuLink>
                     </li>
                   ))}
@@ -138,10 +139,11 @@ export function Navbar() {
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link href="/governance/proposals" className={navigationMenuTriggerStyle()}>
-                  Governance
-                </Link>
+              <NavigationMenuLink
+                href="/governance/proposals"
+                className={navigationMenuTriggerStyle()}
+              >
+                Governance
               </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -151,10 +153,11 @@ export function Navbar() {
                 <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px]">
                   {DOCS_LINKS.map((link) => (
                     <li key={link.href}>
-                      <NavigationMenuLink asChild>
-                        <Link href={link.href} className={cn(navigationMenuTriggerStyle(), 'w-full')}>
-                          {link.label}
-                        </Link>
+                      <NavigationMenuLink
+                        href={link.href}
+                        className={cn(navigationMenuTriggerStyle(), 'w-full')}
+                      >
+                        {link.label}
                       </NavigationMenuLink>
                     </li>
                   ))}

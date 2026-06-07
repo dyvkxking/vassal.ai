@@ -43,32 +43,88 @@ interface LearningSignal {
 // Mock Data
 const mockLearningSignals: LearningSignal[] = [
   {
-    ,
+    id: "ls-001",
+    taskDescription: "Summarize Q1 financial report (38 pages)",
+    agentResponseSnippet: "Identified 12 KPI shifts. Revenue +18% QoQ driven by enterprise tier. Margin compression -2.4pp from infra costs.",
+    clientRating: 5,
+    taskCompletionStatus: "completed",
+    latencyMetrics: { avg: 920, p95: 1480 },
+    tpmAchieved: 84,
+    spotCheckResult: "passed",
+    timestamp: new Date("2026-06-04T14:22:00"),
     status: "approved",
   },
   {
-    ,
+    id: "ls-002",
+    taskDescription: "Triage 14 inbound support tickets",
+    agentResponseSnippet: "Routed 9 to billing, 3 to integration, 2 escalated. 100% category accuracy verified on spot-check sample.",
+    clientRating: 5,
+    taskCompletionStatus: "completed",
+    latencyMetrics: { avg: 680, p95: 1100 },
+    tpmAchieved: 92,
+    spotCheckResult: "passed",
+    timestamp: new Date("2026-06-04T09:10:00"),
     status: "approved",
   },
   {
-    ,
+    id: "ls-003",
+    taskDescription: "Rewrite onboarding email sequence for B2B SaaS",
+    agentResponseSnippet: "Generated 5 emails over a 14-day cadence. Each ties to a measurable activation event in the product.",
+    clientRating: 4,
+    taskCompletionStatus: "completed",
+    latencyMetrics: { avg: 2100, p95: 3400 },
+    tpmAchieved: 71,
+    spotCheckResult: "review",
+    timestamp: new Date("2026-06-03T16:50:00"),
     status: "pending",
   },
   {
-    ,
+    id: "ls-004",
+    taskDescription: "Audit smart-contract for reentrancy and overflow risks",
+    agentResponseSnippet: "Flagged 2 reentrancy paths in withdraw(). Suggested checks-effects-interactions refactor with diff.",
+    clientRating: 5,
+    taskCompletionStatus: "completed",
+    latencyMetrics: { avg: 1450, p95: 2200 },
+    tpmAchieved: 78,
+    spotCheckResult: "passed",
+    timestamp: new Date("2026-06-03T11:00:00"),
     status: "approved",
   },
   {
-    ,
+    id: "ls-005",
+    taskDescription: "Compose product launch announcement",
+    agentResponseSnippet: "Drafted long-form blog plus 3 social variants (LI, X, MessageSquare). Aligned to brand voice doc.",
+    clientRating: 4,
+    taskCompletionStatus: "completed",
+    latencyMetrics: { avg: 1180, p95: 1900 },
+    tpmAchieved: 80,
+    spotCheckResult: "passed",
+    timestamp: new Date("2026-06-02T20:32:00"),
     status: "approved",
   },
   {
-    ,
+    id: "ls-006",
+    taskDescription: "Generate API reference for v3 endpoints",
+    agentResponseSnippet: "Generated reference for 24 endpoints with examples. Missing auth flow section flagged by reviewer.",
+    clientRating: 2,
+    taskCompletionStatus: "partial",
+    latencyMetrics: { avg: 2900, p95: 4800 },
+    tpmAchieved: 54,
+    spotCheckResult: "failed",
+    timestamp: new Date("2026-06-02T15:08:00"),
     status: "rejected",
     rejectionReason: "Missing critical authentication section and error handling documentation is incomplete",
   },
   {
-    ,
+    id: "ls-007",
+    taskDescription: "Cluster 500 user-research interview snippets",
+    agentResponseSnippet: "Produced 11 affinity clusters with named themes and representative quotes. Inter-rater kappa 0.74.",
+    clientRating: 5,
+    taskCompletionStatus: "completed",
+    latencyMetrics: { avg: 2750, p95: 3900 },
+    tpmAchieved: 74,
+    spotCheckResult: "passed",
+    timestamp: new Date("2026-06-01T18:21:00"),
     status: "approved",
   },
   {
@@ -81,6 +137,7 @@ const mockLearningSignals: LearningSignal[] = [
     tpmAchieved: 68,
     spotCheckResult: "passed",
     timestamp: new Date("2026-06-01T11:45:00"),
+    status: "approved",
   },
 ]
 
@@ -284,7 +341,7 @@ function AutoApproveRules({
   enabled: boolean
   threshold: number
   onToggle: (value: boolean) => void
-  onThresholdChange: (value: number[]) => void
+  onThresholdChange: (value: number | readonly number[]) => void
 }) {
   return (
     <Card>
@@ -450,7 +507,7 @@ export default function LearningLogsPage() {
         enabled={autoApproveEnabled}
         threshold={autoApproveThreshold[0]}
         onToggle={setAutoApproveEnabled}
-        onThresholdChange={setAutoApproveThreshold}
+        onThresholdChange={(v) => setAutoApproveThreshold(Array.isArray(v) ? v : [v])}
       />
     </div>
   )

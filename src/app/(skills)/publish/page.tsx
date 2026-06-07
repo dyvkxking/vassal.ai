@@ -282,7 +282,7 @@ export default function PublishSkillPage() {
                       />
                     </div>
                     <div className="col-span-2">
-                      <Select value={param.type} onValueChange={(v) => updateParameter(param.id, "type", v)}>
+                      <Select value={param.type} onValueChange={(v) => updateParameter(param.id, "type", v ?? param.type)}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>

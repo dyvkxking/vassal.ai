@@ -562,7 +562,7 @@ export default function HowItWorksPage() {
           </div>
 
           <div className="max-w-3xl mx-auto">
-            <Accordion type="single" collapsible defaultValue="item-0">
+            <Accordion defaultValue={["item-0"]}>
               {FAQ_ITEMS.map((item, index) => (
                 <AccordionItem key={item.question} value={`item-${index}`}>
                   <AccordionTrigger>{item.question}</AccordionTrigger>

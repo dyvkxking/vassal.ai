@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import React, { useState, useMemo } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -209,7 +209,7 @@ function StatCard({
 }: {
   title: string
   value: string
-  subValue?: string
+  subValue?: React.ReactNode
 }) {
   return (
     <Card>
@@ -466,7 +466,7 @@ export default function SessionHistoryPage() {
               <Select
                 value={agentFilter}
                 onValueChange={(v) => {
-                  setAgentFilter(v)
+                  setAgentFilter(v ?? "all")
                   setPage(1)
                 }}
               >
@@ -491,7 +491,7 @@ export default function SessionHistoryPage() {
               <Select
                 value={outcomeFilter}
                 onValueChange={(v) => {
-                  setOutcomeFilter(v)
+                  setOutcomeFilter(v ?? "all")
                   setPage(1)
                 }}
               >

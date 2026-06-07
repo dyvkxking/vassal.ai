@@ -484,7 +484,7 @@ export default function GenesisPage() {
             </h2>
           </div>
           <div className="max-w-2xl mx-auto">
-            <Accordion type="single" collapsible className="w-full">
+            <Accordion className="w-full">
               {FAQ_ITEMS.map((item, index) => (
                 <AccordionItem key={index} value={`item-${index}`}>
                   <AccordionTrigger className="text-left font-medium">

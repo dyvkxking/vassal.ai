@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { MOCK_AGENTS } from '@/lib/mock-data'
@@ -55,7 +55,7 @@ function MetricCard({ label, value, unit, best }: { label: string; value: string
   )
 }
 
-export default function ComparePage() {
+function ComparePageContent() {
   const searchParams = useSearchParams()
   const initialIds = searchParams.get('agents')?.split(',').filter(Boolean) ?? []
 
@@ -335,5 +335,13 @@ export default function ComparePage() {
         </Tabs>
       </div>
     </div>
+  )
+}
+
+export default function ComparePage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+      <ComparePageContent />
+    </Suspense>
   )
 }
