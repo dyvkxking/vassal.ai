@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // ============ SKILL ============
 
-export const SkillStatusSchema = z.enum(['draft', 'under_review', 'approved', 'rejected', 'deprecated'])
+export const SkillStatusSchema = z.enum(['draft', 'under_review', 'approved', 'rejected', 'deprecated', 'pending'])
 
 export const ParameterSchema = z.object({
   name: z.string(),

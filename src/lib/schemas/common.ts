@@ -56,7 +56,7 @@ export const PaginationSchema = z.object({
   perPage: z.number().int().min(1).max(PAGE_SIZE_MAX).default(PAGE_SIZE_DEFAULT),
 })
 
-export const CursorPaginationSchema = z.object({
+export const PaginationParamsSchema = z.object({
   cursor: z.string().optional(),
   limit: z.number().int().min(1).max(PAGE_SIZE_MAX).default(PAGE_SIZE_DEFAULT),
 })

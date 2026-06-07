@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 // ============ PROVIDER ============
 
-export const NodeStatusSchema = z.enum(['online', 'offline', 'warning', 'maintenance'])
+export const NodeStatusSchema = z.enum(['online', 'offline', 'warning', 'maintenance', 'draining'])
 
 export const HardwareSchema = z.object({
   cpuCores: z.number().int().positive(),

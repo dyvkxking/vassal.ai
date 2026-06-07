@@ -50,6 +50,7 @@ export const SESSION_STATUS = {
   FAILED: 'failed',
   CANCELLED: 'cancelled',
   DISPUTED: 'disputed',
+  SLASHED: 'slashed',
 } as const
 
 export const SLA_BREACH_TYPES = {

@@ -40,6 +40,7 @@ export const SessionStatusSchema = z.enum([
   SESSION_STATUS.FAILED,
   SESSION_STATUS.CANCELLED,
   SESSION_STATUS.DISPUTED,
+  SESSION_STATUS.SLASHED,
 ])
 
 export const SessionSchema = z.object({

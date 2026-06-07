@@ -41,6 +41,10 @@ export const PricingSchema = z.discriminatedUnion('type', [
     type: z.literal('tiered'),
     tiers: z.array(PricingTierSchema).min(1),
   }),
+  z.object({
+    type: z.literal('per_call'),
+    pricePerCall: z.number().nonnegative().optional(),
+  }),
 ])
 
 export const AgentCategorySchema = z.enum(AGENT_CATEGORIES)
