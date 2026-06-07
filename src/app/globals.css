@@ -9,7 +9,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-heading);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -48,74 +48,507 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ============================================
+   LINEAR DESIGN SYSTEM — Design Tokens
+   Near-black product canvas with lavender-blue accent
+   ============================================ */
+
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* --- Color: Brand& Accent --- */
+  --primary: #5e6ad2;
+  --primary-hover: #828fff;
+  --primary-focus: #5e69d1;
+  --on-primary: #ffffff;
+  --brand-secure: #7a7fad;
+
+  /* --- Color: Canvas& Surface Ladder --- */
+  --canvas: #010102;
+  --surface-1: #0f1011;
+  --surface-2: #141516;
+  --surface-3: #18191a;
+  --surface-4: #191a1b;
+
+  /* --- Color: Hairlines (borders) --- */
+  --hairline: #23252a;
+  --hairline-strong: #34343a;
+  --hairline-tertiary: #3e3e44;
+
+  /* --- Color: Text --- */
+  --ink: #f7f8f8;
+  --ink-muted: #d0d6e0;
+  --ink-subtle: #8a8f98;
+  --ink-tertiary: #62666d;
+
+  /* --- Color: Semantic --- */
+  --semantic-success: #27a644;
+  --semantic-overlay: #000000;
+
+  /* --- Color: Inverse (for contrast sections) --- */
+  --inverse-canvas: #ffffff;
+  --inverse-surface-1: #f5f6f6;
+  --inverse-surface-2: #f6f7f7;
+  --inverse-ink: #000000;
+
+  /* --- Color: Legacy shadcn mappings (mapped to Linear) --- */
+  --background: var(--canvas);
+  --foreground: var(--ink);
+  --card: var(--surface-1);
+  --card-foreground: var(--ink);
+  --popover: var(--surface-1);
+  --popover-foreground: var(--ink);
+  --secondary: var(--surface-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--surface-3);
+  --muted-foreground: var(--ink-subtle);
+  --accent: var(--surface-2);
+  --accent-foreground: var(--ink);
+  --destructive: #dc2626;
+  --border: var(--hairline);
+  --input: var(--surface-2);
+  --ring: var(--primary);
+  --chart-1: var(--primary);
+  --chart-2: #27a644;
+  --chart-3: var(--ink-subtle);
+  --chart-4: var(--ink-tertiary);
+  --chart-5: var(--brand-secure);
+  --sidebar: var(--surface-1);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--on-primary);
+  --sidebar-accent: var(--surface-3);
+  --sidebar-accent-foreground: var(--ink);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--primary);
+
+  /* --- Radius (Linear scale) --- */
+  --radius: 0.5rem; /* 8px base for md */
+
+  /* --- Typography: Font Families --- */
+  --font-sans: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-heading: "Inter", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-geist-mono: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+
+  /* --- Easing Tokens --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-expo: cubic-bezier(0.87, 0, 0.13, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+  --ease-out-sine: cubic-bezier(0.12, 0.92, 0.52, 1);
+  --ease-in-quad: cubic-bezier(0.55, 0.09, 0.68, 0.53);
+
+  /* --- Opacity Tokens --- */
+  --opacity-webgl-primary: 0.47;
+  --opacity-webgl-secondary: 0.25;
+  --opacity-card-default: 0.5;
+  --opacity-card-hover: 0.8;
+  --opacity-hairline: 0.2;
+  --opacity-text-muted: #ffffff66;
+  --opacity-text-hover: #ffffffcc;
+  --opacity-ghost-glass: #9d9d9d33;
+
+  /* --- Glass / Frosted Elements --- */
+  --glass-blur: 10px;
+  --glass-bg-light: #ffffff0d;
+  --glass-bg-dark: #14141433;
+  --glass-border-radius-pill: 999px;
+  --glass-border-radius-card: 8px;
+
+  /* --- Z-Index Stack --- */
+  --z-background-canvas: -1;
+  --z-content: 0;
+  --z-divider: 99;
+  --z-nav-header: 999;
+  --z-overlay-highest: 999999;
+
+  /* --- Layout --- */
+  --max-content-width: 1280px;
+  --gutter-desktop: 40px;
+  --gutter-tablet-mobile: 20px;
+  --min-touch-target: 75px;
+  --section-gap: 40px;
+  --grid-gap-desktop: 40px;
+  --grid-gap-mobile: 20px;
+
+  /* --- Spacing (Linear4px base) --- */
+  --space-xxs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-section: 96px;
+
+  /* --- Typography Scale (Linear specs) --- */
+  --font-display-xl: 5rem;
+  --font-display-lg: 3.5rem;
+  --font-display-md: 2.5rem;
+  --font-headline: 1.75rem;
+  --font-card-title: 1.375rem;
+  --font-subhead: 1.25rem;
+  --font-body-lg: 1.125rem;
+  --font-body: 1rem;
+  --font-body-sm: 0.875rem;
+  --font-caption: 0.75rem;
+  --font-button: 0.875rem;
+  --font-eyebrow: 0.8125rem;
+  --font-mono: 0.8125rem;
 }
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+/* Tablet breakpoint */
+@media (max-width: 1024px) {
+  :root {
+    --font-display-xl: 3.5rem;
+    --font-display-lg: 2.5rem;
+    --font-display-md: 2rem;
+    --font-headline: 1.5rem;
+    --gutter-desktop: 20px;
+  }
 }
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+  :root {
+    --font-display-xl: 2.25rem;
+    --font-display-lg: 2rem;
+    --font-display-md: 1.75rem;
+    --font-headline: 1.375rem;
+    --font-body-lg: 1rem;
+    --font-body: 0.875rem;
+    --gutter-desktop: 16px;
+ }
+}
+
+/* ============================================
+   LINEAR TYPOGRAPHY CLASSES
+   ============================================ */
+
+.text-display-xl {
+  font-family: var(--font-heading);
+  font-size: var(--font-display-xl);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.1875rem;
+  color: var(--ink);
+}
+
+.text-display-lg {
+  font-family: var(--font-heading);
+  font-size: var(--font-display-lg);
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -0.1125rem;
+  color: var(--ink);
+}
+
+.text-display-md {
+  font-family: var(--font-heading);
+  font-size: var(--font-display-md);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.0625rem;
+  color: var(--ink);
+}
+
+.text-headline {
+  font-family: var(--font-heading);
+  font-size: var(--font-headline);
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -0.0375rem;
+  color: var(--ink);
+}
+
+.text-card-title {
+  font-family: var(--font-heading);
+  font-size: var(--font-card-title);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.025rem;
+  color: var(--ink);
+}
+
+.text-subhead {
+  font-family: var(--font-heading);
+  font-size: var(--font-subhead);
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: -0.0125rem;
+  color: var(--ink);
+}
+
+.text-body-lg {
+  font-family: var(--font-sans);
+  font-size: var(--font-body-lg);
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.00625rem;
+  color: var(--ink);
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: -0.0003125rem;
+  color: var(--ink);
+}
+
+.text-body-sm {
+  font-family: var(--font-sans);
+  font-size: var(--font-body-sm);
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.text-caption {
+  font-family: var(--font-sans);
+  font-size: var(--font-caption);
+  font-weight: 400;
+  line-height: 1.40;
+  letter-spacing: 0;
+  color: var(--ink-subtle);
+}
+
+.text-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--font-eyebrow);
+  font-weight: 500;
+  line-height: 1.30;
+  letter-spacing: 0.025rem;
+  color: var(--ink-subtle);
+  text-transform: uppercase;
+}
+
+.text-mono {
+  font-family: var(--font-geist-mono);
+  font-size: var(--font-mono);
+  font-weight: 400;
+  line-height: 1.50;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+/* ============================================
+   LINEAR SURFACE CLASSES
+   ============================================ */
+
+.surface-canvas {
+  background-color: var(--canvas);
+}
+
+.surface-1 {
+  background-color: var(--surface-1);
+  border: 1px solid var(--hairline);
+}
+
+.surface-2 {
+  background-color: var(--surface-2);
+  border: 1px solid var(--hairline-strong);
+}
+
+.surface-3 {
+  background-color: var(--surface-3);
+}
+
+.surface-4 {
+  background-color: var(--surface-4);
+}
+
+/* ============================================
+   LINEAR COMPONENT CLASSES
+   ============================================ */
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-button);
+  font-weight: 500;
+  line-height: 1.20;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease-out-quart);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-primary:focus {
+  outline: 2px solid var(--primary-focus);
+  outline-offset: 2px;
+}
+
+.btn-primary:active {
+  background-color: var(--primary-focus);
+}
+
+.btn-secondary {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-button);
+  font-weight: 500;
+  line-height: 1.20;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  cursor: pointer;
+  transition: background-color 150ms var(--ease-out-quart), border-color 150ms var(--ease-out-quart);
+}
+
+.btn-secondary:hover {
+  background-color: var(--surface-2);
+  border-color: var(--hairline-strong);
+}
+
+.btn-tertiary {
+  background-color: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-button);
+  font-weight: 500;
+  line-height: 1.20;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease-out-quart);
+}
+
+.btn-tertiary:hover {
+  background-color: var(--surface-1);
+}
+
+/* Cards */
+.card-pricing {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  padding: 24px;
+}
+
+.card-pricing-featured {
+  background-color: var(--surface-2);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  border-radius: 12px;
+  border: 1px solid var(--hairline-strong);
+  padding: 24px;
+}
+
+.card-feature {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  padding: 24px;
+}
+
+.card-testimonial {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-body-lg);
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  padding: 32px;
+}
+
+.card-cta-banner {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-heading);
+  font-size: var(--font-headline);
+  border-radius: 12px;
+  border: 1px solid var(--hairline);
+  padding: 48px;
+}
+
+/* Inputs */
+.input-text {
+  background-color: var(--surface-1);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--font-body);
+  border-radius: 8px;
+  border: 1px solid var(--hairline);
+  padding: 8px 12px;
+  transition: border-color 150ms var(--ease-out-quart);
+}
+
+.input-text:focus {
+  outline:2px solid var(--primary-focus);
+  outline-offset: 0px;
+  border-color: var(--primary);
+}
+
+/* Status Badge */
+.badge-status {
+  background-color: var(--surface-2);
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: var(--font-caption);
+  border-radius: 9999px;
+  padding: 2px 8px;
+}
+
+/* ============================================
+   ANIMATION UTILITIES
+   ============================================ */
+
+.card-glass {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 600ms var(--ease-out-expo),
+    transform 600ms var(--ease-out-expo);
+}
+
+.card-glass.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hover-glow {
+  transition: all 300ms var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+
+.hover-glow:hover {
+  opacity: var(--opacity-card-hover);
+}
+
+/* ============================================
+   SCROLL BEHAVIOR
+   ============================================ */
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============================================
+   BASE LAYER
+   ============================================ */
 
 @layer base {
   * {

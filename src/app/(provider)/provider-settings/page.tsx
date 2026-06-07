@@ -36,6 +36,7 @@ type SettingsSection =
   | "api-keys"
   | "security"
   | "connected-tools"
+  | "cli-update"
   | "uninstall"
 
 const NAV_ITEMS: { id: SettingsSection; label: string }[] = [
@@ -45,6 +46,7 @@ const NAV_ITEMS: { id: SettingsSection; label: string }[] = [
   { id: "api-keys", label: "API Keys" },
   { id: "security", label: "Security" },
   { id: "connected-tools", label: "Connected Tools" },
+  { id: "cli-update", label: "CLI Update" },
   { id: "uninstall", label: "Uninstall Node" },
 ]
 
@@ -88,7 +90,7 @@ const MOCK_SESSIONS = [
 const MOCK_LOGIN_HISTORY = [
   { id: "log_1", timestamp: "2024-06-03T10:30:00", device: "Chrome on macOS", ip: "192.168.1.1", success: true },
   { id: "log_2", timestamp: "2024-06-01T14:22:00", device: "Safari on iPhone", ip: "192.168.1.2", success: true },
-  { id: "log_3", timestamp: "2024-05-28T09:15:00", device: "Firefox on Windows", ip: "10.0.0.1", success: true },
+  { id: "log_3", timestamp: "2024-05-28T09:15:00", device: "Firefox on Monitor", ip: "10.0.0.1", success: true },
   { id: "log_4", timestamp: "2024-05-20T23:45:00", device: "Unknown", ip: "185.220.101.34", success: false },
 ]
 
@@ -413,38 +415,158 @@ function SecuritySection() {
   )
 }
 
-function ConnectedToolsSection() {
+function CLIUpdateSection() {
+  const [currentVersion, setCurrentVersion] = useState("1.2.4")
+  const [isChecking, setIsChecking] = useState(false)
+  const [updateAvailable, setUpdateAvailable] = useState(true)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [updateProgress, setUpdateProgress] = useState(0)
+
+  const handleCheckForUpdates = async () => {
+    setIsChecking(true)
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+    setIsChecking(false)
+  }
+
+  const handleUpdate = async () => {
+    setIsUpdating(true)
+    for (let i = 0; i <= 100; i += 10) {
+      await new Promise((resolve) => setTimeout(resolve, 300))
+      setUpdateProgress(i)
+    }
+    setIsUpdating(false)
+    setUpdateAvailable(false)
+    setCurrentVersion("1.2.5")
+  }
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Connected Tools</CardTitle>
+        <CardTitle>Node CLI Update</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium">Current Version</p>
+            <p className="text-2xl font-mono">{currentVersion}</p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={handleCheckForUpdates}
+            disabled={isChecking}
+          >
+            {isChecking ? "Checking..." : "Check for Updates"}
+          </Button>
+        </div>
+
+        {updateAvailable && (
+          <>
+            <Separator />
+            <div className="space-y-4">
+              <div className="rounded-lg bg-primary/10 p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-600">
+                    Update Available
+                  </span>
+                  <span className="text-sm font-medium">v1.2.5</span>
+                </div>
+                <p className="text-sm text-muted-foreground mb-3">
+                  Version 1.2.5 includes performance improvements, bug fixes, and enhanced monitoring capabilities.
+                </p>
+                <div className="text-xs text-muted-foreground">
+                  <p className="font-medium mb-1">Changelog:</p>
+                  <ul className="list-disc list-inside space-y-1">
+                    <li>Improved node heartbeat stability</li>
+                    <li>Reduced memory usage by 15%</li>
+                    <li>Enhanced error reporting for network issues</li>
+                    <li>Better GPU utilization metrics</li>
+                  </ul>
+                </div>
+              </div>
+
+              {isUpdating ? (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-sm">
+                    <span>Installing update...</span>
+                    <span>{updateProgress}%</span>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-primary transition-all duration-300"
+                      style={{ width: `${updateProgress}%` }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <Button onClick={handleUpdate}>Update Now</Button>
+              )}
+
+              <Button variant="ghost" className="text-muted-foreground">
+                Rollback to Previous Version
+              </Button>
+            </div>
+          </>
+        )}
+      </CardContent>
+    </Card>
+  )
+}
+
+function ConnectedToolsSection() {
+  const [integrations, setIntegrations] = useState([
+    { id: "gh", name: "Globe", status: "connected", lastSync: "2026-06-05T10:30:00", icon: "github" },
+    { id: "dd", name: "Datadog", status: "connected", lastSync: "2026-06-05T09:15:00", icon: "datadog" },
+    { id: "slack", name: "Hash", status: "pending", lastSync: null, icon: "slack" },
+  ])
+
+  const getStatusBadge = (status: string) => {
+    if (status === "connected") {
+      return <span className="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-600">Connected</span>
+    }
+    return <span className="inline-flex items-center rounded-md bg-yellow-500/10 px-2 py-1 text-xs font-medium text-yellow-600">Pending</span>
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>Connected Tools</CardTitle>
+          <Button variant="outline" size="sm">Browse Integrations</Button>
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center justify-center py-12 text-center">
-          <div className="rounded-full bg-muted p-4 mb-4">
-            <svg
-              className="h-8 w-8 text-muted-foreground"
-              fill="none"
-              height="24"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-              />
-            </svg>
-          </div>
-          <h3 className="text-sm font-medium mb-1">No integrations yet</h3>
-          <p className="text-sm text-muted-foreground mb-4">
-            Connect your favorite tools to enhance your workflow
-          </p>
-          <Button variant="outline">Browse Integrations</Button>
-        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Integration</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Last Sync</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {integrations.map((integration) => (
+              <TableRow key={integration.id}>
+                <TableCell>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-muted flex items-center justify-center">
+                      <span className="text-sm font-medium">{integration.name[0]}</span>
+                    </div>
+                    <span className="font-medium">{integration.name}</span>
+                  </div>
+                </TableCell>
+                <TableCell>{getStatusBadge(integration.status)}</TableCell>
+                <TableCell className="text-muted-foreground">
+                  {integration.lastSync ? new Date(integration.lastSync).toLocaleString() : "Never"}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button variant="ghost" size="sm" className="mr-2">Configure</Button>
+                  <Button variant="ghost" size="sm" className="text-destructive">Disconnect</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   )
@@ -533,6 +655,7 @@ export default function ProviderSettingsPage() {
           {activeSection === "api-keys" && <ApiKeysSection />}
           {activeSection === "security" && <SecuritySection />}
           {activeSection === "connected-tools" && <ConnectedToolsSection />}
+          {activeSection === "cli-update" && <CLIUpdateSection />}
           {activeSection === "uninstall" && <UninstallSection />}
         </div>
       </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { AgentCard, AgentCardSkeleton } from '@/components/shared/agent-card'
+import { EmptyState } from '@/components/shared/empty-state'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Switch } from '@/components/ui/switch'
@@ -10,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import { StarIcon } from 'lucide-react'
 import type { Agent } from '@/types'
 
 // Mock favorites data
@@ -181,19 +183,15 @@ export default function FavoritesPage() {
 
       <div className="container py-8 space-y-8">
         {favorites.length === 0 ? (
-          /* Empty State */
-          <Card className="py-16">
-            <CardContent className="flex flex-col items-center text-center">
-              <div className="text-5xl mb-4">☆</div>
-              <h3 className="text-xl font-semibold mb-2">No favorites yet</h3>
-              <p className="text-muted-foreground mb-6 max-w-sm">
-                Browse agents and add them to your favorites to compare and get notified when they come online.
-              </p>
-              <Button>
-                <Link href="/browse-agents">Browse Agents</Link>
-              </Button>
-            </CardContent>
-          </Card>
+          <EmptyState
+            title="No favorites yet"
+            description="Browse agents and add them to your favorites to compare and get notified when they come online."
+            icon={StarIcon}
+            secondaryAction={{
+              label: 'Browse Agents',
+              href: '/browse-agents',
+            }}
+          />
         ) : (
           <>
             {/* Saved Agents Grid */}

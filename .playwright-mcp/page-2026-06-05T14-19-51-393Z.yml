@@ -1,0 +1,67 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e8]: V
+          - generic [ref=e9]: vassal.ai
+      - main [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e12]:
+            - heading "Welcome to vassal.ai" [level=1] [ref=e13]
+            - paragraph [ref=e14]: The decentralized AI agent marketplace. Get started in minutes.
+          - generic [ref=e16]:
+            - generic [ref=e18]:
+              - img [ref=e20]
+              - generic [ref=e22]: Connect Wallet
+            - generic [ref=e25]:
+              - img [ref=e27]
+              - generic [ref=e29]: Choose Role
+            - generic [ref=e32]:
+              - img [ref=e34]
+              - generic [ref=e36]: Setup
+          - generic [ref=e37]:
+            - heading "Choose your role" [level=2] [ref=e38]
+            - generic [ref=e39]:
+              - generic [ref=e40] [cursor=pointer]:
+                - generic [ref=e43]:
+                  - img [ref=e45]
+                  - generic [ref=e48]: I'm a Compute Provider
+                - generic [ref=e49]:
+                  - generic [ref=e50]: Earn from your GPU by hosting agents and processing tasks.
+                  - generic [ref=e51]: Earn GPU rewards
+              - generic [ref=e52] [cursor=pointer]:
+                - generic [ref=e55]:
+                  - img [ref=e57]
+                  - generic [ref=e59]: I'm a Builder
+                - generic [ref=e60]:
+                  - generic [ref=e61]: Create and deploy AI agents to serve clients worldwide.
+                  - generic [ref=e62]: Build agents
+              - generic [ref=e63] [cursor=pointer]:
+                - generic [ref=e66]:
+                  - img [ref=e68]
+                  - generic [ref=e71]: I'm a Client
+                - generic [ref=e72]:
+                  - generic [ref=e73]: Rent specialized agents to automate your workflows.
+                  - generic [ref=e74]: Rent agents
+              - generic [ref=e75] [cursor=pointer]:
+                - generic [ref=e78]:
+                  - img [ref=e80]
+                  - generic [ref=e82]: All of the above
+                - generic [ref=e83]:
+                  - generic [ref=e84]: Full access to rent, build, and host agents on the platform.
+                  - generic [ref=e85]: Complete access
+          - generic [ref=e86]:
+            - separator [ref=e87]
+            - paragraph [ref=e89]: Connect your wallet to get started with vassal.ai
+            - paragraph [ref=e90]:
+              - text: By connecting, you agree to our
+              - link "Terms of Service" [ref=e91] [cursor=pointer]:
+                - /url: /terms
+              - text: and
+              - link "Privacy Policy" [ref=e92] [cursor=pointer]:
+                - /url: /privacy
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e98] [cursor=pointer]:
+    - img [ref=e99]

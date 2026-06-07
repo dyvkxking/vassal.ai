@@ -29,3 +29,20 @@ Use the Playwright MCP tools to:
 - `mcp__playwright__screenshot` — visually verify the result
 
 For API features, use `mcp__playwright__request` or direct API testing to verify endpoint behavior.
+
+## Behavior & Memory Drivers
+- **Frontend/Design Source of Truth:** Whenever creating, modifying, styling, or reviewing user interfaces, components, or layout structures, you **MUST** read and strictly adhere to the guidelines, color tokens, layout systems, and 3D viewport rules defined in:
+  - `@linear.app/DESIGN.md`
+
+## 3D Web3 Frontend Execution Directives
+
+### 1. Style & Token Compliance
+- Do not introduce arbitrary Tailwind CSS classes, inline hex codes, or spacing values. 
+- Map all visual properties (backgrounds, borders, layout paddings) to the tokens defined in `linear.app/DESIGN.md`.
+- Use the specified background `#08080A` for 3D canvas backgrounds to maintain optimal contrast with WebGL lighting.
+
+### 2. HTML Over-Canvas Layering
+- When rendering 3D viewports (Three.js / React Three Fiber), ensure metadata tags, pricing, and buy actions are absolutely positioned layers over the WebGL canvas using the explicit z-index layering outlined in the design spec.
+
+### 3. Asynchronous Web3 UX
+- Utilize the specified skeleton pulse shimmer rules from the design file while high-fidelity mesh structures (`.glb` / `.gltf`) stream over RPC network endpoints.

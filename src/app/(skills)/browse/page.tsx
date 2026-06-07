@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Star, Search, TrendingUp, Flame, Sparkles, ArrowUpDown } from "lucide-react"
+import { Star, Search, TrendingUp, Flame, Sparkles, ArrowUpDown } from 'lucide-react'
 
 const CATEGORIES = [
   { value: "all", label: "All" },
@@ -208,7 +208,7 @@ export default function SkillsBrowsePage() {
           </p>
         </div>
         <Button>
-          <Link href="/skills/create">
+          <Link href="/browse">
             <Sparkles className="mr-2 h-4 w-4" />
             New Skill
           </Link>

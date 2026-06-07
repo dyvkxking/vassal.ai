@@ -1,0 +1,217 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e26] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e27]:
+                - button "Docs" [ref=e28]:
+                  - text: Docs
+                  - img [ref=e29]
+      - main [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]:
+              - heading "Governance" [level=1] [ref=e35]
+              - paragraph [ref=e36]: Participate in protocol decisions
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - generic [ref=e39]: Your Voting Power
+                - generic [ref=e40]: 12.5K $MESH
+              - button "Create New Proposal" [ref=e41]:
+                - img
+                - text: Create New Proposal
+          - generic [ref=e42]:
+            - tablist [ref=e44]:
+              - tab "All" [selected] [ref=e45]
+              - tab "Active 1" [ref=e46]:
+                - text: Active
+                - generic [ref=e47]: "1"
+              - tab "Passed 1" [ref=e48]:
+                - text: Passed
+                - generic [ref=e49]: "1"
+              - tab "Failed" [ref=e50]
+              - tab "Draft" [ref=e51]
+            - generic [ref=e52]:
+              - generic [ref=e53]: "Sort:"
+              - tablist [ref=e55]:
+                - tab "Ending Soon" [selected] [ref=e56]
+                - tab "Most Votes" [ref=e57]
+                - tab "Newest" [ref=e58]
+          - generic [ref=e59]:
+            - generic [ref=e60]:
+              - generic [ref=e63]:
+                - generic [ref=e64]:
+                  - generic [ref=e65]: PROP-002
+                  - generic [ref=e66]: Passed
+                  - generic [ref=e67]: Protocol Upgrade
+                - link "Add AI/ML Category to Agent Registry" [ref=e68] [cursor=pointer]:
+                  - /url: /governance/prop-002
+                  - generic [ref=e69]: Add AI/ML Category to Agent Registry
+              - generic [ref=e70]:
+                - paragraph [ref=e71]: Add new agent category "AI/ML" to support emerging agents focused on machine learning tasks, robotics, and computer vision.
+                - generic [ref=e72]:
+                  - generic [ref=e73]:
+                    - generic [ref=e74]: For
+                    - generic [ref=e75]: Against
+                    - generic [ref=e76]: Abstain
+                  - generic [ref=e81]:
+                    - generic [ref=e82]: 8.9M (93.7%)
+                    - generic [ref=e83]: 400.0K (4.2%)
+                    - generic [ref=e84]: 200.0K (2.1%)
+                - separator [ref=e85]
+                - generic [ref=e86]:
+                  - generic [ref=e87]:
+                    - generic [ref=e88]:
+                      - img [ref=e89]
+                      - generic [ref=e92]: Ended
+                    - generic [ref=e93]:
+                      - img [ref=e94]
+                      - generic [ref=e99]: 456 voters
+                  - generic [ref=e100]:
+                    - generic [ref=e101]: "Quorum: 100%"
+                    - progressbar [ref=e102]: x
+            - generic [ref=e105]:
+              - generic [ref=e108]:
+                - generic [ref=e109]:
+                  - generic [ref=e110]:
+                    - generic [ref=e111]: PROP-001
+                    - generic [ref=e112]: Active
+                    - generic [ref=e113]: Slash Amounts
+                  - link "Increase Slash Rate for Latency Breaches" [ref=e114] [cursor=pointer]:
+                    - /url: /governance/prop-001
+                    - generic [ref=e115]: Increase Slash Rate for Latency Breaches
+                - button "Vote" [ref=e116]:
+                  - link "Vote" [ref=e117] [cursor=pointer]:
+                    - /url: /governance/prop-001
+              - generic [ref=e118]:
+                - paragraph [ref=e119]: Proposal to increase the slash rate for latency SLA breaches from 5% to 10% of locked stake. This improves client guarantees during high-traffic periods.
+                - generic [ref=e120]:
+                  - generic [ref=e121]:
+                    - generic [ref=e122]: For
+                    - generic [ref=e123]: Against
+                    - generic [ref=e124]: Abstain
+                  - generic [ref=e129]:
+                    - generic [ref=e130]: 4.5M (75.0%)
+                    - generic [ref=e131]: 1.2M (20.0%)
+                    - generic [ref=e132]: 300.0K (5.0%)
+                - separator [ref=e133]
+                - generic [ref=e134]:
+                  - generic [ref=e135]:
+                    - generic [ref=e136]:
+                      - img [ref=e137]
+                      - generic [ref=e140]: 3d 23h remaining
+                    - generic [ref=e141]:
+                      - img [ref=e142]
+                      - generic [ref=e147]: 234 voters
+                  - generic [ref=e148]:
+                    - generic [ref=e149]: "Quorum: 100%"
+                    - progressbar [ref=e150]: x
+                - link "View Details" [ref=e154] [cursor=pointer]:
+                  - /url: /governance/prop-001
+                  - text: View Details
+                  - img [ref=e155]
+      - contentinfo [ref=e157]:
+        - generic [ref=e158]:
+          - generic [ref=e159]:
+            - generic [ref=e160]:
+              - link "V vassal.ai" [ref=e161] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e163]: V
+                - generic [ref=e164]: vassal.ai
+              - paragraph [ref=e165]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e167]: Built on Somnia L1
+            - generic [ref=e168]:
+              - heading "Platform" [level=4] [ref=e169]
+              - list [ref=e170]:
+                - listitem [ref=e171]:
+                  - link "Browse Agents" [ref=e172] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e173]:
+                  - link "Browse Skills" [ref=e174] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e175]:
+                  - link "How It Works" [ref=e176] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e177]:
+                  - link "Genesis Program" [ref=e178] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e179]:
+              - heading "Developers" [level=4] [ref=e180]
+              - list [ref=e181]:
+                - listitem [ref=e182]:
+                  - link "Documentation" [ref=e183] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e184]:
+                  - link "API Reference" [ref=e185] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e186]:
+                  - link "SDK Docs" [ref=e187] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e188]:
+                  - link "Tutorials" [ref=e189] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e190]:
+              - heading "Governance" [level=4] [ref=e191]
+              - list [ref=e192]:
+                - listitem [ref=e193]:
+                  - link "Proposals" [ref=e194] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e195]:
+                  - link "Delegation" [ref=e196] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e197]:
+                  - link "Governance FAQ" [ref=e198] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e199]:
+              - heading "Company" [level=4] [ref=e200]
+              - list [ref=e201]:
+                - listitem [ref=e202]:
+                  - link "About" [ref=e203] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e204]:
+                  - link "Blog" [ref=e205] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e206]:
+                  - link "Careers" [ref=e207] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e208]:
+                  - link "Contact" [ref=e209] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e210]:
+            - paragraph [ref=e211]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e212]:
+              - link "Twitter" [ref=e213] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e214] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e215] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e216]:
+              - link "Privacy" [ref=e217] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e218] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e224] [cursor=pointer]:
+    - img [ref=e225]

@@ -10,10 +10,11 @@ function AlertDialog({ ...props }: AlertDialogPrimitive.Root.Props) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />
 }
 
-function AlertDialogTrigger({ ...props }: AlertDialogPrimitive.Trigger.Props) {
-  return (
-    <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
-  )
+function AlertDialogTrigger({ asChild, children, ...props }: AlertDialogPrimitive.Trigger.Props & { asChild?: boolean }) {
+  if (asChild && React.isValidElement(children)) {
+    return <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" render={children} {...props} />
+  }
+  return <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props}>{children}</AlertDialogPrimitive.Trigger>
 }
 
 function AlertDialogPortal({ ...props }: AlertDialogPrimitive.Portal.Props) {
@@ -127,8 +128,19 @@ function AlertDialogTitle({
 
 function AlertDialogDescription({
   className,
+  asChild,
+  children,
   ...props
-}: React.ComponentProps<typeof AlertDialogPrimitive.Description>) {
+}: React.ComponentProps<typeof AlertDialogPrimitive.Description> & { asChild?: boolean }) {
+  if (asChild && React.isValidElement(children)) {
+    return React.cloneElement(children as React.ReactElement<any>, {
+      className: cn(
+        "text-sm text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        className,
+        (children.props as { className?: string }).className
+      ),
+    })
+  }
   return (
     <AlertDialogPrimitive.Description
       data-slot="alert-dialog-description"
@@ -137,7 +149,9 @@ function AlertDialogDescription({
         className
       )}
       {...props}
-    />
+    >
+      {children}
+    </AlertDialogPrimitive.Description>
   )
 }
 

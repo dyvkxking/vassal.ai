@@ -35,7 +35,7 @@ interface StatCardProps {
   value: string;
   change?: string;
   changeType?: "positive" | "negative" | "neutral";
-  icon: React.ElementType;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 function StatCard({ title, value, change, changeType = "neutral", icon: Icon }: StatCardProps) {
@@ -265,14 +265,14 @@ const SLASH_EVENTS = [
   },
 ];
 
-export default function GovernanceAnalyticsPage() {
+export default function ArrowRightvernanceAnalyticsPage() {
   const [timeRange, setTimeRange] = useState("30d");
 
   return (
     <div className="container py-8 space-y-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Governance Analytics</h1>
+          <h1 className="text-3xl font-bold">ArrowRightvernance Analytics</h1>
           <p className="text-muted-foreground">
             Comprehensive overview of governance activity and proposal metrics
           </p>

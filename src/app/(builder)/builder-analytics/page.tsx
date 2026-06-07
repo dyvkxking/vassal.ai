@@ -367,6 +367,208 @@ function CircularProgress({ value }: { value: number }) {
   )
 }
 
+// Spot-check results history
+const spotCheckHistoryData = [
+  { date: "2026-06-04", passed: 12, failed: 2, review: 1 },
+  { date: "2026-06-03", passed: 15, failed: 1, review: 0 },
+  { date: "2026-06-02", passed: 10, failed: 3, review: 2 },
+  { date: "2026-06-01", passed: 18, failed: 0, review: 1 },
+  { date: "2026-05-31", passed: 14, failed: 2, review: 0 },
+  { date: "2026-05-30", passed: 9, failed: 4, review: 1 },
+  { date: "2026-05-29", passed: 16, failed: 1, review: 1 },
+]
+
+// Competitor comparison data
+const competitorData = [
+  { name: "Agent 1 (Ours)", quality: 87, tpm: 420, latency: 180, rating: 4.3 },
+  { name: "Competitor A", quality: 82, tpm: 380, latency: 210, rating: 4.1 },
+  { name: "Competitor B", quality: 79, tpm: 450, latency: 250, rating: 3.9 },
+  { name: "Competitor C", quality: 85, tpm: 360, latency: 195, rating: 4.2 },
+]
+
+// Client type distribution (for pie chart)
+const clientTypePieData = {
+  "Customer Support Agent": [
+    { type: "Enterprise", count: 45, color: "bg-blue-500" },
+    { type: "SMB", count: 38, color: "bg-green-500" },
+    { type: "Startup", count: 25, color: "bg-amber-500" },
+    { type: "Individual", count: 10, color: "bg-purple-500" },
+  ],
+  "Sales Assistant": [
+    { type: "Enterprise", count: 52, color: "bg-blue-500" },
+    { type: "SMB", count: 35, color: "bg-green-500" },
+    { type: "Startup", count: 22, color: "bg-amber-500" },
+    { type: "Individual", count: 8, color: "bg-purple-500" },
+  ],
+  "Technical Support Bot": [
+    { type: "Enterprise", count: 61, color: "bg-blue-500" },
+    { type: "SMB", count: 32, color: "bg-green-500" },
+    { type: "Startup", count: 18, color: "bg-amber-500" },
+    { type: "Individual", count: 8, color: "bg-purple-500" },
+  ],
+}
+
+// Text-based pie chart
+function TextPieChart({ data }: { data: { type: string; count: number; color: string; percentage?: number }[] }) {
+  const total = data.reduce((sum, d) => sum + d.count, 0)
+  const segments = [
+    { name: "Enterprise", char: "█", color: "text-blue-500" },
+    { name: "SMB", char: "▓", color: "text-green-500" },
+    { name: "Startup", char: "▒", color: "text-amber-500" },
+    { name: "Individual", char: "░", color: "text-purple-500" },
+  ]
+
+  return (
+    <div className="space-y-4">
+      {/* Visual pie representation using block characters */}
+      <div className="flex items-center gap-4">
+        <div className="relative w-32 h-32">
+          <svg viewBox="0 0 100 100" className="transform -rotate-90">
+            {data.reduce((acc, item, i) => {
+              const percentage = (item.count / total) * 100
+              const prevTotal = acc.total
+              acc.total += percentage
+              const startAngle = prevTotal * 3.6
+              const endAngle = acc.total * 3.6
+              const largeArc = percentage > 50 ? 1 : 0
+              const x1 = 50 + 45 * Math.cos((startAngle * Math.PI) / 180)
+              const y1 = 50 + 45 * Math.sin((startAngle * Math.PI) / 180)
+              const x2 = 50 + 45 * Math.cos((endAngle * Math.PI) / 180)
+              const y2 = 50 + 45 * Math.sin((endAngle * Math.PI) / 180)
+              acc.paths.push(
+                <path
+                  key={i}
+                  d={`M 50 50 L ${x1} ${y1} A 45 45 0 ${largeArc} 1 ${x2} ${y2} Z`}
+                  fill={item.color}
+                  className={item.color}
+                />
+              )
+              return acc
+            }, { total: 0, paths: [] as React.ReactNode[] }).paths}
+          </svg>
+        </div>
+        <div className="flex flex-col gap-2">
+          {data.map((item, i) => (
+            <div key={i} className="flex items-center gap-2 text-xs">
+              <div className={`w-3 h-3 rounded-sm ${item.color}`} />
+              <span className="text-muted-foreground">{item.type}</span>
+              <span className="font-medium">{Math.round((item.count / total) * 100)}%</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Spot check history chart
+function SpotCheckHistoryChart({ data }: { data: { date: string; passed: number; failed: number; review: number }[] }) {
+  return (
+    <div className="space-y-3">
+      {data.map((row, i) => {
+        const total = row.passed + row.failed + row.review
+        const passWidth = (row.passed / total) * 100
+        const failWidth = (row.failed / total) * 100
+        const reviewWidth = (row.review / total) * 100
+
+        return (
+          <div key={i} className="space-y-1">
+            <div className="flex justify-between text-xs">
+              <span className="text-muted-foreground">{row.date}</span>
+              <span className="flex gap-3">
+                <span className="text-emerald-600">+{row.passed}</span>
+                <span className="text-red-600">-{row.failed}</span>
+                <span className="text-amber-600">?{row.review}</span>
+              </span>
+            </div>
+            <div className="flex h-2 rounded-full overflow-hidden gap-0.5">
+              <div className="bg-emerald-500 transition-all" style={{ width: `${passWidth}%` }} />
+              <div className="bg-red-500 transition-all" style={{ width: `${failWidth}%` }} />
+              <div className="bg-amber-500 transition-all" style={{ width: `${reviewWidth}%` }} />
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// Competitor comparison table
+function CompetitorComparisonTable({ data }: { data: { name: string; quality: number; tpm: number; latency: number; rating: number }[] }) {
+  const metrics = ["quality", "tpm", "latency", "rating"] as const
+  const getBest = (metric: typeof metrics[number]) => Math.min(...data.map((d) => d[metric]))
+  const getHighlight = (value: number, metric: typeof metrics[number]) => {
+    const best = getBest(metric)
+    return value === best ? "bg-emerald-100 text-emerald-700" : ""
+  }
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Competitor</TableHead>
+          <TableHead>Quality Score</TableHead>
+          <TableHead>TPM</TableHead>
+          <TableHead>Latency</TableHead>
+          <TableHead>Rating</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((row, i) => (
+          <TableRow key={i} className={i === 0 ? "bg-primary/5" : ""}>
+            <TableCell className={i === 0 ? "font-medium" : ""}>
+              {row.name}
+              {i === 0 && (
+                <Badge variant="outline" className="ml-2 text-xs">You</Badge>
+              )}
+            </TableCell>
+            <TableCell>
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-1 rounded text-xs font-medium ${getHighlight(row.quality, "quality")}`}>
+                  {row.quality}
+                </span>
+                {row.quality === getBest("quality") && (
+                  <span className="text-xs text-emerald-600">Best</span>
+                )}
+              </div>
+            </TableCell>
+            <TableCell>
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-1 rounded text-xs font-medium ${getHighlight(row.tpm, "tpm")}`}>
+                  {row.tpm}
+                </span>
+                {row.tpm === getBest("tpm") && (
+                  <span className="text-xs text-emerald-600">Best</span>
+                )}
+              </div>
+            </TableCell>
+            <TableCell>
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-1 rounded text-xs font-medium ${getHighlight(row.latency, "latency")}`}>
+                  {row.latency}ms
+                </span>
+                {row.latency === getBest("latency") && (
+                  <span className="text-xs text-emerald-600">Best</span>
+                )}
+              </div>
+            </TableCell>
+            <TableCell>
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-1 rounded text-xs font-medium ${getHighlight(row.rating, "rating")}`}>
+                  {row.rating}
+                </span>
+                {row.rating === getBest("rating") && (
+                  <span className="text-xs text-emerald-600">Best</span>
+                )}
+              </div>
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+
 // Client type bar chart
 function ClientTypeBarChart({ data }: { data: { type: string; count: number; percentage: number }[] }) {
   const maxCount = Math.max(...data.map((d) => d.count))
@@ -636,19 +838,19 @@ export default function AnalyticsPage() {
           </CardContent>
         </Card>
 
-        {/* Client Type Breakdown */}
+        {/* Client Type Breakdown (Pie Chart) */}
         <Card>
           <CardHeader>
             <CardTitle>Client Type Breakdown</CardTitle>
           </CardHeader>
           <CardContent>
-            <ClientTypeBarChart data={clientData} />
+            <TextPieChart data={clientTypePieData[agent.name as keyof typeof clientTypePieData]} />
           </CardContent>
         </Card>
       </div>
 
       {/* Failure Mode Analysis */}
-      <Card>
+      <Card className="mb-8">
         <CardHeader>
           <CardTitle>Failure Mode Analysis</CardTitle>
         </CardHeader>
@@ -656,6 +858,52 @@ export default function AnalyticsPage() {
           <FailureModeList data={failureData} />
         </CardContent>
       </Card>
+
+      {/* Competitor Comparison */}
+      <Card className="mb-8">
+        <CardHeader>
+          <CardTitle>Competitor Comparison</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <CompetitorComparisonTable data={competitorData} />
+        </CardContent>
+      </Card>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Spot-Check Results History */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Spot-Check Results History</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <SpotCheckHistoryChart data={spotCheckHistoryData} />
+            <div className="mt-4 flex items-center justify-center gap-4 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-sm bg-emerald-500" />
+                <span className="text-muted-foreground">Passed</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-sm bg-red-500" />
+                <span className="text-muted-foreground">Failed</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 rounded-sm bg-amber-500" />
+                <span className="text-muted-foreground">Review</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Client Type Breakdown (Pie Chart) */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Client Type Breakdown</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <TextPieChart data={clientTypePieData[agent.name as keyof typeof clientTypePieData]} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

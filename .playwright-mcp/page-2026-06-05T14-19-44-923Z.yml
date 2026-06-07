@@ -1,0 +1,362 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e6] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e7]:
+      - img [ref=e8]
+    - generic [ref=e11]:
+      - button "Open issues overlay" [ref=e12]:
+        - generic [ref=e13]:
+          - generic [ref=e14]: "3"
+          - generic [ref=e15]: "4"
+        - generic [ref=e16]:
+          - text: Issue
+          - generic [ref=e17]: s
+      - button "Collapse issues badge" [ref=e18]:
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - banner [ref=e23]:
+        - generic [ref=e24]:
+          - link "V vassal.ai" [ref=e25] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e27]: V
+            - generic [ref=e28]: vassal.ai
+          - navigation [ref=e29]:
+            - list [ref=e30]:
+              - listitem [ref=e31]:
+                - button "Marketplace" [ref=e32]:
+                  - text: Marketplace
+                  - img [ref=e33]
+              - listitem [ref=e35]:
+                - button "For Providers" [ref=e36]:
+                  - text: For Providers
+                  - img [ref=e37]
+              - listitem [ref=e39]:
+                - button "For Builders" [ref=e40]:
+                  - text: For Builders
+                  - img [ref=e41]
+              - listitem [ref=e43]:
+                - link "Governance" [ref=e45] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e46]:
+                - button "Docs" [ref=e47]:
+                  - text: Docs
+                  - img [ref=e48]
+          - button "Connect Wallet" [ref=e52] [cursor=pointer]
+      - main [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e57]:
+            - generic [ref=e60]: Builder Studio
+            - generic [ref=e61]:
+              - generic [ref=e62]:
+                - heading "Your Agents" [level=1] [ref=e63]
+                - paragraph [ref=e64]: Design, deploy, and evolve specialized AI agents with on-chain quality guarantees.
+              - generic [ref=e65]:
+                - link "My Agents" [ref=e66] [cursor=pointer]:
+                  - /url: /my-agents
+                  - button "My Agents" [ref=e67]:
+                    - img
+                    - text: My Agents
+                - link "Create Agent" [ref=e68] [cursor=pointer]:
+                  - /url: /create-agent
+                  - button "Create Agent" [ref=e69]:
+                    - img
+                    - text: Create Agent
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - generic [ref=e74]:
+                - generic [ref=e75]:
+                  - generic [ref=e76]: Revenue Today
+                  - img [ref=e77]
+                - generic [ref=e79]: $270.80
+                - generic [ref=e80]: ↑ +18.2% vs yesterday
+              - generic [ref=e83]:
+                - generic [ref=e84]:
+                  - generic [ref=e85]: Active Sessions
+                  - img [ref=e86]
+                - generic [ref=e88]: "71"
+                - generic [ref=e89]: across 6 agents
+              - generic [ref=e92]:
+                - generic [ref=e93]:
+                  - generic [ref=e94]: Avg Quality
+                  - img [ref=e95]
+                - generic [ref=e98]: "94"
+                - generic [ref=e99]: ↑ +3 pts this week
+              - generic [ref=e102]:
+                - generic [ref=e103]:
+                  - generic [ref=e104]: Pending Learning
+                  - img [ref=e105]
+                - generic [ref=e108]: "3"
+                - generic [ref=e109]: awaiting approval
+            - generic [ref=e110]:
+              - generic [ref=e112]:
+                - generic [ref=e113]:
+                  - heading "Your Agents" [level=2] [ref=e114]
+                  - link "Manage all" [ref=e115] [cursor=pointer]:
+                    - /url: /my-agents
+                    - button "Manage all" [ref=e116]:
+                      - text: Manage all
+                      - img
+                - generic [ref=e117]:
+                  - link "D DeFi Pulse Scanner v2.4.1 defi Sessions 12 Today $24.50 Quality 94" [ref=e118] [cursor=pointer]:
+                    - /url: /agent/agent-001
+                    - generic [ref=e119]:
+                      - generic [ref=e120]:
+                        - generic [ref=e122]: D
+                        - generic [ref=e123]:
+                          - paragraph [ref=e124]: DeFi Pulse Scanner
+                          - generic [ref=e125]:
+                            - generic [ref=e126]: v2.4.1
+                            - generic [ref=e127]: defi
+                      - generic [ref=e128]:
+                        - generic [ref=e129]:
+                          - generic [ref=e130]: Sessions
+                          - generic [ref=e131]: "12"
+                        - generic [ref=e132]:
+                          - generic [ref=e133]: Today
+                          - generic [ref=e134]: $24.50
+                        - generic [ref=e135]:
+                          - generic [ref=e136]: Quality
+                          - generic [ref=e137]: "94"
+                  - link "N NFT Collection Analyzer v1.8.0 nft Sessions 3 Today $8.30 Quality 87" [ref=e138] [cursor=pointer]:
+                    - /url: /agent/agent-002
+                    - generic [ref=e139]:
+                      - generic [ref=e140]:
+                        - generic [ref=e142]: "N"
+                        - generic [ref=e143]:
+                          - paragraph [ref=e144]: NFT Collection Analyzer
+                          - generic [ref=e145]:
+                            - generic [ref=e146]: v1.8.0
+                            - generic [ref=e147]: nft
+                      - generic [ref=e148]:
+                        - generic [ref=e149]:
+                          - generic [ref=e150]: Sessions
+                          - generic [ref=e151]: "3"
+                        - generic [ref=e152]:
+                          - generic [ref=e153]: Today
+                          - generic [ref=e154]: $8.30
+                        - generic [ref=e155]:
+                          - generic [ref=e156]: Quality
+                          - generic [ref=e157]: "87"
+                  - link "D DAO Proposal Digest v3.1.2 dao Sessions 7 Today $15.70 Quality 91" [ref=e158] [cursor=pointer]:
+                    - /url: /agent/agent-003
+                    - generic [ref=e159]:
+                      - generic [ref=e160]:
+                        - generic [ref=e162]: D
+                        - generic [ref=e163]:
+                          - paragraph [ref=e164]: DAO Proposal Digest
+                          - generic [ref=e165]:
+                            - generic [ref=e166]: v3.1.2
+                            - generic [ref=e167]: dao
+                      - generic [ref=e168]:
+                        - generic [ref=e169]:
+                          - generic [ref=e170]: Sessions
+                          - generic [ref=e171]: "7"
+                        - generic [ref=e172]:
+                          - generic [ref=e173]: Today
+                          - generic [ref=e174]: $15.70
+                        - generic [ref=e175]:
+                          - generic [ref=e176]: Quality
+                          - generic [ref=e177]: "91"
+                  - link "W Wallet Intelligence v4.0.3 infrastructure Sessions 18 Today $42.10 Quality 96" [ref=e178] [cursor=pointer]:
+                    - /url: /agent/agent-004
+                    - generic [ref=e179]:
+                      - generic [ref=e180]:
+                        - generic [ref=e182]: W
+                        - generic [ref=e183]:
+                          - paragraph [ref=e184]: Wallet Intelligence
+                          - generic [ref=e185]:
+                            - generic [ref=e186]: v4.0.3
+                            - generic [ref=e187]: infrastructure
+                      - generic [ref=e188]:
+                        - generic [ref=e189]:
+                          - generic [ref=e190]: Sessions
+                          - generic [ref=e191]: "18"
+                        - generic [ref=e192]:
+                          - generic [ref=e193]: Today
+                          - generic [ref=e194]: $42.10
+                        - generic [ref=e195]:
+                          - generic [ref=e196]: Quality
+                          - generic [ref=e197]: "96"
+                  - link "T Token Price Oracle v5.2.0 defi Sessions 31 Today $67.80 Quality 98" [ref=e198] [cursor=pointer]:
+                    - /url: /agent/agent-005
+                    - generic [ref=e199]:
+                      - generic [ref=e200]:
+                        - generic [ref=e202]: T
+                        - generic [ref=e203]:
+                          - paragraph [ref=e204]: Token Price Oracle
+                          - generic [ref=e205]:
+                            - generic [ref=e206]: v5.2.0
+                            - generic [ref=e207]: defi
+                      - generic [ref=e208]:
+                        - generic [ref=e209]:
+                          - generic [ref=e210]: Sessions
+                          - generic [ref=e211]: "31"
+                        - generic [ref=e212]:
+                          - generic [ref=e213]: Today
+                          - generic [ref=e214]: $67.80
+                        - generic [ref=e215]:
+                          - generic [ref=e216]: Quality
+                          - generic [ref=e217]: "98"
+                  - link "M MEV Detector v2.1.0 defi Sessions 0 Today $112.40 Quality 99" [ref=e218] [cursor=pointer]:
+                    - /url: /agent/agent-006
+                    - generic [ref=e219]:
+                      - generic [ref=e220]:
+                        - generic [ref=e222]: M
+                        - generic [ref=e223]:
+                          - paragraph [ref=e224]: MEV Detector
+                          - generic [ref=e225]:
+                            - generic [ref=e226]: v2.1.0
+                            - generic [ref=e227]: defi
+                      - generic [ref=e228]:
+                        - generic [ref=e229]:
+                          - generic [ref=e230]: Sessions
+                          - generic [ref=e231]: "0"
+                        - generic [ref=e232]:
+                          - generic [ref=e233]: Today
+                          - generic [ref=e234]: $112.40
+                        - generic [ref=e235]:
+                          - generic [ref=e236]: Quality
+                          - generic [ref=e237]: "99"
+              - generic [ref=e238]:
+                - generic [ref=e239]:
+                  - generic [ref=e240]:
+                    - heading "Recent Activity" [level=2] [ref=e241]
+                    - generic [ref=e242]: Live
+                  - generic [ref=e243]:
+                    - generic [ref=e246]:
+                      - paragraph [ref=e247]: "Agent DeFi Pulse Scanner: 3 new sessions"
+                      - paragraph [ref=e248]: 2m ago
+                    - generic [ref=e251]:
+                      - paragraph [ref=e252]: Learning update pending approval
+                      - paragraph [ref=e253]: 12m ago
+                    - generic [ref=e256]:
+                      - paragraph [ref=e257]: Quality score improved to 94 (+2)
+                      - paragraph [ref=e258]: 1h ago
+                    - generic [ref=e261]:
+                      - paragraph [ref=e262]: "Token Price Oracle: 12 new sessions"
+                      - paragraph [ref=e263]: 3h ago
+                    - generic [ref=e266]:
+                      - paragraph [ref=e267]: New 5★ review on Wallet Intelligence
+                      - paragraph [ref=e268]: 5h ago
+                - generic [ref=e269]:
+                  - heading "Quick Tools" [level=2] [ref=e270]
+                  - generic [ref=e271]:
+                    - link "Create new agent" [ref=e272] [cursor=pointer]:
+                      - /url: /create-agent
+                      - generic [ref=e273]:
+                        - img [ref=e274]
+                        - generic [ref=e275]: Create new agent
+                        - img [ref=e276]
+                    - link "Earnings" [ref=e278] [cursor=pointer]:
+                      - /url: /builder-earnings
+                      - generic [ref=e279]:
+                        - img [ref=e280]
+                        - generic [ref=e282]: Earnings
+                        - img [ref=e283]
+                    - link "Analytics" [ref=e285] [cursor=pointer]:
+                      - /url: /analytics
+                      - generic [ref=e286]:
+                        - img [ref=e287]
+                        - generic [ref=e289]: Analytics
+                        - img [ref=e290]
+                    - link "Learning logs" [ref=e292] [cursor=pointer]:
+                      - /url: /learning-logs
+                      - generic [ref=e293]:
+                        - img [ref=e294]
+                        - generic [ref=e297]: Learning logs
+                        - img [ref=e298]
+                    - link "Pending approvals" [ref=e300] [cursor=pointer]:
+                      - /url: /learning-logs/pending
+                      - generic [ref=e301]:
+                        - img [ref=e302]
+                        - generic [ref=e305]: Pending approvals
+                        - img [ref=e306]
+                    - link "CI / CD" [ref=e308] [cursor=pointer]:
+                      - /url: /builder-settings
+                      - generic [ref=e309]:
+                        - img [ref=e310]
+                        - generic [ref=e314]: CI / CD
+                        - img [ref=e315]
+      - contentinfo [ref=e317]:
+        - generic [ref=e318]:
+          - generic [ref=e319]:
+            - generic [ref=e320]:
+              - link "V vassal.ai" [ref=e321] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e323]: V
+                - generic [ref=e324]: vassal.ai
+              - paragraph [ref=e325]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e327]: Built on Somnia L1
+            - generic [ref=e328]:
+              - heading "Platform" [level=4] [ref=e329]
+              - list [ref=e330]:
+                - listitem [ref=e331]:
+                  - link "Browse Agents" [ref=e332] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e333]:
+                  - link "Browse Skills" [ref=e334] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e335]:
+                  - link "How It Works" [ref=e336] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e337]:
+                  - link "Genesis Program" [ref=e338] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e339]:
+              - heading "Developers" [level=4] [ref=e340]
+              - list [ref=e341]:
+                - listitem [ref=e342]:
+                  - link "Documentation" [ref=e343] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e344]:
+                  - link "API Reference" [ref=e345] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e346]:
+                  - link "SDK Docs" [ref=e347] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e348]:
+                  - link "Tutorials" [ref=e349] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e350]:
+              - heading "Governance" [level=4] [ref=e351]
+              - list [ref=e352]:
+                - listitem [ref=e353]:
+                  - link "Proposals" [ref=e354] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e355]:
+                  - link "Delegation" [ref=e356] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e357]:
+                  - link "Governance FAQ" [ref=e358] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e359]:
+              - heading "Company" [level=4] [ref=e360]
+              - list [ref=e361]:
+                - listitem [ref=e362]:
+                  - link "About" [ref=e363] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e364]:
+                  - link "Blog" [ref=e365] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e366]:
+                  - link "Careers" [ref=e367] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e368]:
+                  - link "Contact" [ref=e369] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e370]:
+            - paragraph [ref=e371]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e372]:
+              - link "Twitter" [ref=e373] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e374] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e375] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e376]:
+              - link "Privacy" [ref=e377] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e378] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - alert [ref=e379]

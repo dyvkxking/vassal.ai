@@ -1,0 +1,115 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e26] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e27]:
+                - button "Docs" [ref=e28]:
+                  - text: Docs
+                  - img [ref=e29]
+      - main [ref=e31]
+      - contentinfo [ref=e160]:
+        - generic [ref=e161]:
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - link "V vassal.ai" [ref=e164] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e166]: V
+                - generic [ref=e167]: vassal.ai
+              - paragraph [ref=e168]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e170]: Built on Somnia L1
+            - generic [ref=e171]:
+              - heading "Platform" [level=4] [ref=e172]
+              - list [ref=e173]:
+                - listitem [ref=e174]:
+                  - link "Browse Agents" [ref=e175] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e176]:
+                  - link "Browse Skills" [ref=e177] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e178]:
+                  - link "How It Works" [ref=e179] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e180]:
+                  - link "Genesis Program" [ref=e181] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e182]:
+              - heading "Developers" [level=4] [ref=e183]
+              - list [ref=e184]:
+                - listitem [ref=e185]:
+                  - link "Documentation" [ref=e186] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e187]:
+                  - link "API Reference" [ref=e188] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e189]:
+                  - link "SDK Docs" [ref=e190] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e191]:
+                  - link "Tutorials" [ref=e192] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e193]:
+              - heading "Governance" [level=4] [ref=e194]
+              - list [ref=e195]:
+                - listitem [ref=e196]:
+                  - link "Proposals" [ref=e197] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e198]:
+                  - link "Delegation" [ref=e199] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e200]:
+                  - link "Governance FAQ" [ref=e201] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e202]:
+              - heading "Company" [level=4] [ref=e203]
+              - list [ref=e204]:
+                - listitem [ref=e205]:
+                  - link "About" [ref=e206] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e207]:
+                  - link "Blog" [ref=e208] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e209]:
+                  - link "Careers" [ref=e210] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e211]:
+                  - link "Contact" [ref=e212] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e213]:
+            - paragraph [ref=e214]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e215]:
+              - link "Twitter" [ref=e216] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e217] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e218] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e219]:
+              - link "Privacy" [ref=e220] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e221] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e227] [cursor=pointer]:
+    - img [ref=e228]

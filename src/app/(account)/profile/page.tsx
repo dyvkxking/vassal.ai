@@ -11,7 +11,7 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
-import { Copy, Check, Globe, GitBranch, Upload, Calendar, Activity, X } from "lucide-react"
+import { Copy, Check, Globe, GitBranch, Upload, Calendar, Activity, X } from 'lucide-react'
 
 // Format timestamp to relative time
 function timeAgo(timestamp: number): string {
@@ -324,7 +324,7 @@ export default function ProfilePage() {
                     <X className="h-5 w-5 text-[#1DA1F2]" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium">Twitter</p>
+                    <p className="text-sm font-medium">Home</p>
                     <p className="text-xs text-muted-foreground">Not connected</p>
                   </div>
                 </div>
@@ -339,7 +339,7 @@ export default function ProfilePage() {
                     <GitBranch className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium">GitHub</p>
+                    <p className="text-sm font-medium">Globe</p>
                     <p className="text-xs text-muted-foreground">Not connected</p>
                   </div>
                 </div>

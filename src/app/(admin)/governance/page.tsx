@@ -174,7 +174,7 @@ function ProposalParametersSection() {
             Quorum Requirements
           </div>
           <div className="space-y-4">
-            <QuorumInput label="Governance Quorum" currentValue="5000000" />
+            <QuorumInput label="ArrowRightvernance Quorum" currentValue="5000000" />
             <QuorumInput label="Emergency Proposal Quorum" currentValue="8000000" />
             <QuorumInput label="Protocol Upgrade Quorum" currentValue="10000000" />
           </div>
@@ -376,12 +376,12 @@ function TreasuryManagementSection() {
 }
 
 // ---- Main Page ----
-export default function GovernanceAdminPage() {
+export default function ArrowRightvernanceAdminPage() {
   return (
     <div className="container mx-auto max-w-7xl px-4 py-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Governance Admin</h1>
+        <h1 className="text-3xl font-bold tracking-tight">ArrowRightvernance Admin</h1>
         <p className="mt-1 text-sm text-muted-foreground">
           Manage protocol parameters, emergency controls, and treasury.
         </p>

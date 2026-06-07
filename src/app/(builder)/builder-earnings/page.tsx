@@ -1,12 +1,6 @@
 "use client"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -19,8 +13,8 @@ import {
 } from "@/components/ui/table"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Download, DollarSign, TrendingUp, Clock, BarChart3 } from 'lucide-react'
 
-// Mock data
 const stats = {
   totalRevenue: 48750.0,
   thisMonth: 8420.0,
@@ -29,41 +23,21 @@ const stats = {
 }
 
 const revenuePerAgent = [
-  {
-    name: "Customer Support Agent",
-    revenueThisMonth: 4200.0,
-    totalRevenue: 18500.0,
-    cut: 2520.0, // 60% of net after platform fee
-  },
-  {
-    name: "Sales Assistant",
-    revenueThisMonth: 2850.0,
-    totalRevenue: 15200.0,
-    cut: 1710.0,
-  },
-  {
-    name: "Technical Support Bot",
-    revenueThisMonth: 1370.0,
-    totalRevenue: 10050.0,
-    cut: 822.0,
-  },
-  {
-    name: "Onboarding Assistant",
-    revenueThisMonth: 0,
-    totalRevenue: 5000.0,
-    cut: 0,
-  },
+  { name: "DeFi Pulse Scanner", revenueThisMonth: 4200.0, totalRevenue: 18500.0, cut: 2520.0 },
+  { name: "Token Price Oracle", revenueThisMonth: 2850.0, totalRevenue: 15200.0, cut: 1710.0 },
+  { name: "Wallet Intelligence", revenueThisMonth: 1370.0, totalRevenue: 10050.0, cut: 822.0 },
+  { name: "DAO Proposal Digest", revenueThisMonth: 0, totalRevenue: 5000.0, cut: 0 },
 ]
 
 const slaRefunds = [
-  { agent: "Customer Support Agent", amount: -85.0, reason: "Response time SLA breach", date: "2026-06-01" },
-  { agent: "Sales Assistant", amount: -42.5, reason: "Resolution SLA breach", date: "2026-05-28" },
-  { agent: "Technical Support Bot", amount: -120.0, reason: "Availability SLA breach", date: "2026-05-25" },
+  { agent: "DeFi Pulse Scanner", amount: -85.0, reason: "Latency SLA breach", date: "2026-06-01" },
+  { agent: "Token Price Oracle", amount: -42.5, reason: "Resolution SLA breach", date: "2026-05-28" },
+  { agent: "Wallet Intelligence", amount: -120.0, reason: "Availability SLA breach", date: "2026-05-25" },
 ]
 
 const pendingSettlements = [
-  { amount: 1540.0, expectedDate: "2026-06-15", agent: "Customer Support Agent" },
-  { amount: 800.0, expectedDate: "2026-06-20", agent: "Sales Assistant" },
+  { amount: 1540.0, expectedDate: "2026-06-15", agent: "DeFi Pulse Scanner" },
+  { amount: 800.0, expectedDate: "2026-06-20", agent: "Token Price Oracle" },
 ]
 
 const withdrawalHistory = [
@@ -87,123 +61,251 @@ const forecast = {
 }
 
 function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(amount)
+  return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount)
 }
 
 function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
+  return new Date(dateStr).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+}
+
+function GlassCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      className={`p-6 rounded-2xl ${className}`}
+      style={{
+        background: "rgba(255, 255, 255, 0.03)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255, 255, 255, 0.06)",
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function StatCard({
+  title,
+  value,
+  subValue,
+  accent,
+  icon: Icon,
+  highlight,
+}: {
+  title: string
+  value: string
+  subValue?: string
+  accent: string
+  icon: React.ComponentType<{ className?: string }>
+  highlight?: boolean
+}) {
+  return (
+    <div
+      className="p-5 rounded-xl relative overflow-hidden group transition-all duration-300 hover:scale-[1.02]"
+      style={{
+        background: "rgba(255, 255, 255, 0.03)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255, 255, 255, 0.06)",
+        transitionTimingFunction: "var(--ease-out-expo)",
+      }}
+    >
+      <div
+        className="absolute -top-10 -right-10 w-28 h-28 rounded-full opacity-50 group-hover:opacity-80 transition-opacity"
+        style={{ background: `radial-gradient(circle, ${accent} 0%, transparent 70%)` }}
+      />
+      <div className="relative">
+        <div className="flex items-center justify-between mb-3">
+          <span
+            className="text-xs uppercase font-medium"
+            style={{ color: "var(--muted-foreground)", letterSpacing: "2px" }}
+          >
+            {title}
+          </span>
+          <Icon className="h-4 w-4 opacity-50" />
+        </div>
+        <div
+          className="text-3xl font-semibold"
+          style={{
+            fontFamily: "var(--font-display-serif, inherit)",
+            color: highlight ? "rgba(245, 158, 11, 0.95)" : undefined,
+          }}
+        >
+          {value}
+        </div>
+        {subValue && (
+          <div className="mt-1 text-xs" style={{ color: "var(--muted-foreground)" }}>
+            {subValue}
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export default function BuilderEarningsPage() {
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-heading font-bold">Earnings</h1>
-          <p className="text-muted-foreground">Your builder earnings and revenue breakdown</p>
+    <div className="flex min-h-screen flex-col">
+      {/* HEADER */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: -1 }}>
+          <div
+            className="absolute inset-0 blend-color-dodge"
+            style={{
+              background:
+                "radial-gradient(ellipse at 25% 25%, rgba(16, 185, 129, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 75% 75%, rgba(245, 158, 11, 0.06) 0%, transparent 50%)",
+            }}
+          />
         </div>
-        <Button variant="outline" onClick={() => console.log("Export earnings")}>
-          Export Report
-        </Button>
-      </div>
-
-      {/* Top Stats */}
-      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Total Revenue
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(stats.totalRevenue)}</div>
-            <p className="text-xs text-muted-foreground">All time</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              This Month
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(stats.thisMonth)}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Pending Settlements
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-amber-500">
-              {formatCurrency(stats.pendingSettlements)}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-px"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%)",
+            opacity: 0.2,
+          }}
+        />
+        <div className="container relative py-10 md:py-14">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span
+              className="inline-block w-8 h-px"
+              style={{ background: "linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.6))" }}
+            />
+            <span
+              className="text-xs uppercase font-medium"
+              style={{ color: "rgba(16, 185, 129, 0.8)", letterSpacing: "3px" }}
+            >
+              Builder Treasury
+            </span>
+          </div>
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+              <h1
+                className="font-bold mb-2"
+                style={{
+                  fontFamily: "var(--font-display-serif, inherit)",
+                  fontSize: "clamp(2.25rem, 5dvw, 4em)",
+                  lineHeight: "1em",
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                Earnings
+              </h1>
+              <p
+                className="text-base md:text-lg max-w-2xl"
+                style={{
+                  fontFamily: "var(--font-body-light, inherit)",
+                  color: "var(--muted-foreground)",
+                }}
+              >
+                Your revenue breakdown, SLA refunds, settlements, and forecasted earnings.
+              </p>
             </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Avg per Agent
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{formatCurrency(stats.avgPerAgent)}</div>
-            <p className="text-xs text-muted-foreground">Monthly average</p>
-          </CardContent>
-        </Card>
+            <Button
+              variant="outline"
+              className="btn-ghost-transition"
+              style={{
+                background: "rgba(255, 255, 255, 0.03)",
+                backdropFilter: "blur(10px)",
+                border: "1px solid rgba(255, 255, 255, 0.08)",
+              }}
+            >
+              <Download className="mr-2 h-4 w-4" /> Export Report
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <Tabs defaultValue="revenue" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="revenue">Revenue by Agent</TabsTrigger>
-          <TabsTrigger value="refunds">SLA Refunds</TabsTrigger>
-          <TabsTrigger value="settlements">Pending Settlements</TabsTrigger>
-          <TabsTrigger value="withdrawals">Withdrawal History</TabsTrigger>
-        </TabsList>
+      {/* MAIN */}
+      <div className="container py-8 space-y-6">
+        {/* STATS */}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <StatCard
+            title="Total Revenue"
+            value={formatCurrency(stats.totalRevenue)}
+            subValue="All time"
+            accent="rgba(16, 185, 129, 0.15)"
+            icon={DollarSign}
+          />
+          <StatCard
+            title="This Month"
+            value={formatCurrency(stats.thisMonth)}
+            subValue="+24% vs last month"
+            accent="rgba(139, 92, 246, 0.15)"
+            icon={TrendingUp}
+          />
+          <StatCard
+            title="Pending Settlements"
+            value={formatCurrency(stats.pendingSettlements)}
+            subValue="Releases Mon 9:00"
+            accent="rgba(245, 158, 11, 0.15)"
+            icon={Clock}
+            highlight
+          />
+          <StatCard
+            title="Avg per Agent"
+            value={formatCurrency(stats.avgPerAgent)}
+            subValue="Monthly average"
+            accent="rgba(59, 130, 246, 0.15)"
+            icon={BarChart3}
+          />
+        </div>
 
-        {/* Revenue Per Agent */}
-        <TabsContent value="revenue">
-          <Card>
-            <CardHeader>
-              <CardTitle>Revenue Per Agent</CardTitle>
-              <CardDescription>
-                Your cut is 60% of net revenue after platform fees
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+        {/* TABS */}
+        <Tabs defaultValue="revenue" className="space-y-6">
+          <TabsList
+            style={{
+              background: "rgba(255, 255, 255, 0.04)",
+              border: "1px solid rgba(255, 255, 255, 0.06)",
+              backdropFilter: "blur(10px)",
+            }}
+          >
+            <TabsTrigger value="revenue">Revenue by Agent</TabsTrigger>
+            <TabsTrigger value="refunds">SLA Refunds</TabsTrigger>
+            <TabsTrigger value="settlements">Pending Settlements</TabsTrigger>
+            <TabsTrigger value="withdrawals">Withdrawals</TabsTrigger>
+          </TabsList>
+
+          {/* REVENUE */}
+          <TabsContent value="revenue">
+            <GlassCard>
+              <div className="mb-4">
+                <h2
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: "var(--font-display-serif, inherit)" }}
+                >
+                  Revenue per Agent
+                </h2>
+                <p className="text-sm mt-1" style={{ color: "var(--muted-foreground)" }}>
+                  Your cut is 60% of net revenue after platform fees.
+                </p>
+              </div>
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Agent Name</TableHead>
-                    <TableHead className="text-right">Revenue This Month</TableHead>
-                    <TableHead className="text-right">Total Revenue</TableHead>
-                    <TableHead className="text-right">Your Cut (60%)</TableHead>
+                  <TableRow style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}>
+                    <TableHead>Agent</TableHead>
+                    <TableHead className="text-right">This Month</TableHead>
+                    <TableHead className="text-right">Total</TableHead>
+                    <TableHead className="text-right">Your Cut</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {revenuePerAgent.map((agent) => (
-                    <TableRow key={agent.name}>
+                    <TableRow key={agent.name} style={{ borderColor: "rgba(255, 255, 255, 0.04)" }}>
                       <TableCell className="font-medium">{agent.name}</TableCell>
-                      <TableCell className="text-right tabular-nums">
+                      <TableCell className="text-right tabular-nums font-mono">
                         {formatCurrency(agent.revenueThisMonth)}
                       </TableCell>
-                      <TableCell className="text-right tabular-nums">
+                      <TableCell className="text-right tabular-nums font-mono">
                         {formatCurrency(agent.totalRevenue)}
                       </TableCell>
                       <TableCell className="text-right tabular-nums">
-                        <Badge variant="default">
+                        <Badge
+                          variant="secondary"
+                          className="font-mono"
+                          style={{
+                            background: "rgba(16, 185, 129, 0.1)",
+                            border: "1px solid rgba(16, 185, 129, 0.2)",
+                            color: "rgba(16, 185, 129, 0.95)",
+                          }}
+                        >
                           {formatCurrency(agent.cut)}
                         </Badge>
                       </TableCell>
@@ -211,23 +313,26 @@ export default function BuilderEarningsPage() {
                   ))}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </GlassCard>
+          </TabsContent>
 
-        {/* SLA Refunds */}
-        <TabsContent value="refunds">
-          <Card>
-            <CardHeader>
-              <CardTitle>SLA Refunds</CardTitle>
-              <CardDescription>
-                Money refunded to clients due to SLA breaches
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          {/* REFUNDS */}
+          <TabsContent value="refunds">
+            <GlassCard>
+              <div className="mb-4">
+                <h2
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: "var(--font-display-serif, inherit)" }}
+                >
+                  SLA Refunds
+                </h2>
+                <p className="text-sm mt-1" style={{ color: "var(--muted-foreground)" }}>
+                  Money refunded to clients due to SLA breaches.
+                </p>
+              </div>
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}>
                     <TableHead>Agent</TableHead>
                     <TableHead>Reason</TableHead>
                     <TableHead>Date</TableHead>
@@ -236,12 +341,20 @@ export default function BuilderEarningsPage() {
                 </TableHeader>
                 <TableBody>
                   {slaRefunds.map((refund, i) => (
-                    <TableRow key={i}>
+                    <TableRow key={i} style={{ borderColor: "rgba(255, 255, 255, 0.04)" }}>
                       <TableCell className="font-medium">{refund.agent}</TableCell>
-                      <TableCell>{refund.reason}</TableCell>
-                      <TableCell>{formatDate(refund.date)}</TableCell>
+                      <TableCell style={{ color: "var(--muted-foreground)" }}>{refund.reason}</TableCell>
+                      <TableCell style={{ color: "var(--muted-foreground)" }}>{formatDate(refund.date)}</TableCell>
                       <TableCell className="text-right tabular-nums">
-                        <Badge variant="destructive">
+                        <Badge
+                          variant="secondary"
+                          className="font-mono"
+                          style={{
+                            background: "rgba(239, 68, 68, 0.1)",
+                            border: "1px solid rgba(239, 68, 68, 0.2)",
+                            color: "rgba(239, 68, 68, 0.95)",
+                          }}
+                        >
                           {formatCurrency(refund.amount)}
                         </Badge>
                       </TableCell>
@@ -249,137 +362,182 @@ export default function BuilderEarningsPage() {
                   ))}
                 </TableBody>
               </Table>
-              <div className="mt-4 p-4 bg-destructive/10 rounded-lg">
-                <p className="text-sm text-destructive font-medium">
+              <div
+                className="mt-4 p-4 rounded-lg"
+                style={{
+                  background: "rgba(239, 68, 68, 0.06)",
+                  border: "1px solid rgba(239, 68, 68, 0.15)",
+                }}
+              >
+                <p className="text-sm font-medium" style={{ color: "rgba(239, 68, 68, 0.95)" }}>
                   Total Refunds: {formatCurrency(slaRefunds.reduce((sum, r) => sum + r.amount, 0))}
                 </p>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </GlassCard>
+          </TabsContent>
 
-        {/* Pending Settlements */}
-        <TabsContent value="settlements">
-          <Card>
-            <CardHeader>
-              <CardTitle>Pending Settlements</CardTitle>
-              <CardDescription>
-                Amounts not yet paid out to your account
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {pendingSettlements.map((settlement, i) => (
-                <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
-                    <div className="font-medium">{formatCurrency(settlement.amount)}</div>
-                    <div className="text-sm text-muted-foreground">
-                      From {settlement.agent}
+          {/* SETTLEMENTS */}
+          <TabsContent value="settlements">
+            <GlassCard>
+              <div className="mb-4">
+                <h2
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: "var(--font-display-serif, inherit)" }}
+                >
+                  Pending Settlements
+                </h2>
+                <p className="text-sm mt-1" style={{ color: "var(--muted-foreground)" }}>
+                  Amounts not yet paid out to your account.
+                </p>
+              </div>
+              <div className="space-y-3">
+                {pendingSettlements.map((settlement, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center justify-between p-4 rounded-lg"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.02)",
+                      border: "1px solid rgba(255, 255, 255, 0.04)",
+                    }}
+                  >
+                    <div>
+                      <div
+                        className="font-mono font-semibold text-lg"
+                        style={{ color: "rgba(245, 158, 11, 0.95)" }}
+                      >
+                        {formatCurrency(settlement.amount)}
+                      </div>
+                      <div className="text-sm" style={{ color: "var(--muted-foreground)" }}>
+                        From {settlement.agent}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs" style={{ color: "var(--muted-foreground)" }}>
+                        Expected
+                      </div>
+                      <div className="font-medium text-sm">{formatDate(settlement.expectedDate)}</div>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-sm text-muted-foreground">Expected</div>
-                    <div className="font-medium">{formatDate(settlement.expectedDate)}</div>
-                  </div>
-                </div>
-              ))}
-
-              <Separator />
-
-              <div className="space-y-2">
-                <h3 className="font-medium">Payment Schedule</h3>
-                <div className="grid gap-2 text-sm">
+                ))}
+              </div>
+              <Separator className="my-6" style={{ background: "rgba(255, 255, 255, 0.08)" }} />
+              <div>
+                <h3
+                  className="font-semibold mb-3"
+                  style={{ fontFamily: "var(--font-display-serif, inherit)" }}
+                >
+                  Payment Schedule
+                </h3>
+                <div className="grid gap-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Next Payout Date</span>
-                    <span>{formatDate(paymentSchedule.nextPayoutDate)}</span>
+                    <span style={{ color: "var(--muted-foreground)" }}>Next Payout</span>
+                    <span className="font-mono">{formatDate(paymentSchedule.nextPayoutDate)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Frequency</span>
+                    <span style={{ color: "var(--muted-foreground)" }}>Frequency</span>
                     <span>{paymentSchedule.frequency}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-muted-foreground">Minimum Payout</span>
-                    <span>{formatCurrency(paymentSchedule.minimumPayout)}</span>
+                    <span style={{ color: "var(--muted-foreground)" }}>Minimum Payout</span>
+                    <span className="font-mono">{formatCurrency(paymentSchedule.minimumPayout)}</span>
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+            </GlassCard>
+          </TabsContent>
 
-        {/* Withdrawal History */}
-        <TabsContent value="withdrawals">
-          <Card>
-            <CardHeader>
-              <CardTitle>Withdrawal History</CardTitle>
-              <CardDescription>Record of past payouts</CardDescription>
-            </CardHeader>
-            <CardContent>
+          {/* WITHDRAWALS */}
+          <TabsContent value="withdrawals">
+            <GlassCard>
+              <div className="mb-4">
+                <h2
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: "var(--font-display-serif, inherit)" }}
+                >
+                  Withdrawal History
+                </h2>
+                <p className="text-sm mt-1" style={{ color: "var(--muted-foreground)" }}>
+                  Record of past payouts to your wallet.
+                </p>
+              </div>
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow style={{ borderColor: "rgba(255, 255, 255, 0.08)" }}>
                     <TableHead>Date</TableHead>
                     <TableHead className="text-right">Amount</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Transaction Hash</TableHead>
+                    <TableHead>Tx Hash</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {withdrawalHistory.map((withdrawal, i) => (
-                    <TableRow key={i}>
+                    <TableRow key={i} style={{ borderColor: "rgba(255, 255, 255, 0.04)" }}>
                       <TableCell>{formatDate(withdrawal.date)}</TableCell>
-                      <TableCell className="text-right tabular-nums">
+                      <TableCell className="text-right tabular-nums font-mono">
                         {formatCurrency(withdrawal.amount)}
                       </TableCell>
                       <TableCell>
                         <Badge
-                          variant={
-                            withdrawal.status === "Completed" ? "default" : "secondary"
-                          }
+                          variant="secondary"
+                          className="text-xs"
+                          style={{
+                            background: "rgba(16, 185, 129, 0.1)",
+                            border: "1px solid rgba(16, 185, 129, 0.2)",
+                            color: "rgba(16, 185, 129, 0.95)",
+                          }}
                         >
                           {withdrawal.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="font-mono text-xs text-muted-foreground">
+                      <TableCell className="font-mono text-xs" style={{ color: "var(--muted-foreground)" }}>
                         {withdrawal.txHash}
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+            </GlassCard>
+          </TabsContent>
+        </Tabs>
 
-      {/* Revenue Forecast */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>Revenue Forecast</CardTitle>
-        </CardHeader>
-        <CardContent>
+        {/* FORECAST */}
+        <GlassCard>
+          <div className="flex items-center justify-between mb-4">
+            <h2
+              className="text-lg font-semibold"
+              style={{ fontFamily: "var(--font-display-serif, inherit)" }}
+            >
+              Revenue Forecast
+            </h2>
+            <Link href="/builder-analytics/revenue"><Button variant="ghost" size="sm">View detail</Button></Link>
+          </div>
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">
-                Projected this month based on{" "}
-                <span className="font-medium text-foreground">
+              <p className="text-sm mb-2" style={{ color: "var(--muted-foreground)" }}>
+                Projected this month at{" "}
+                <span className="font-medium text-foreground font-mono">
                   {formatCurrency(forecast.avgPerDay)}/day
                 </span>{" "}
                 average
               </p>
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-3xl font-bold">{formatCurrency(forecast.projectedThisMonth)}</span>
-                <span className="text-sm text-muted-foreground">
-                  projected for {forecast.daysRemaining} days remaining
+              <div className="flex items-baseline gap-2">
+                <span
+                  className="text-4xl font-semibold"
+                  style={{
+                    fontFamily: "var(--font-display-serif, inherit)",
+                    color: "rgba(16, 185, 129, 0.95)",
+                  }}
+                >
+                  {formatCurrency(forecast.projectedThisMonth)}
+                </span>
+                <span className="text-sm" style={{ color: "var(--muted-foreground)" }}>
+                  · {forecast.daysRemaining} days remaining
                 </span>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-sm text-muted-foreground">Days Remaining</div>
-              <div className="text-2xl font-bold">{forecast.daysRemaining}</div>
-            </div>
           </div>
-        </CardContent>
-      </Card>
+        </GlassCard>
+      </div>
     </div>
   )
 }

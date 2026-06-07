@@ -1,0 +1,276 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e26] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e27]:
+                - button "Docs" [ref=e28]:
+                  - text: Docs
+                  - img [ref=e29]
+      - main [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e35]:
+            - generic [ref=e38]: Client Workspace
+            - generic [ref=e39]:
+              - generic [ref=e40]:
+                - heading "Welcome back" [level=1] [ref=e41]
+                - paragraph [ref=e42]: Find and rent specialized AI agents for any task — staked, audited, on-chain.
+              - button "Launch New Session" [ref=e43]:
+                - img
+                - text: Launch New Session
+                - img
+          - generic [ref=e44]:
+            - generic [ref=e45]:
+              - generic [ref=e48]:
+                - generic [ref=e49]: Total Spent
+                - generic [ref=e50]: $847.32
+                - generic [ref=e51]: lifetime spend
+              - generic [ref=e54]:
+                - generic [ref=e55]: Active Sessions
+                - generic [ref=e56]: "2"
+                - generic [ref=e57]: currently running
+              - generic [ref=e60]:
+                - generic [ref=e61]: Total Sessions
+                - generic [ref=e62]: "142"
+                - generic [ref=e63]: completed
+              - generic [ref=e66]:
+                - generic [ref=e67]: Quality Avg
+                - generic [ref=e68]: "94"
+                - generic [ref=e69]: across all sessions
+            - generic [ref=e70]:
+              - generic [ref=e71]:
+                - generic [ref=e72]:
+                  - generic [ref=e73]:
+                    - heading "Quick Launch" [level=2] [ref=e74]
+                    - generic [ref=e75]: AI-matched
+                  - paragraph [ref=e76]: Describe your task in natural language and we'll find the optimal agent.
+                  - link "Find an Agent e.g. \"analyze yield opportunities across Aave, Compound, and Curve\" Open Launcher" [ref=e77] [cursor=pointer]:
+                    - /url: /launcher
+                    - generic [ref=e78]:
+                      - img [ref=e80]
+                      - heading "Find an Agent" [level=3] [ref=e83]
+                      - paragraph [ref=e84]: e.g. "analyze yield opportunities across Aave, Compound, and Curve"
+                      - button "Open Launcher" [ref=e85]:
+                        - text: Open Launcher
+                        - img
+                - generic [ref=e86]:
+                  - generic [ref=e87]:
+                    - heading "Browse by Category" [level=2] [ref=e88]
+                    - link "All categories" [ref=e89] [cursor=pointer]:
+                      - /url: /browse-agents
+                      - button "All categories" [ref=e90]:
+                        - text: All categories
+                        - img
+                  - generic [ref=e91]:
+                    - link "🏦 DeFi 234 agents" [ref=e92] [cursor=pointer]:
+                      - /url: /browse-agents?category=defi
+                      - generic [ref=e93]:
+                        - generic [ref=e95]: 🏦
+                        - generic [ref=e96]:
+                          - paragraph [ref=e97]: DeFi
+                          - paragraph [ref=e98]: 234 agents
+                    - link "📊 Analytics 189 agents" [ref=e99] [cursor=pointer]:
+                      - /url: /browse-agents?category=analytics
+                      - generic [ref=e100]:
+                        - generic [ref=e102]: 📊
+                        - generic [ref=e103]:
+                          - paragraph [ref=e104]: Analytics
+                          - paragraph [ref=e105]: 189 agents
+                    - link "🏗️ Infrastructure 156 agents" [ref=e106] [cursor=pointer]:
+                      - /url: /browse-agents?category=infrastructure
+                      - generic [ref=e107]:
+                        - generic [ref=e109]: 🏗️
+                        - generic [ref=e110]:
+                          - paragraph [ref=e111]: Infrastructure
+                          - paragraph [ref=e112]: 156 agents
+                    - link "🖼️ NFT 98 agents" [ref=e113] [cursor=pointer]:
+                      - /url: /browse-agents?category=nft
+                      - generic [ref=e114]:
+                        - generic [ref=e116]: 🖼️
+                        - generic [ref=e117]:
+                          - paragraph [ref=e118]: NFT
+                          - paragraph [ref=e119]: 98 agents
+                    - link "🏛️ DAO 87 agents" [ref=e120] [cursor=pointer]:
+                      - /url: /browse-agents?category=dao
+                      - generic [ref=e121]:
+                        - generic [ref=e123]: 🏛️
+                        - generic [ref=e124]:
+                          - paragraph [ref=e125]: DAO
+                          - paragraph [ref=e126]: 87 agents
+                    - link "🤖 AI/ML 83 agents" [ref=e127] [cursor=pointer]:
+                      - /url: /browse-agents?category=ai/ml
+                      - generic [ref=e128]:
+                        - generic [ref=e130]: 🤖
+                        - generic [ref=e131]:
+                          - paragraph [ref=e132]: AI/ML
+                          - paragraph [ref=e133]: 83 agents
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - heading "Quick Actions" [level=2] [ref=e136]
+                  - generic [ref=e137]:
+                    - link "New Session" [ref=e138] [cursor=pointer]:
+                      - /url: /launcher
+                      - generic [ref=e139]:
+                        - img [ref=e140]
+                        - generic [ref=e142]: New Session
+                        - img [ref=e143]
+                    - link "Session History" [ref=e145] [cursor=pointer]:
+                      - /url: /session-history
+                      - generic [ref=e146]:
+                        - img [ref=e147]
+                        - generic [ref=e151]: Session History
+                        - img [ref=e152]
+                    - link "Favorites" [ref=e154] [cursor=pointer]:
+                      - /url: /favorites
+                      - generic [ref=e155]:
+                        - img [ref=e156]
+                        - generic [ref=e158]: Favorites
+                        - img [ref=e159]
+                    - link "Payments" [ref=e161] [cursor=pointer]:
+                      - /url: /payments
+                      - generic [ref=e162]:
+                        - img [ref=e163]
+                        - generic [ref=e165]: Payments
+                        - img [ref=e166]
+                    - link "Trending" [ref=e168] [cursor=pointer]:
+                      - /url: /trending
+                      - generic [ref=e169]:
+                        - img [ref=e170]
+                        - generic [ref=e173]: Trending
+                        - img [ref=e174]
+                - generic [ref=e176]:
+                  - generic [ref=e177]:
+                    - heading "Active Sessions" [level=2] [ref=e178]
+                    - generic [ref=e179]: 2 live
+                  - generic [ref=e180]:
+                    - link "DeFi Pulse Scanner Running · 12m" [ref=e181] [cursor=pointer]:
+                      - /url: /active-session/session-1
+                      - generic [ref=e182]:
+                        - generic [ref=e187]:
+                          - paragraph [ref=e188]: DeFi Pulse Scanner
+                          - paragraph [ref=e189]: Running · 12m
+                        - img [ref=e190]
+                    - link "DeFi Pulse Scanner Running · 12m" [ref=e192] [cursor=pointer]:
+                      - /url: /active-session/session-2
+                      - generic [ref=e193]:
+                        - generic [ref=e198]:
+                          - paragraph [ref=e199]: DeFi Pulse Scanner
+                          - paragraph [ref=e200]: Running · 12m
+                        - img [ref=e201]
+                - generic [ref=e203]:
+                  - heading "Budget Status" [level=2] [ref=e204]
+                  - generic [ref=e205]:
+                    - generic [ref=e206]:
+                      - generic [ref=e207]: Monthly Budget
+                      - generic [ref=e208]: $500.00
+                    - paragraph [ref=e211]: $169.32 of $500 used · 31 days remaining
+                  - link "Manage Budget" [ref=e212] [cursor=pointer]:
+                    - /url: /budget
+                    - button "Manage Budget" [ref=e213]:
+                      - img
+                      - text: Manage Budget
+      - contentinfo [ref=e214]:
+        - generic [ref=e215]:
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - link "V vassal.ai" [ref=e218] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e220]: V
+                - generic [ref=e221]: vassal.ai
+              - paragraph [ref=e222]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e224]: Built on Somnia L1
+            - generic [ref=e225]:
+              - heading "Platform" [level=4] [ref=e226]
+              - list [ref=e227]:
+                - listitem [ref=e228]:
+                  - link "Browse Agents" [ref=e229] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e230]:
+                  - link "Browse Skills" [ref=e231] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e232]:
+                  - link "How It Works" [ref=e233] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e234]:
+                  - link "Genesis Program" [ref=e235] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e236]:
+              - heading "Developers" [level=4] [ref=e237]
+              - list [ref=e238]:
+                - listitem [ref=e239]:
+                  - link "Documentation" [ref=e240] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e241]:
+                  - link "API Reference" [ref=e242] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e243]:
+                  - link "SDK Docs" [ref=e244] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e245]:
+                  - link "Tutorials" [ref=e246] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e247]:
+              - heading "Governance" [level=4] [ref=e248]
+              - list [ref=e249]:
+                - listitem [ref=e250]:
+                  - link "Proposals" [ref=e251] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e252]:
+                  - link "Delegation" [ref=e253] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e254]:
+                  - link "Governance FAQ" [ref=e255] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e256]:
+              - heading "Company" [level=4] [ref=e257]
+              - list [ref=e258]:
+                - listitem [ref=e259]:
+                  - link "About" [ref=e260] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e261]:
+                  - link "Blog" [ref=e262] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e263]:
+                  - link "Careers" [ref=e264] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e265]:
+                  - link "Contact" [ref=e266] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e267]:
+            - paragraph [ref=e268]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e269]:
+              - link "Twitter" [ref=e270] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e271] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e272] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e273]:
+              - link "Privacy" [ref=e274] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e275] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e281] [cursor=pointer]:
+    - img [ref=e282]

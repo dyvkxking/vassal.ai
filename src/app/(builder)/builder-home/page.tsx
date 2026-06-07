@@ -1,24 +1,33 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+'use client'
+
+import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Progress, ProgressIndicator } from '@/components/ui/progress'
-import { MOCK_AGENTS, MOCK_USER_PROFILE } from '@/lib/mock-data'
+import { MOCK_AGENTS } from '@/lib/mock-data'
+import {
+  Plus,
+  ArrowRight,
+  TrendingUp,
+  Bot,
+  DollarSign,
+  Activity,
+  Bell,
+  Sparkles,
+  BarChart3,
+  GitBranch,
+} from 'lucide-react'
 
-// Mock pending approvals count
 const PENDING_APPROVALS = 3
 
-// Mock recent activity feed
 const RECENT_ACTIVITY = [
-  'Agent DeFi Pulse Scanner: 3 new sessions',
-  'Learning update pending approval',
-  'Quality score improved to 94',
-  'Agent Token Price Oracle: 12 new sessions',
-  'New review received for Wallet Intelligence',
+  { type: 'session', label: 'Agent DeFi Pulse Scanner: 3 new sessions', timestamp: '2m ago' },
+  { type: 'learning', label: 'Learning update pending approval', timestamp: '12m ago' },
+  { type: 'quality', label: 'Quality score improved to 94 (+2)', timestamp: '1h ago' },
+  { type: 'session', label: 'Token Price Oracle: 12 new sessions', timestamp: '3h ago' },
+  { type: 'review', label: 'New 5★ review on Wallet Intelligence', timestamp: '5h ago' },
 ]
 
-// Mock revenue data per agent (today)
 const AGENT_REVENUE_TODAY: Record<string, number> = {
   'agent-001': 24.5,
   'agent-002': 8.3,
@@ -28,7 +37,6 @@ const AGENT_REVENUE_TODAY: Record<string, number> = {
   'agent-006': 112.4,
 }
 
-// Mock active sessions per agent
 const AGENT_ACTIVE_SESSIONS: Record<string, number> = {
   'agent-001': 12,
   'agent-002': 3,
@@ -38,295 +46,389 @@ const AGENT_ACTIVE_SESSIONS: Record<string, number> = {
   'agent-006': 0,
 }
 
+function GlassCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div
+      className={`p-6 rounded-2xl ${className}`}
+      style={{
+        background: 'rgba(255, 255, 255, 0.03)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 function StatCard({
   title,
   value,
   subValue,
+  trend,
+  accent,
+  icon: Icon,
 }: {
   title: string
   value: string
   subValue?: string
+  trend?: 'up' | 'down'
+  accent: string
+  icon: React.ComponentType<{ className?: string }>
 }) {
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <div className="text-sm font-medium text-muted-foreground">{title}</div>
-        <div className="mt-1 text-3xl font-bold">{value}</div>
-        {subValue && <div className="mt-1 text-xs text-muted-foreground">{subValue}</div>}
-      </CardContent>
-    </Card>
+    <div
+      className="p-5 rounded-xl relative overflow-hidden group transition-all duration-300 hover:scale-[1.02]"
+      style={{
+        background: 'rgba(255, 255, 255, 0.03)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        transitionTimingFunction: 'var(--ease-out-expo)',
+      }}
+    >
+      <div
+        className="absolute -top-10 -right-10 w-28 h-28 rounded-full opacity-50 group-hover:opacity-80 transition-opacity"
+        style={{ background: `radial-gradient(circle, ${accent} 0%, transparent 70%)` }}
+      />
+      <div className="relative">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-xs uppercase font-medium" style={{ color: 'var(--muted-foreground)', letterSpacing: '2px' }}>
+            {title}
+          </span>
+          <Icon className="h-4 w-4 opacity-50" />
+        </div>
+        <div className="text-3xl font-semibold" style={{ fontFamily: 'var(--font-display-serif, inherit)' }}>
+          {value}
+        </div>
+        {subValue && (
+          <div className="mt-1 text-xs" style={{ color: 'var(--muted-foreground)' }}>
+            {trend && (
+              <span
+                style={{
+                  color: trend === 'up' ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)',
+                }}
+              >
+                {trend === 'up' ? '↑ ' : '↓ '}
+              </span>
+            )}
+            {subValue}
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
 
-function AgentMiniCard({
-  agent,
-}: {
-  agent: (typeof MOCK_AGENTS)[number]
-}) {
-  const revenueToday = AGENT_REVENUE_TODAY[agent.id] ?? 0
-  const activeSessions = AGENT_ACTIVE_SESSIONS[agent.id] ?? 0
+export default function BuilderHomePage() {
+  const myAgents = MOCK_AGENTS.slice(0, 6)
+  const totalRevenue = Object.values(AGENT_REVENUE_TODAY).reduce((s, v) => s + v, 0)
+  const totalActiveSessions = Object.values(AGENT_ACTIVE_SESSIONS).reduce((s, v) => s + v, 0)
+  const avgQuality = Math.round(myAgents.reduce((s, a) => s + a.qualityScore, 0) / myAgents.length)
 
   return (
-    <Card size="sm">
-      <CardContent className="px-3 py-3">
-        <div className="flex items-start justify-between">
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-medium">{agent.name}</p>
-            <p className="mt-1 text-xs text-muted-foreground">
-              ${revenueToday.toFixed(2)} today
-            </p>
-          </div>
-          <div className="ml-2 flex flex-col items-end gap-1">
-            <Badge
-              variant={agent.qualityScore >= 95 ? 'default' : 'secondary'}
-              className="text-xs"
+    <div className="flex min-h-screen flex-col">
+      {/* HEADER */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none" style={{ zIndex: -1 }}>
+          <div
+            className="absolute inset-0 blend-color-dodge"
+            style={{
+              background:
+                'radial-gradient(ellipse at 25% 25%, rgba(236, 72, 153, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 75% 75%, rgba(139, 92, 246, 0.06) 0%, transparent 50%)',
+            }}
+          />
+        </div>
+
+        <div
+          className="absolute bottom-0 left-0 right-0 h-px"
+          style={{
+            background: 'linear-gradient(90deg, transparent 0%, var(--border) 20%, var(--border) 80%, transparent 100%)',
+            opacity: 0.2,
+          }}
+        />
+
+        <div className="container relative py-10 md:py-14">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <span
+              className="inline-block w-8 h-px"
+              style={{ background: 'linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.6))' }}
+            />
+            <span
+              className="text-xs uppercase font-medium"
+              style={{ color: 'rgba(236, 72, 153, 0.8)', letterSpacing: '3px' }}
             >
-              {agent.qualityScore}
-            </Badge>
-            <span className="text-xs text-muted-foreground">
-              {activeSessions} sessions
+              Builder Studio
             </span>
           </div>
-        </div>
-        <div className="mt-2">
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Quality</span>
-            <span className="font-mono font-medium">{agent.qualityScore}/100</span>
-          </div>
-          <Progress value={agent.qualityScore} className="mt-1 h-1.5" />
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
 
-function WelcomeBanner() {
-  const { displayName, isGenesisParticipant, roles } = MOCK_USER_PROFILE
-
-  return (
-    <Card className="bg-gradient-to-r from-primary/10 to-primary/5">
-      <CardContent className="flex flex-col gap-4 px-6 py-6 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-4">
-          <Avatar size="lg">
-            <AvatarFallback className="text-lg">
-              {(displayName ?? "?").charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <h1 className="text-xl font-bold">Welcome back, {displayName}</h1>
-            <div className="mt-1.5 flex flex-wrap items-center gap-2">
-              {roles.map((role) => (
-                <Badge key={role} variant="outline" className="capitalize">
-                  {role}
-                </Badge>
-              ))}
-              {isGenesisParticipant && (
-                <Badge className="bg-amber-500/20 text-amber-600 hover:bg-amber-500/30 border-amber-500/30">
-                  Genesis Participant
-                </Badge>
-              )}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+              <h1
+                className="font-bold mb-2"
+                style={{
+                  fontFamily: 'var(--font-display-serif, inherit)',
+                  fontSize: 'clamp(2.25rem, 5dvw, 4em)',
+                  lineHeight: '1em',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                Your Agents
+              </h1>
+              <p
+                className="text-base md:text-lg max-w-2xl"
+                style={{
+                  fontFamily: 'var(--font-body-light, inherit)',
+                  color: 'var(--muted-foreground)',
+                }}
+              >
+                Design, deploy, and evolve specialized AI agents with on-chain quality guarantees.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Link href="/my-agents"><Button
+                variant="outline"
+                className="btn-ghost-transition"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                }}
+               
+              >
+                  <Bot className="mr-2 h-4 w-4" /> My Agents
+                </Button></Link>
+              <Link href="/create-agent"><Button
+                className="btn-primary-transition"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(236, 72, 153, 0.9), rgba(139, 92, 246, 0.85))',
+                  border: '1px solid rgba(236, 72, 153, 0.4)',
+                  color: 'white',
+                }}
+               
+              >
+                  <Plus className="mr-2 h-4 w-4" /> Create Agent
+                </Button></Link>
             </div>
           </div>
         </div>
-        <div className="flex gap-2">
-          <Button size="sm">Create New Agent</Button>
-          <Button variant="outline" size="sm">
-            View Analytics
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
-function PendingApprovalsBanner() {
-  return (
-    <Card className="border-amber-500/30 bg-amber-500/5">
-      <CardContent className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
-          <Badge className="bg-amber-500 text-white" variant="default">
-            {PENDING_APPROVALS}
-          </Badge>
-          <span className="text-sm font-medium">
-            Learning signals awaiting your approval
-          </span>
-        </div>
-        <Button variant="outline" size="sm">
-          Review Now
-        </Button>
-      </CardContent>
-    </Card>
-  )
-}
-
-function QuickActions() {
-  return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">Quick Actions</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        <Button variant="outline" className="w-full justify-start">
-          Create New Agent
-        </Button>
-        <Button variant="outline" className="w-full justify-start">
-          View Learning Logs
-        </Button>
-        <Button variant="outline" className="w-full justify-start">
-          View Analytics
-        </Button>
-      </CardContent>
-    </Card>
-  )
-}
-
-function RecentActivityFeed() {
-  return (
-    <Card>
-      <CardHeader className="pb-3">
-        <CardTitle className="text-base">Recent Activity</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ul className="space-y-2.5">
-          {RECENT_ACTIVITY.map((activity, index) => (
-            <li key={index} className="flex items-start gap-2 text-sm">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              <span className="text-muted-foreground">{activity}</span>
-            </li>
-          ))}
-        </ul>
-      </CardContent>
-    </Card>
-  )
-}
-
-export default function BuilderDashboardPage() {
-  // Get top 3 agents by quality score
-  const topAgents = [...MOCK_AGENTS]
-    .sort((a, b) => b.qualityScore - a.qualityScore)
-    .slice(0, 3)
-
-  // Calculate stats
-  const totalRevenueAllTime = AGENT_REVENUE_TODAY['agent-001'] +
-    AGENT_REVENUE_TODAY['agent-002'] +
-    AGENT_REVENUE_TODAY['agent-003'] +
-    AGENT_REVENUE_TODAY['agent-004'] +
-    AGENT_REVENUE_TODAY['agent-005'] +
-    AGENT_REVENUE_TODAY['agent-006']
-
-  const thisMonthRevenue = totalRevenueAllTime * 0.38 // Mock: ~38% of total
-  const activeSessionsCount = Object.values(AGENT_ACTIVE_SESSIONS).reduce((a, b) => a + b, 0)
-  const avgQualityScore = Math.round(
-    MOCK_AGENTS.reduce((acc, a) => acc + a.qualityScore, 0) / MOCK_AGENTS.length
-  )
-
-  return (
-    <div className="container mx-auto max-w-7xl px-4 py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Builder Dashboard</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Manage your AI agents and monitor their performance.
-        </p>
       </div>
 
-      {/* Welcome Banner */}
-      <div className="mb-6">
-        <WelcomeBanner />
-      </div>
-
-      {/* Pending Approvals Indicator */}
-      {PENDING_APPROVALS > 0 && (
-        <div className="mb-6">
-          <PendingApprovalsBanner />
-        </div>
-      )}
-
-      {/* Stats Row */}
-      <div className="mb-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          title="Total Revenue (All Time)"
-          value={`$${totalRevenueAllTime.toFixed(2)}`}
-          subValue="across all agents"
-        />
-        <StatCard
-          title="This Month"
-          value={`$${thisMonthRevenue.toFixed(2)}`}
-          subValue="current period"
-        />
-        <StatCard
-          title="Active Sessions"
-          value={activeSessionsCount.toString()}
-          subValue="currently running"
-        />
-        <StatCard
-          title="Avg Quality Score"
-          value={`${avgQualityScore}`}
-          subValue="across all agents"
-        />
-      </div>
-
-      {/* Main Content: Two-column layout */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Left column: 2/3 width */}
-        <div className="space-y-6 lg:col-span-2">
-          {/* My Agents Summary */}
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">My Agents</CardTitle>
-                <Button variant="ghost" size="sm" className="text-xs">
-                  View All
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {topAgents.map((agent) => (
-                <AgentMiniCard key={agent.id} agent={agent} />
-              ))}
-            </CardContent>
-          </Card>
-
-          {/* Recent Activity */}
-          <RecentActivityFeed />
+      {/* MAIN */}
+      <div className="container py-8 space-y-8">
+        {/* STAT GRID */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <StatCard
+            title="Revenue Today"
+            value={`$${totalRevenue.toFixed(2)}`}
+            subValue="+18.2% vs yesterday"
+            trend="up"
+            accent="rgba(16, 185, 129, 0.15)"
+            icon={DollarSign}
+          />
+          <StatCard
+            title="Active Sessions"
+            value={totalActiveSessions.toString()}
+            subValue={`across ${myAgents.length} agents`}
+            accent="rgba(139, 92, 246, 0.15)"
+            icon={Activity}
+          />
+          <StatCard
+            title="Avg Quality"
+            value={avgQuality.toString()}
+            subValue="+3 pts this week"
+            trend="up"
+            accent="rgba(245, 158, 11, 0.15)"
+            icon={TrendingUp}
+          />
+          <StatCard
+            title="Pending Learning"
+            value={PENDING_APPROVALS.toString()}
+            subValue="awaiting approval"
+            accent="rgba(236, 72, 153, 0.15)"
+            icon={Bell}
+          />
         </div>
 
-        {/* Right column: 1/3 width */}
-        <div className="space-y-6 lg:col-span-1">
-          {/* Quick Actions */}
-          <QuickActions />
+        {/* MAIN GRID */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <GlassCard>
+              <div className="flex items-center justify-between mb-6">
+                <h2
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: 'var(--font-display-serif, inherit)' }}
+                >
+                  Your Agents
+                </h2>
+                <Link href="/my-agents"><Button variant="ghost" size="sm">
+                    Manage all <ArrowRight className="ml-1 h-3 w-3" />
+                  </Button></Link>
+              </div>
+              <div className="space-y-2">
+                {myAgents.map((agent) => {
+                  const revenue = AGENT_REVENUE_TODAY[agent.id] ?? 0
+                  const sessions = AGENT_ACTIVE_SESSIONS[agent.id] ?? 0
+                  return (
+                    <Link key={agent.id} href={`/agent/${agent.id}`}>
+                      <div
+                        className="flex items-center justify-between p-4 rounded-lg transition-all duration-200 cursor-pointer hover:bg-white/[0.04]"
+                        style={{
+                          background: 'rgba(255, 255, 255, 0.02)',
+                          border: '1px solid rgba(255, 255, 255, 0.04)',
+                          transitionTimingFunction: 'var(--ease-out-expo)',
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-10 w-10 rounded-xl">
+                            <AvatarFallback
+                              className="font-semibold"
+                              style={{
+                                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2))',
+                                color: 'rgba(255, 255, 255, 0.9)',
+                              }}
+                            >
+                              {agent.name[0]}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium text-sm">{agent.name}</p>
+                            <div className="flex items-center gap-2 mt-0.5">
+                              <Badge
+                                variant="secondary"
+                                className="text-xs h-4 px-1.5"
+                                style={{
+                                  background: 'rgba(139, 92, 246, 0.1)',
+                                  border: '1px solid rgba(139, 92, 246, 0.2)',
+                                  color: 'rgba(139, 92, 246, 0.9)',
+                                }}
+                              >
+                                v{agent.version}
+                              </Badge>
+                              <span className="text-xs capitalize" style={{ color: 'var(--muted-foreground)' }}>
+                                {agent.category}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-6 text-sm">
+                          <div className="text-right">
+                            <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                              Sessions
+                            </div>
+                            <div className="font-mono">{sessions}</div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                              Today
+                            </div>
+                            <div className="font-mono" style={{ color: 'rgba(16, 185, 129, 0.9)' }}>
+                              ${revenue.toFixed(2)}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xs" style={{ color: 'var(--muted-foreground)' }}>
+                              Quality
+                            </div>
+                            <Badge
+                              variant="outline"
+                              className="text-xs"
+                              style={{
+                                background: 'rgba(16, 185, 129, 0.1)',
+                                border: '1px solid rgba(16, 185, 129, 0.2)',
+                                color: 'rgba(16, 185, 129, 0.9)',
+                              }}
+                            >
+                              {agent.qualityScore}
+                            </Badge>
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  )
+                })}
+              </div>
+            </GlassCard>
+          </div>
 
-          {/* Agent Stats Summary */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">Agent Overview</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total Agents</span>
-                <span className="font-medium">{MOCK_AGENTS.length}</span>
+          {/* SIDEBAR */}
+          <div className="space-y-6">
+            <GlassCard>
+              <div className="flex items-center justify-between mb-4">
+                <h2
+                  className="text-lg font-semibold"
+                  style={{ fontFamily: 'var(--font-display-serif, inherit)' }}
+                >
+                  Recent Activity
+                </h2>
+                <Badge
+                  variant="secondary"
+                  className="text-xs"
+                  style={{
+                    background: 'rgba(236, 72, 153, 0.1)',
+                    border: '1px solid rgba(236, 72, 153, 0.2)',
+                    color: 'rgba(236, 72, 153, 0.9)',
+                  }}
+                >
+                  Live
+                </Badge>
               </div>
-              <Separator />
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Total Sessions</span>
-                <span className="font-medium">
-                  {MOCK_AGENTS.reduce((acc, a) => acc + a.totalSessions, 0).toLocaleString()}
-                </span>
+              <div className="space-y-3">
+                {RECENT_ACTIVITY.map((activity, idx) => (
+                  <div key={idx} className="flex items-start gap-2.5 text-sm">
+                    <div
+                      className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0"
+                      style={{
+                        background:
+                          activity.type === 'session'
+                            ? 'rgba(16, 185, 129, 0.9)'
+                            : activity.type === 'learning'
+                            ? 'rgba(245, 158, 11, 0.9)'
+                            : activity.type === 'quality'
+                            ? 'rgba(59, 130, 246, 0.9)'
+                            : 'rgba(236, 72, 153, 0.9)',
+                      }}
+                    />
+                    <div className="flex-1">
+                      <p className="text-sm">{activity.label}</p>
+                      <p className="text-xs mt-0.5" style={{ color: 'var(--muted-foreground)' }}>
+                        {activity.timestamp}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <Separator />
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Avg Rating</span>
-                <span className="font-medium">
-                  {(MOCK_AGENTS.reduce((acc, a) => acc + a.avgRating, 0) / MOCK_AGENTS.length).toFixed(1)}
-                </span>
+            </GlassCard>
+
+            <GlassCard>
+              <h2
+                className="text-lg font-semibold mb-4"
+                style={{ fontFamily: 'var(--font-display-serif, inherit)' }}
+              >
+                Quick Tools
+              </h2>
+              <div className="space-y-2">
+                {[
+                  { href: '/create-agent', icon: Plus, label: 'Create new agent' },
+                  { href: '/builder-earnings', icon: DollarSign, label: 'Earnings' },
+                  { href: '/analytics', icon: BarChart3, label: 'Analytics' },
+                  { href: '/learning-logs', icon: Sparkles, label: 'Learning logs' },
+                  { href: '/learning-logs/pending', icon: Bell, label: 'Pending approvals' },
+                  { href: '/builder-settings', icon: GitBranch, label: 'CI / CD' },
+                ].map(({ href, icon: Icon, label }) => (
+                  <Link key={href} href={href}>
+                    <div
+                      className="flex items-center gap-3 p-3 rounded-lg transition-all duration-200 cursor-pointer hover:bg-white/[0.04]"
+                      style={{ transitionTimingFunction: 'var(--ease-out-quart)' }}
+                    >
+                      <Icon className="h-4 w-4" style={{ color: 'rgba(236, 72, 153, 0.8)' }} />
+                      <span className="text-sm">{label}</span>
+                      <ArrowRight className="ml-auto h-3.5 w-3.5 opacity-30" />
+                    </div>
+                  </Link>
+                ))}
               </div>
-              <Separator />
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Revenue Today</span>
-                <span className="font-medium">${totalRevenueAllTime.toFixed(2)}</span>
-              </div>
-            </CardContent>
-          </Card>
+            </GlassCard>
+          </div>
         </div>
       </div>
     </div>

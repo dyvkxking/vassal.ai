@@ -42,9 +42,10 @@ export interface SLAParams {
 }
 
 export interface PricingModel {
-  type: 'per_minute' | 'per_second' | 'flat_rate' | 'tiered'
+  type: 'per_minute' | 'per_second' | 'per_call' | 'flat_rate' | 'tiered'
   pricePerMinute?: number
   pricePerSecond?: number
+  pricePerCall?: number
   flatPrice?: number
   tiers?: PricingTier[]
 }
@@ -126,7 +127,7 @@ export interface ProviderNode {
   isGenesis: boolean
 }
 
-export type NodeStatus = 'online' | 'offline' | 'warning' | 'maintenance'
+export type NodeStatus = 'online' | 'offline' | 'warning' | 'maintenance' | 'draining'
 
 export interface HardwareSpec {
   cpuCores: number
@@ -154,7 +155,7 @@ export interface Skill {
   updatedAt: number
 }
 
-export type SkillStatus = 'draft' | 'under_review' | 'approved' | 'rejected' | 'deprecated'
+export type SkillStatus = 'draft' | 'under_review' | 'pending' | 'approved' | 'rejected' | 'deprecated'
 
 export interface SkillSpec {
   inputSchema: Record<string, unknown>

@@ -1,0 +1,149 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e26] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e27]:
+                - button "Docs" [ref=e28]:
+                  - text: Docs
+                  - img [ref=e29]
+      - main [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - heading "Settings" [level=1] [ref=e34]
+            - paragraph [ref=e35]: Manage your account settings and preferences
+          - generic [ref=e36]:
+            - navigation [ref=e37]:
+              - link "Account" [ref=e38] [cursor=pointer]:
+                - /url: /settings/account
+                - img [ref=e39]
+                - generic [ref=e42]: Account
+              - link "Appearance" [ref=e43] [cursor=pointer]:
+                - /url: /settings/appearance
+                - img [ref=e44]
+                - generic [ref=e50]: Appearance
+              - link "Notifications" [ref=e51] [cursor=pointer]:
+                - /url: /settings/notifications
+                - img [ref=e52]
+                - generic [ref=e55]: Notifications
+              - link "Security" [ref=e56] [cursor=pointer]:
+                - /url: /settings/security
+                - img [ref=e57]
+                - generic [ref=e60]: Security
+              - link "Connected Apps" [ref=e61] [cursor=pointer]:
+                - /url: /settings/connected-apps
+                - img [ref=e62]
+                - generic [ref=e64]: Connected Apps
+              - link "Data & Privacy" [ref=e65] [cursor=pointer]:
+                - /url: /settings/data
+                - img [ref=e66]
+                - generic [ref=e70]: Data & Privacy
+            - generic [ref=e72]:
+              - img [ref=e74]
+              - heading "Select a settings section" [level=2] [ref=e77]
+              - paragraph [ref=e78]: Choose a category from the sidebar to manage your account settings
+      - contentinfo [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - link "V vassal.ai" [ref=e83] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e85]: V
+                - generic [ref=e86]: vassal.ai
+              - paragraph [ref=e87]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e89]: Built on Somnia L1
+            - generic [ref=e90]:
+              - heading "Platform" [level=4] [ref=e91]
+              - list [ref=e92]:
+                - listitem [ref=e93]:
+                  - link "Browse Agents" [ref=e94] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e95]:
+                  - link "Browse Skills" [ref=e96] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e97]:
+                  - link "How It Works" [ref=e98] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e99]:
+                  - link "Genesis Program" [ref=e100] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e101]:
+              - heading "Developers" [level=4] [ref=e102]
+              - list [ref=e103]:
+                - listitem [ref=e104]:
+                  - link "Documentation" [ref=e105] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e106]:
+                  - link "API Reference" [ref=e107] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e108]:
+                  - link "SDK Docs" [ref=e109] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e110]:
+                  - link "Tutorials" [ref=e111] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e112]:
+              - heading "Governance" [level=4] [ref=e113]
+              - list [ref=e114]:
+                - listitem [ref=e115]:
+                  - link "Proposals" [ref=e116] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e117]:
+                  - link "Delegation" [ref=e118] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e119]:
+                  - link "Governance FAQ" [ref=e120] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e121]:
+              - heading "Company" [level=4] [ref=e122]
+              - list [ref=e123]:
+                - listitem [ref=e124]:
+                  - link "About" [ref=e125] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e126]:
+                  - link "Blog" [ref=e127] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e128]:
+                  - link "Careers" [ref=e129] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e130]:
+                  - link "Contact" [ref=e131] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e132]:
+            - paragraph [ref=e133]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e134]:
+              - link "Twitter" [ref=e135] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e136] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e137] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e138]:
+              - link "Privacy" [ref=e139] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e140] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e146] [cursor=pointer]:
+    - img [ref=e147]

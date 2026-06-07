@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   Card,
@@ -25,8 +25,21 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import { Slider } from '@/components/ui/slider'
 import { toast } from 'sonner'
 
 // Mock session data
@@ -294,29 +307,11 @@ function SessionControls({
         </Button>
         <Separator />
         <AlertDialog>
-          <AlertDialogTrigger>
+          <AlertDialogTrigger asChild>
             <Button variant="destructive" className="w-full">
-              Terminate Session
+              Emergency Terminate
             </Button>
           </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Terminate Session?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This will immediately end the session and stop all agent activity.
-                You will be charged for the current usage.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={onTerminate}
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              >
-                Terminate
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
         </AlertDialog>
         <Button variant="ghost" className="w-full text-muted-foreground" onClick={onReport}>
           Report Agent
@@ -376,6 +371,26 @@ export default function ActiveSessionPage() {
   const [events] = useState(INITIAL_EVENTS)
   const [messages] = useState(INITIAL_MESSAGES)
   const [heartbeatCount, setHeartbeatCount] = useState(MOCK_SESSION.heartbeatCount)
+
+  // Modal states
+  const [extendModalOpen, setExtendModalOpen] = useState(false)
+  const [slaModalOpen, setSLAModalOpen] = useState(false)
+  const [terminateModalOpen, setTerminateModalOpen] = useState(false)
+  const [reportModalOpen, setReportModalOpen] = useState(false)
+
+  // Extend session state
+  const [extendDuration, setExtendDuration] = useState('30')
+  const [additionalBudget, setAdditionalBudget] = useState('')
+
+  // SLA adjustment state
+  const [slaStrictness, setSLAStrictness] = useState(MOCK_SESSION.slaStrictness)
+
+  // Terminate state
+  const [terminateReason, setTerminateReason] = useState('')
+
+  // Report state
+  const [reportIssueType, setReportIssueType] = useState('')
+  const [reportDescription, setReportDescription] = useState('')
 
   // Live timer
   useEffect(() => {
@@ -445,7 +460,7 @@ export default function ActiveSessionPage() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Button variant="ghost" size="sm" className="gap-2">
-              <Link href="/client/dashboard">
+              <Link href="/client-landing">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
@@ -591,10 +606,10 @@ export default function ActiveSessionPage() {
             />
 
             <SessionControls
-              onExtend={handleExtend}
-              onAdjustSLA={handleAdjustSLA}
-              onTerminate={handleTerminate}
-              onReport={handleReport}
+              onExtend={() => setExtendModalOpen(true)}
+              onAdjustSLA={() => setSLAModalOpen(true)}
+              onTerminate={() => setTerminateModalOpen(true)}
+              onReport={() => setReportModalOpen(true)}
             />
 
             {/* Session Details Card */}
@@ -628,6 +643,246 @@ export default function ActiveSessionPage() {
           </div>
         </div>
       </div>
+
+      {/* Extend Session Modal */}
+      <Dialog open={extendModalOpen} onOpenChange={setExtendModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Extend Session</DialogTitle>
+            <DialogDescription>
+              Add more time to your current session with {MOCK_SESSION.agentName}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Duration</Label>
+              <Select value={extendDuration} onValueChange={setExtendDuration}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select duration" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="15">15 minutes</SelectItem>
+                  <SelectItem value="30">30 minutes</SelectItem>
+                  <SelectItem value="60">1 hour</SelectItem>
+                  <SelectItem value="120">2 hours</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Additional Budget (MESH)</Label>
+              <Input
+                type="number"
+                placeholder="0.00"
+                value={additionalBudget}
+                onChange={(e) => setAdditionalBudget(e.target.value)}
+              />
+            </div>
+            <div className="bg-muted rounded-lg p-3 space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Current elapsed</span>
+                <span className="font-mono">{formatElapsedTime(elapsedMs)}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Additional cost</span>
+                <span className="font-mono text-emerald-500">
+                  ~{((parseInt(extendDuration) * 60 * currentCost) / (elapsedMs / 1000)).toFixed(4)} MESH
+                </span>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setExtendModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={() => {
+              setExtendModalOpen(false)
+              toast.success('Session extended', {
+                description: `Added ${extendDuration} minutes to your session.`,
+              })
+            }}>
+              Confirm Extension
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Adjust SLA Modal */}
+      <Dialog open={slaModalOpen} onOpenChange={setSLAModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Adjust SLA Strictness</DialogTitle>
+            <DialogDescription>
+              Modify the SLA strictness level mid-session
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>SLA Strictness Level</Label>
+              <div className="pt-4">
+                <Slider
+                  value={[slaStrictness]}
+                  onValueChange={(vals) => setSLAStrictness(Array.isArray(vals) ? vals[0] : vals)}
+                  min={50}
+                  max={100}
+                  step={5}
+                />
+                <div className="flex justify-between text-xs text-muted-foreground mt-2">
+                  <span>Relaxed (50%)</span>
+                  <span className="font-mono font-bold">{slaStrictness}%</span>
+                  <span>Strict (100%)</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-muted rounded-lg p-3 space-y-2">
+              <p className="text-sm font-medium">SLA Impact:</p>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Latency threshold</span>
+                <span className="font-mono">{Math.round(MOCK_SESSION.latencyThresholdMs * (slaStrictness / 100))}ms</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Penalty risk</span>
+                <Badge variant={slaStrictness >= 80 ? 'destructive' : 'outline'}>
+                  {slaStrictness >= 80 ? 'High' : slaStrictness >= 65 ? 'BookOpen' : 'Low'}
+                </Badge>
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setSLAStrictness(MOCK_SESSION.slaStrictness)
+              setSLAModalOpen(false)
+            }}>
+              Cancel
+            </Button>
+            <Button onClick={() => {
+              setSLAModalOpen(false)
+              toast.success('SLA adjusted', {
+                description: `Strictness set to ${slaStrictness}%`,
+              })
+            }}>
+              Apply Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Emergency Terminate Modal */}
+      <AlertDialog open={terminateModalOpen} onOpenChange={setTerminateModalOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Emergency Terminate Session</AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-2">
+                <p>This will immediately end the session and stop all agent activity.</p>
+                <p className="text-destructive font-medium">You will be charged for current usage and may incur early termination fees.</p>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Reason for termination</Label>
+              <Select value={terminateReason} onValueChange={setTerminateReason}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a reason" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="performance">Agent performance issues</SelectItem>
+                  <SelectItem value="budget">Budget concerns</SelectItem>
+                  <SelectItem value="quality">Output quality issues</SelectItem>
+                  <SelectItem value="unresponsive">Agent unresponsive</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="bg-destructive/10 rounded-lg p-3 space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Current cost</span>
+                <span className="font-mono">{currentCost.toFixed(4)} MESH</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-muted-foreground">Early termination fee</span>
+                <span className="font-mono text-destructive">~{(currentCost * 0.1).toFixed(4)} MESH</span>
+              </div>
+            </div>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setTerminateReason('')}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                setTerminateModalOpen(false)
+                setTerminateReason('')
+                toast.error('Session terminated', {
+                  description: 'Your session has been ended.',
+                })
+                // Could redirect to session history here
+              }}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              Terminate Session
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Report Agent Modal */}
+      <Dialog open={reportModalOpen} onOpenChange={setReportModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Report Agent Issue</DialogTitle>
+            <DialogDescription>
+              Submit a report for {MOCK_SESSION.agentName}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Issue Type</Label>
+              <Select value={reportIssueType} onValueChange={setReportIssueType}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select issue type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="quality">Output quality</SelectItem>
+                  <SelectItem value="behavior">Agent behavior</SelectItem>
+                  <SelectItem value="performance">Performance issues</SelectItem>
+                  <SelectItem value="safety">Safety concern</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <Textarea
+                placeholder="Describe the issue you experienced..."
+                value={reportDescription}
+                onChange={(e) => setReportDescription(e.target.value)}
+                rows={4}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setReportIssueType('')
+              setReportDescription('')
+              setReportModalOpen(false)
+            }}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                setReportModalOpen(false)
+                setReportIssueType('')
+                setReportDescription('')
+                toast.warning('Report submitted', {
+                  description: 'Thank you for your feedback. We will investigate.',
+                })
+              }}
+            >
+              Submit Report
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

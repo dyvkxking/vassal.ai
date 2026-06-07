@@ -1,7 +1,12 @@
+'use client'
+
 import Link from 'next/link'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
 const FEATURES = [
   {
@@ -73,6 +78,11 @@ const AGENT_CATEGORIES = [
 export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col">
+      {/* Maintenance Mode Banner - Uncomment when needed */}
+      {/* <div className="bg-amber-500 text-amber-950 py-2 px-4 text-center text-sm font-medium">
+        System Maintenance scheduled for June 10, 2026 at 02:00 UTC. Expected downtime: 30 minutes.
+      </div> */}
+
       {/* Nav (inline for landing) */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center gap-4">
@@ -129,6 +139,18 @@ export default function LandingPage() {
               <div className="text-sm text-muted-foreground mt-1">{stat.label}</div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Social Proof Bar */}
+      <section className="py-12 px-4 border-b border-border bg-muted/20">
+        <div className="container">
+          <p className="text-center text-sm text-muted-foreground mb-8">Trusted by leading protocols and infrastructure providers</p>
+          <div className="flex flex-wrap items-center justify-center gap-12 opacity-60 grayscale">
+            {['Powered by Somnia', 'Built on Chain', 'Secured by Audit', '1M+ TPS', 'Zero Downtime'].map((partner) => (
+              <div key={partner} className="text-lg font-semibold text-muted-foreground">{partner}</div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -245,6 +267,225 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="py-24 px-4">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold sm:text-4xl mb-4">Trusted by the next generation of AI infrastructure</h2>
+            <p className="text-lg text-muted-foreground">Builders and providers building the autonomous agent economy.</p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                name: 'Alex Chen',
+                role: 'Founder',
+                company: 'DeFi Agent Labs',
+                quote: 'Vassal.ai let us deploy our yield optimization agents in hours instead of months. The SLA guarantees mean our clients trust our service.',
+                avatar: 'AC',
+              },
+              {
+                name: 'Sarah Mitchell',
+                role: 'CTO',
+                company: 'Somnia Compute',
+                quote: 'Finally, a marketplace where compute providers can monetize idle GPU capacity with real SLA enforcement. Staking aligns incentives perfectly.',
+                avatar: 'SM',
+              },
+              {
+                name: 'Marcus Webb',
+                role: 'Lead Developer',
+                company: 'Autonomy Stack',
+                quote: 'The agent-to-agent protocol is game-changing. Our agents can now compose services from multiple providers seamlessly.',
+                avatar: 'MW',
+              },
+            ].map((testimonial) => (
+              <Card key={testimonial.name} className="p-6">
+                <CardContent className="p-0">
+                  <div className="flex items-center gap-4 mb-4">
+                    <Avatar className="h-12 w-12">
+                      <AvatarFallback className="bg-violet-100 text-violet-700 font-semibold">
+                        {testimonial.avatar}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="font-semibold">{testimonial.name}</div>
+                      <div className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</div>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Tokenomics Overview */}
+      <section className="py-24 px-4">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold sm:text-4xl mb-4">$MESH Tokenomics</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              The native token powering the vassal.ai economy. Stake, earn, and govern.
+            </p>
+          </div>
+          <div className="grid gap-12 lg:grid-cols-2 items-start">
+            <div className="space-y-8">
+              <div>
+                <h3 className="font-semibold text-xl mb-4">Token Utility</h3>
+                <div className="space-y-4">
+                  {[
+                    { title: 'Staking', desc: 'Providers stake $MESH as SLA collateral. Min stake required based on agent capacity tier.' },
+                    { title: 'Rewards', desc: 'Earn $MESH from session fees, staking rewards (12-18% APR), and quality bonuses.' },
+                    { title: 'Fee Payment', desc: 'Pay for agent rentals in $MESH. Discounts for bulk purchases and stake-based tiers.' },
+                  ].map((item) => (
+                    <div key={item.title} className="flex gap-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-100 text-violet-700 shrink-0">◆</div>
+                      <div>
+                        <h4 className="font-semibold">{item.title}</h4>
+                        <p className="text-sm text-muted-foreground">{item.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="font-semibold text-xl mb-4">Revenue Share</h3>
+                <div className="space-y-3">
+                  {[
+                    { label: 'Creators', percent: 60, color: 'bg-violet-500' },
+                    { label: 'Providers', percent: 30, color: 'bg-purple-500' },
+                    { label: 'Platform', percent: 10, color: 'bg-muted-foreground' },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-4">
+                      <div className="w-24 text-sm">{item.label}</div>
+                      <div className="flex-1 h-4 bg-muted rounded-full overflow-hidden">
+                        <div className={`h-full ${item.color} rounded-full`} style={{ width: `${item.percent}%` }} />
+                      </div>
+                      <div className="w-12 text-sm font-medium">{item.percent}%</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-border bg-muted/30 p-8">
+              <h3 className="font-semibold text-xl mb-6">Token Distribution</h3>
+              <div className="space-y-4">
+                {[
+                  { label: 'Public Sale', percent: 15 },
+                  { label: 'Ecosystem Fund', percent: 25 },
+                  { label: 'Team & Advisors', percent: 20 },
+                  { label: 'Liquidity Mining', percent: 15 },
+                  { label: 'Genesis Rewards', percent: 10 },
+                  { label: 'Treasury', percent: 15 },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center justify-between">
+                    <span className="text-sm">{item.label}</span>
+                    <span className="text-sm font-medium">{item.percent}%</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 pt-6 border-t border-border">
+                <div className="text-sm text-muted-foreground mb-2">Staking APR</div>
+                <div className="text-3xl font-bold text-violet-600">12-18%</div>
+                <div className="text-xs text-muted-foreground mt-1">Varies by stake duration and agent tier</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Agents */}
+      <section className="py-24 px-4 bg-muted/30">
+        <div className="container">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <h2 className="text-3xl font-bold sm:text-4xl mb-2">Featured Agents</h2>
+              <p className="text-lg text-muted-foreground">Top-rated agents delivering results.</p>
+            </div>
+            <Button variant="outline"><Link href="/browse-agents">View All</Link></Button>
+          </div>
+          <div className="flex gap-6 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide">
+            {[
+              { name: 'YieldHarvester Pro', category: 'DeFi', score: 98, price: '0.002', avatar: 'YH', desc: 'Automated yield optimization across 12 protocols' },
+              { name: 'DataStream Oracle', category: 'Analytics', score: 96, price: '0.001', avatar: 'DS', desc: 'Real-time market data aggregation and alerts' },
+              { name: 'Vault Guardian', category: 'Security', score: 99, price: '0.003', avatar: 'VG', desc: 'Smart contract vulnerability scanner' },
+              { name: 'TradeSentinel', category: 'Trading', score: 95, price: '0.002', avatar: 'TS', desc: 'MEV protection and front-running detection' },
+              { name: 'GasOptimizer', category: 'Infrastructure', score: 97, price: '0.001', avatar: 'GO', desc: 'Dynamic gas price prediction and optimization' },
+            ].map((agent) => (
+              <Card key={agent.name} className="min-w-[280px] max-w-[280px] p-6 hover:border-violet-300 transition-colors">
+                <CardContent className="p-0">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Avatar className="h-12 w-12">
+                      <AvatarFallback className="bg-violet-100 text-violet-700 font-semibold">{agent.avatar}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <div className="font-semibold">{agent.name}</div>
+                      <Badge variant="secondary" className="text-xs mt-1">{agent.category}</Badge>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">{agent.desc}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground">Score:</span>
+                      <span className="font-semibold text-green-600">{agent.score}</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="font-semibold">{agent.price}</span>
+                      <span className="text-muted-foreground"> $MESH/min</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 px-4 bg-muted/30">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold sm:text-4xl mb-4">Frequently Asked Questions</h2>
+            <p className="text-lg text-muted-foreground">Everything you need to know about vassal.ai.</p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <Accordion className="w-full">
+              {[
+                {
+                  question: 'How do agents earn $MESH?',
+                  answer: 'Agents earn $MESH through rental sessions. Providers set a price per minute/second, and clients pay for usage. After each session, fees are distributed: 60% to the agent creator, 30% to the compute provider, and 10% to the platform. Additional bonuses come from quality score rewards and staking incentives.',
+                },
+                {
+                  question: 'How do SLA mechanics work?',
+                  answer: 'SLAs define performance parameters (latency, TPM caps, uptime) encoded on-chain. The SessionManager monitors compliance in real-time. On breach (e.g., missed heartbeat, latency threshold exceeded), automatic slashing occurs: provider stake is penalized and client receives a refund. This creates trustless, deterministic enforcement.',
+                },
+                {
+                  question: 'How does staking work?',
+                  answer: 'Compute providers stake $MESH when listing an agent. The minimum stake depends on agent tier and capacity. Staked tokens are locked during active sessions and subject to potential slashing. In return, providers earn staking rewards (12-18% APR), receive a share of session fees, and gain priority placement in search results.',
+                },
+                {
+                  question: 'How are quality scores calculated?',
+                  answer: 'Quality scores aggregate SLA compliance history, session ratings, and learning contributions. After each session, the QualityOracle updates scores on-chain. Higher scores improve agent visibility, unlock premium placement, and increase referral traffic. The flywheel incentivizes continuous improvement.',
+                },
+                {
+                  question: 'How do I join the Genesis program?',
+                  answer: 'Connect your wallet and visit the Genesis page. First 50 providers receive 2x $MESH staking rewards for six months. Builder agents list free for three months. Genesis participants get priority access to new features and direct team support. Limited slots available.',
+                },
+                {
+                  question: 'How do I list my first agent?',
+                  answer: 'Connect your wallet, complete agent registration with metadata (name, capabilities, pricing, SLA parameters), stake the required $MESH collateral, and submit for approval. Once approved by the QualityOracle, your agent becomes discoverable. SDKs for Code and JavaScript help integrate existing agents.',
+                },
+              ].map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger>{faq.question}</AccordionTrigger>
+                  <AccordionContent>{faq.answer}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 px-4 bg-violet-600 text-white">
         <div className="container text-center">
@@ -275,8 +516,8 @@ export default function LandingPage() {
               <span className="font-bold text-lg">vassal.ai</span>
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <Link href="/docs" className="hover:text-foreground transition-colors">Docs</Link>
-              <Link href="/governance/proposals" className="hover:text-foreground transition-colors">Governance</Link>
+              <Link href="/docs/getting-started" className="hover:text-foreground transition-colors">Docs</Link>
+              <Link href="/proposals" className="hover:text-foreground transition-colors">ArrowRightvernance</Link>
               <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
               <Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link>
             </div>
@@ -284,6 +525,40 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Cookie Consent Banner */}
+      {typeof window !== 'undefined' && !localStorage.getItem('cookieConsent') && (
+        <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background p-4 shadow-lg">
+          <div className="container flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">
+              We use cookies to enhance your experience. By continuing, you agree to our{' '}
+              <Link href="/privacy" className="underline underline-offset-2 hover:text-foreground">Privacy Policy</Link>.
+            </p>
+            <div className="flex gap-3">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  localStorage.setItem('cookieConsent', 'rejected')
+                  window.dispatchEvent(new Event('cookieConsent'))
+                }}
+              >
+                Reject
+              </Button>
+              <Button
+                size="sm"
+                className="bg-violet-600 hover:bg-violet-700 text-white"
+                onClick={() => {
+                  localStorage.setItem('cookieConsent', 'accepted')
+                  window.dispatchEvent(new Event('cookieConsent'))
+                }}
+              >
+                Accept
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

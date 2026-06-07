@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
-import { CheckCircle2, Circle, Cpu, Wrench, User, Zap } from "lucide-react"
+import { CheckCircle2, Circle, Cpu, Wrench, User, Zap } from 'lucide-react'
 import Link from "next/link"
 
 const STEPS = [

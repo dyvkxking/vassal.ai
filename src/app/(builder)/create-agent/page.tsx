@@ -290,7 +290,7 @@ export default function CreateAgentPage() {
           step={100}
           value={formData.slaParams.latencyThresholdMs}
           onValueChange={(v) =>
-            updateFormData("slaParams", { ...formData.slaParams, latencyThresholdMs: Array.isArray(v) ? v[0] : v })
+            updateFormData("slaParams", { ...formData.slaParams, latencyThresholdMs: Number(Array.isArray(v) ? v[0] : v) })
           }
         />
         <p className="text-xs text-muted-foreground mt-1">Maximum acceptable response latency</p>
@@ -319,7 +319,7 @@ export default function CreateAgentPage() {
           step={0.5}
           value={formData.slaParams.uptimeGuaranteePercent}
           onValueChange={(v) =>
-            updateFormData("slaParams", { ...formData.slaParams, uptimeGuaranteePercent: Array.isArray(v) ? v[0] : v })
+            updateFormData("slaParams", { ...formData.slaParams, uptimeGuaranteePercent: Number(Array.isArray(v) ? v[0] : v) })
           }
         />
         <p className="text-xs text-muted-foreground mt-1">Minimum uptime SLA guarantee</p>
@@ -348,7 +348,7 @@ export default function CreateAgentPage() {
         <Select
           value={formData.pricing.type}
           onValueChange={(v) =>
-            updateFormData("pricing", { ...formData.pricing, type: (v ?? formData.pricing.type) })
+            updateFormData("pricing", { ...formData.pricing, type: (v ?? formData.pricing.type) as typeof formData.pricing.type })
           }
         >
           <SelectTrigger>
@@ -539,7 +539,7 @@ export default function CreateAgentPage() {
               max={5}
               step={1}
               value={formData.autoApproveThreshold}
-              onValueChange={(v) => updateFormData("autoApproveThreshold", Array.isArray(v) ? v[0] : v)}
+              onValueChange={(v) => { updateFormData("autoApproveThreshold", Number(Array.isArray(v) ? v[0] : v)) }}
             />
             <p className="text-xs text-muted-foreground mt-1">
               Minimum rating to auto-approve learning without builder review

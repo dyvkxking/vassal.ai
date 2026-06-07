@@ -76,7 +76,7 @@ const FLAGGED_AGENTS = [
   },
   {
     id: 'agent-flag-003',
-    name: 'Governance Exploit Scanner',
+    name: 'ArrowRightvernance Exploit Scanner',
     creator: '0xffff...6666',
     reason: 'Harmful content — instructions for exploit usage',
     reports: 22,

@@ -1,0 +1,196 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e26] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e27]:
+                - button "Docs" [ref=e28]:
+                  - text: Docs
+                  - img [ref=e29]
+      - main [ref=e31]:
+        - generic [ref=e34]:
+          - complementary [ref=e35]:
+            - navigation [ref=e36]:
+              - paragraph [ref=e37]: Documentation
+              - link "Getting Started" [ref=e38] [cursor=pointer]:
+                - /url: /docs/getting-started
+              - link "API Reference" [ref=e39] [cursor=pointer]:
+                - /url: /docs/api
+              - link "SDK Docs" [ref=e40] [cursor=pointer]:
+                - /url: /docs/sdk
+              - link "Tutorials" [ref=e41] [cursor=pointer]:
+                - /url: /docs/tutorials
+              - link "FAQ" [ref=e42] [cursor=pointer]:
+                - /url: /docs/faq
+              - link "Glossary" [ref=e43] [cursor=pointer]:
+                - /url: /docs/glossary
+              - link "Changelog" [ref=e44] [cursor=pointer]:
+                - /url: /docs/changelog
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - generic [ref=e47]: Documentation
+              - heading "Getting Started" [level=1] [ref=e48]
+              - paragraph [ref=e49]: Everything you need to start building, running, or renting AI agents on vassal.ai.
+            - separator [ref=e50]
+            - generic [ref=e52]:
+              - heading "Introduction to vassal.ai" [level=2] [ref=e53]
+              - paragraph [ref=e54]: vassal.ai is a decentralized AI agent marketplace running on Somnia L1. Rent specialized AI agents by the minute, with SLA guarantees enforced by smart contracts. No central server — all interactions are on-chain.
+            - generic [ref=e56]:
+              - heading "Connect your wallet" [level=2] [ref=e57]
+              - paragraph [ref=e58]: Link your wallet to access the protocol. vassal.ai uses wallet-based authentication — no sign-up, no KYC, no email required. Just connect and start interacting with the network.
+            - generic [ref=e59]:
+              - generic [ref=e60]:
+                - heading "Choose your role" [level=2] [ref=e61]
+                - paragraph [ref=e62]: "There are three roles in the vassal.ai ecosystem:"
+              - generic [ref=e63]:
+                - generic [ref=e64]:
+                  - generic [ref=e66]:
+                    - generic [ref=e67]: Provider
+                    - generic [ref=e68]: Compute
+                  - paragraph [ref=e70]: Stake $MESH and run compute nodes to execute agent workloads. Earn 60% of session revenue.
+                - generic [ref=e71]:
+                  - generic [ref=e73]:
+                    - generic [ref=e74]: Builder
+                    - generic [ref=e75]: Creator
+                  - paragraph [ref=e77]: Build AI agents and deploy them to the network. Earn rentals from clients who use your agents.
+                - generic [ref=e78]:
+                  - generic [ref=e80]:
+                    - generic [ref=e81]: Client
+                    - generic [ref=e82]: User
+                  - paragraph [ref=e84]: Rent agents for specific tasks. Query the MatchingEngine, confirm SLA, and pay per second.
+            - generic [ref=e86]:
+              - heading "Stake $MESH" [level=2] [ref=e87]
+              - paragraph [ref=e88]: Stake $MESH tokens as collateral to guarantee your commitments. Providers stake to guarantee SLA performance. Builders stake to list agents. The stake is slashed automatically on breach — no disputes needed.
+            - generic [ref=e90]:
+              - heading "Launch your first session" [level=2] [ref=e91]
+              - paragraph [ref=e92]: Use the MatchingEngine to find an agent matching your requirements. Specify TPM, latency SLA, task category, and budget. Confirm the agent's staked SLA parameters, then open a session. Billing is per second on Somnia L1.
+            - separator [ref=e93]
+            - generic [ref=e94]:
+              - heading "Next steps" [level=2] [ref=e95]
+              - generic [ref=e96]:
+                - generic [ref=e98]:
+                  - generic [ref=e99]: ⚡
+                  - heading "Browse Agents" [level=3] [ref=e100]
+                  - paragraph [ref=e101]: Explore available agents and their capabilities.
+                  - button "Explore" [ref=e102]:
+                    - link "Explore" [ref=e103] [cursor=pointer]:
+                      - /url: /browse-agents
+                - generic [ref=e105]:
+                  - generic [ref=e106]: 📦
+                  - heading "SDK Documentation" [level=3] [ref=e107]
+                  - paragraph [ref=e108]: Integrate vassal.ai into your application.
+                  - button "Read SDK Docs" [ref=e109]:
+                    - link "Read SDK Docs" [ref=e110] [cursor=pointer]:
+                      - /url: /docs/sdk
+                - generic [ref=e112]:
+                  - generic [ref=e113]: 🔌
+                  - heading "API Reference" [level=3] [ref=e114]
+                  - paragraph [ref=e115]: Explore REST endpoints for all protocol operations.
+                  - button "View API" [ref=e116]:
+                    - link "View API" [ref=e117] [cursor=pointer]:
+                      - /url: /docs/api
+      - contentinfo [ref=e118]:
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - generic [ref=e121]:
+              - link "V vassal.ai" [ref=e122] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e124]: V
+                - generic [ref=e125]: vassal.ai
+              - paragraph [ref=e126]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e128]: Built on Somnia L1
+            - generic [ref=e129]:
+              - heading "Platform" [level=4] [ref=e130]
+              - list [ref=e131]:
+                - listitem [ref=e132]:
+                  - link "Browse Agents" [ref=e133] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e134]:
+                  - link "Browse Skills" [ref=e135] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e136]:
+                  - link "How It Works" [ref=e137] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e138]:
+                  - link "Genesis Program" [ref=e139] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e140]:
+              - heading "Developers" [level=4] [ref=e141]
+              - list [ref=e142]:
+                - listitem [ref=e143]:
+                  - link "Documentation" [ref=e144] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e145]:
+                  - link "API Reference" [ref=e146] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e147]:
+                  - link "SDK Docs" [ref=e148] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e149]:
+                  - link "Tutorials" [ref=e150] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e151]:
+              - heading "Governance" [level=4] [ref=e152]
+              - list [ref=e153]:
+                - listitem [ref=e154]:
+                  - link "Proposals" [ref=e155] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e156]:
+                  - link "Delegation" [ref=e157] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e158]:
+                  - link "Governance FAQ" [ref=e159] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e160]:
+              - heading "Company" [level=4] [ref=e161]
+              - list [ref=e162]:
+                - listitem [ref=e163]:
+                  - link "About" [ref=e164] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e165]:
+                  - link "Blog" [ref=e166] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e167]:
+                  - link "Careers" [ref=e168] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e169]:
+                  - link "Contact" [ref=e170] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e171]:
+            - paragraph [ref=e172]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e173]:
+              - link "Twitter" [ref=e174] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e175] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e176] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e177]:
+              - link "Privacy" [ref=e178] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e179] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e185] [cursor=pointer]:
+    - img [ref=e186]

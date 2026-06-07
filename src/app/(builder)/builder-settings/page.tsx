@@ -33,14 +33,14 @@ const mockApiKeys = [
 const mockSessions = [
   { device: "Chrome on MacOS", location: "San Francisco, CA", lastActive: "2026-06-02 14:32", current: true },
   { device: "Safari on iPhone", location: "San Francisco, CA", lastActive: "2026-06-01 09:15", current: false },
-  { device: "Firefox on Windows", location: "New York, NY", lastActive: "2026-05-28 18:45", current: false },
+  { device: "Firefox on Monitor", location: "New York, NY", lastActive: "2026-05-28 18:45", current: false },
 ]
 
 const mockLoginHistory = [
   { date: "2026-06-02 14:32", device: "Chrome on MacOS", location: "San Francisco, CA", status: "Success" },
   { date: "2026-06-01 09:15", device: "Safari on iPhone", location: "San Francisco, CA", status: "Success" },
-  { date: "2026-05-30 22:18", device: "Chrome on Windows", location: "New York, NY", status: "Success" },
-  { date: "2026-05-28 18:45", device: "Firefox on Windows", location: "New York, NY", status: "Success" },
+  { date: "2026-05-30 22:18", device: "Chrome on Monitor", location: "New York, NY", status: "Success" },
+  { date: "2026-05-28 18:45", device: "Firefox on Monitor", location: "New York, NY", status: "Success" },
 ]
 
 const notificationPreferences = {
@@ -82,6 +82,7 @@ export default function BuilderSettingsPage() {
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="api-keys">API Keys</TabsTrigger>
           <TabsTrigger value="integrations">Integrations</TabsTrigger>
+          <TabsTrigger value="delegation">Delegation</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
         </TabsList>
 
@@ -264,7 +265,42 @@ export default function BuilderSettingsPage() {
           </Card>
         </TabsContent>
 
-        {/* Integration Settings */}
+        {/* Delegation */}
+        <TabsContent value="delegation">
+          <Card>
+            <CardHeader>
+              <CardTitle>Delegation Settings</CardTitle>
+              <CardDescription>Manage your voting power delegations</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <Label>Enable Auto-Delegation</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Automatically delegate voting power based on proposal categories
+                  </p>
+                </div>
+                <Switch />
+              </div>
+              <Separator />
+              <div className="space-y-2">
+                <Label>Current Delegations</Label>
+                <div className="rounded-lg border p-4">
+                  <div className="flex items-center justify-between py-2">
+                    <div>
+                      <p className="font-mono text-sm">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</p>
+                      <p className="text-xs text-muted-foreground">Protocol decisions</p>
+                    </div>
+                    <Button variant="ghost" size="sm" className="text-destructive">Revoke</Button>
+                  </div>
+                </div>
+              </div>
+              <Button variant="outline">Configure Delegation Settings</Button>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* CI/CD */}
         <TabsContent value="integrations">
           <Card>
             <CardHeader>

@@ -23,7 +23,7 @@ import { Separator } from "@/components/ui/separator";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight, Check, FileText, ListChecks, Calendar, Eye, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, FileText, ListChecks, Calendar, Eye, Send, Beaker, ChevronDown, ChevronUp } from 'lucide-react'
 
 type ProposalType = "protocol_upgrade" | "parameter_change" | "treasury" | "other";
 
@@ -66,6 +66,13 @@ export default function CreateProposalPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showSimulation, setShowSimulation] = useState(false);
+  const [isSimulating, setIsSimulating] = useState(false);
+  const [simulationResults, setSimulationResults] = useState<{
+    parameterChanges: Array<{ parameter: string; current: string; proposed: string; impact: string }>;
+    affectedMetrics: Array<{ metric: string; current: string; projected: string; change: string }>;
+    riskFactors: string[];
+  } | null>(null);
 
   const updateFormData = <K extends keyof ProposalFormData>(
     field: K,
@@ -111,6 +118,61 @@ export default function CreateProposalPage() {
     setIsSubmitted(true);
   };
 
+  const handleSimulate = async () => {
+    setIsSimulating(true);
+    // Simulate analysis delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Generate mock simulation results based on proposal type
+    const results = {
+      parameterChanges: [
+        {
+          parameter: "LATENCY_BREACH_SLASH_RATE",
+          current: "500 bps (5%)",
+          proposed: formData.proposalType === "parameter_change" ? "1000 bps (10%)" : "No change",
+          impact: formData.proposalType === "parameter_change" ? "+100% penalty rate" : "N/A"
+        },
+        {
+          parameter: "MIN_STAKE_REQUIRED",
+          current: "10,000 MESH",
+          proposed: formData.proposalType === "protocol_upgrade" ? "15,000 MESH" : "No change",
+          impact: formData.proposalType === "protocol_upgrade" ? "+50% stake requirement" : "N/A"
+        },
+        {
+          parameter: "SLA_TIMEOUT_MS",
+          current: "5000 ms",
+          proposed: formData.proposalType === "parameter_change" ? "3000 ms" : "No change",
+          impact: formData.proposalType === "parameter_change" ? "-40% timeout threshold" : "N/A"
+        }
+      ].filter(r => r.proposed !== "No change"),
+      affectedMetrics: [
+        { metric: "Provider Profitability", current: "85%", projected: "78%", change: "-7%" },
+        { metric: "Client SLA Compliance", current: "72%", projected: "89%", change: "+17%" },
+        { metric: "Network Reliability", current: "94%", projected: "97%", change: "+3%" },
+        { metric: "Avg Session Cost", current: "$0.05", projected: "$0.055", change: "+10%" }
+      ],
+      riskFactors: [
+        "Small providers may face increased slashes during network volatility",
+        "Clients with strict latency needs may experience more service interruptions",
+        "Overall network reliability expected to improve based on historical data"
+      ]
+    };
+
+    // If no parameter changes, show a message
+    if (results.parameterChanges.length === 0) {
+      results.parameterChanges.push({
+        parameter: "General Proposal",
+        current: "Current state",
+        proposed: "As specified",
+        impact: "Review specification for impact"
+      });
+    }
+
+    setSimulationResults(results);
+    setIsSimulating(false);
+    setShowSimulation(true);
+  };
+
   const progressPercentage = ((currentStep - 1) / (STEPS.length - 1)) * 100;
 
   if (isSubmitted) {
@@ -130,7 +192,7 @@ export default function CreateProposalPage() {
             </p>
             <div className="flex gap-4 justify-center">
               <Button variant="outline" onClick={() => window.history.back()}>
-                Go Back
+                ArrowRight Back
               </Button>
               <Button onClick={() => window.location.href = "/proposals"}>
                 View All Proposals
@@ -453,6 +515,104 @@ export default function CreateProposalPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Simulation Section */}
+              <div className="border-t pt-6">
+                <Button
+                  variant="outline"
+                  onClick={handleSimulate}
+                  disabled={isSimulating}
+                  className="w-full"
+                >
+                  {isSimulating ? (
+                    <>Simulating...</>
+                  ) : (
+                    <>
+                      <Beaker className="w-4 h-4 mr-2" />
+                      Simulate Proposal
+                    </>
+                  )}
+                </Button>
+
+                {/* Simulation Results */}
+                {showSimulation && simulationResults && (
+                  <Card className="mt-4 border-blue-500/20 bg-blue-500/5">
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base flex items-center gap-2">
+                          <Beaker className="h-4 w-4 text-blue-600" />
+                          Simulation Results
+                        </CardTitle>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowSimulation(false)}
+                        >
+                          <ChevronUp className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {/* Parameter Changes */}
+                      <div>
+                        <h5 className="text-sm font-medium mb-2">Expected Parameter Changes</h5>
+                        <div className="space-y-2">
+                          {simulationResults.parameterChanges.map((change, i) => (
+                            <div key={i} className="bg-background/80 rounded-lg p-3 text-sm">
+                              <div className="flex items-center justify-between mb-1">
+                                <code className="text-xs font-mono">{change.parameter}</code>
+                                <Badge variant="outline" className="text-xs">{change.impact}</Badge>
+                              </div>
+                              <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <span>{change.current}</span>
+                                <ArrowRight className="h-3 w-3" />
+                                <span className="text-blue-600 font-medium">{change.proposed}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <Separator />
+
+                      {/* Affected Metrics */}
+                      <div>
+                        <h5 className="text-sm font-medium mb-2">Affected Metrics</h5>
+                        <div className="grid grid-cols-2 gap-2">
+                          {simulationResults.affectedMetrics.map((metric, i) => (
+                            <div key={i} className="bg-background/80 rounded-lg p-3 text-sm">
+                              <div className="text-xs text-muted-foreground">{metric.metric}</div>
+                              <div className="flex items-center justify-between mt-1">
+                                <span className="text-muted-foreground">{metric.current}</span>
+                                <ArrowRight className="h-3 w-3" />
+                                <span className="font-medium">{metric.projected}</span>
+                              </div>
+                              <div className={`text-xs mt-1 ${metric.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                                {metric.change}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <Separator />
+
+                      {/* Risk Factors */}
+                      <div>
+                        <h5 className="text-sm font-medium mb-2">Risk Factors</h5>
+                        <ul className="space-y-1">
+                          {simulationResults.riskFactors.map((risk, i) => (
+                            <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                              <span className="text-amber-600">*</span>
+                              {risk}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
             </div>
           )}
         </CardContent>
@@ -467,23 +627,33 @@ export default function CreateProposalPage() {
             Back
           </Button>
 
-          {currentStep < STEPS.length ? (
-            <Button onClick={handleNext} disabled={!canProceed()}>
-              Next
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          ) : (
-            <Button onClick={handleSubmit} disabled={isSubmitting}>
-              {isSubmitting ? (
-                "Submitting..."
-              ) : (
-                <>
-                  <Send className="w-4 h-4 mr-2" />
-                  Submit Proposal
-                </>
-              )}
-            </Button>
-          )}
+          <div className="flex gap-2">
+            {showSimulation && (
+              <Button
+                variant="ghost"
+                onClick={() => setShowSimulation(false)}
+              >
+                Hide Simulation
+              </Button>
+            )}
+            {currentStep < STEPS.length ? (
+              <Button onClick={handleNext} disabled={!canProceed()}>
+                Next
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            ) : (
+              <Button onClick={handleSubmit} disabled={isSubmitting}>
+                {isSubmitting ? (
+                  "Submitting..."
+                ) : (
+                  <>
+                    <Send className="w-4 h-4 mr-2" />
+                    Submit Proposal
+                  </>
+                )}
+              </Button>
+            )}
+          </div>
         </CardFooter>
       </Card>
     </div>

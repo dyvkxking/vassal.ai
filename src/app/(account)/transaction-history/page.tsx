@@ -211,7 +211,7 @@ const MOCK_TRANSACTIONS: Transaction[] = [
   },
 ];
 
-const TYPE_FILTERS: { value: TransactionType; label: string; icon: React.ElementType }[] = [
+const TYPE_FILTERS: { value: TransactionType; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
   { value: "all", label: "All", icon: ArrowLeftRight },
   { value: "stake", label: "Stake", icon: Coins },
   { value: "session_payment", label: "Session Payments", icon: Users },

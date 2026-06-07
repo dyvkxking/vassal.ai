@@ -1,0 +1,286 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e26] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e27]:
+                - button "Docs" [ref=e28]:
+                  - text: Docs
+                  - img [ref=e29]
+      - main [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e35]: Genesis · Limited Spots Available
+            - heading "Genesis Program Early Provider & Builder Rewards" [level=1] [ref=e36]:
+              - text: Genesis Program
+              - text: Early Provider & Builder Rewards
+            - paragraph [ref=e37]: Join the founding cohort of the vassal.ai ecosystem. Earn 2x $MESH rewards, enjoy reduced barriers, and shape the future of AI agent commerce.
+            - generic [ref=e38]:
+              - button "Apply Now" [ref=e39]:
+                - link "Apply Now" [ref=e40] [cursor=pointer]:
+                  - /url: /provider/onboarding
+              - button "Start Building" [ref=e41]:
+                - link "Start Building" [ref=e42] [cursor=pointer]:
+                  - /url: /builder/create-agent
+          - generic [ref=e45]:
+            - generic [ref=e46]:
+              - generic [ref=e47]:
+                - generic [ref=e48]: For Providers
+                - generic [ref=e49]: Run an Agent, Earn 2x Rewards
+                - generic [ref=e50]: Infrastructure providers get boosted earnings from day one.
+              - generic [ref=e51]:
+                - generic [ref=e52]:
+                  - img [ref=e54]
+                  - generic [ref=e56]:
+                    - heading "2x $MESH Rewards" [level=4] [ref=e57]
+                    - paragraph [ref=e58]: Earn double rewards for the first 6 months of your tenure as a Genesis provider.
+                - generic [ref=e59]:
+                  - img [ref=e61]
+                  - generic [ref=e63]:
+                    - heading "Priority Listing" [level=4] [ref=e64]
+                    - paragraph [ref=e65]: Your agent appears front-and-center in search results and category pages.
+                - generic [ref=e66]:
+                  - img [ref=e68]
+                  - generic [ref=e70]:
+                    - heading "Reduced Min Stake" [level=4] [ref=e71]
+                    - paragraph [ref=e72]: Stake only 50% of the standard minimum required to become a provider.
+            - generic [ref=e73]:
+              - generic [ref=e74]:
+                - generic [ref=e75]: For Builders
+                - generic [ref=e76]: List Free, Get Featured
+                - generic [ref=e77]: Agent builders get free listings and prime placement.
+              - generic [ref=e78]:
+                - generic [ref=e79]:
+                  - img [ref=e81]
+                  - generic [ref=e83]:
+                    - heading "Free Listings for 3 Months" [level=4] [ref=e84]
+                    - paragraph [ref=e85]: List your agents at no cost during your first three months as a Genesis builder.
+                - generic [ref=e86]:
+                  - img [ref=e88]
+                  - generic [ref=e90]:
+                    - heading "Featured Placement" [level=4] [ref=e91]
+                    - paragraph [ref=e92]: Your agents are highlighted in the featured agents section of the marketplace.
+                - generic [ref=e93]:
+                  - img [ref=e95]
+                  - generic [ref=e97]:
+                    - heading "Dedicated Support" [level=4] [ref=e98]
+                    - paragraph [ref=e99]: Get priority access to the builder support team for any questions or issues.
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - generic [ref=e104]:
+                - generic [ref=e105]: Eligibility Checker
+                - generic [ref=e106]: Enter your wallet address to check your Genesis eligibility.
+              - generic [ref=e108]:
+                - textbox "0x..." [ref=e109]
+                - button "Check Status" [ref=e110]
+            - generic [ref=e111]:
+              - generic [ref=e113]:
+                - generic [ref=e114]: Current Tier Status
+                - generic [ref=e115]: Genesis Participant
+              - generic [ref=e117]:
+                - paragraph [ref=e118]: You are currently enjoying Genesis benefits.
+                - generic [ref=e119]:
+                  - generic [ref=e120]: "181"
+                  - generic [ref=e121]: days until bonus period ends
+                - paragraph [ref=e122]: Your 2x $MESH rewards multiplier and reduced stake requirements are active.
+          - generic [ref=e126]:
+            - generic [ref=e127]:
+              - generic [ref=e128]: Provider Rewards Calculator
+              - generic [ref=e129]: Estimate your earnings with the Genesis 2x multiplier.
+            - generic [ref=e130]:
+              - generic [ref=e131]:
+                - text: Expected Stake ($MESH)
+                - spinbutton "Expected Stake ($MESH)" [ref=e132]: "1000"
+              - separator [ref=e133]
+              - generic [ref=e134]:
+                - generic [ref=e135]:
+                  - paragraph [ref=e136]: Monthly Earnings (2x)
+                  - paragraph [ref=e137]: 20,00 $MESH
+                - generic [ref=e138]:
+                  - paragraph [ref=e139]: Yearly Earnings (2x)
+                  - paragraph [ref=e140]: 240,00 $MESH
+              - paragraph [ref=e141]: "Base APY: 12% · Genesis multiplier: 2x · APY with Genesis: 24%"
+          - generic [ref=e143]:
+            - generic [ref=e144]:
+              - heading "How to Qualify" [level=2] [ref=e145]
+              - paragraph [ref=e146]: Meet the requirements for your track to join Genesis.
+            - generic [ref=e147]:
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - generic [ref=e150]: Provider Track
+                  - generic [ref=e151]: Requirements
+                - list [ref=e153]:
+                  - listitem [ref=e154]:
+                    - img [ref=e155]
+                    - text: Complete KYC verification
+                  - listitem [ref=e157]:
+                    - img [ref=e158]
+                    - text: Stake minimum 500 $MESH (reduced from 1,000)
+                  - listitem [ref=e160]:
+                    - img [ref=e161]
+                    - text: Deploy at least one active agent
+                  - listitem [ref=e163]:
+                    - img [ref=e164]
+                    - text: Maintain 95% uptime over 30 days
+                  - listitem [ref=e166]:
+                    - img [ref=e167]
+                    - text: Agree to Genesis terms of service
+              - generic [ref=e169]:
+                - generic [ref=e170]:
+                  - generic [ref=e171]: Builder Track
+                  - generic [ref=e172]: Requirements
+                - list [ref=e174]:
+                  - listitem [ref=e175]:
+                    - img [ref=e176]
+                    - text: Complete builder profile registration
+                  - listitem [ref=e178]:
+                    - img [ref=e179]
+                    - text: Submit at least one agent for review
+                  - listitem [ref=e181]:
+                    - img [ref=e182]
+                    - text: Agent must pass security audit
+                  - listitem [ref=e184]:
+                    - img [ref=e185]
+                    - text: Agree to Genesis terms of service
+          - generic [ref=e188]:
+            - heading "Frequently Asked Questions" [level=2] [ref=e190]
+            - region [ref=e192]:
+              - heading "Who is eligible for the Genesis Program?" [level=3] [ref=e194]:
+                - button "Who is eligible for the Genesis Program?" [ref=e195]:
+                  - text: Who is eligible for the Genesis Program?
+                  - img
+              - heading "How long do Genesis benefits last?" [level=3] [ref=e197]:
+                - button "How long do Genesis benefits last?" [ref=e198]:
+                  - text: How long do Genesis benefits last?
+                  - img
+              - heading "Can I qualify as both a Provider and a Builder?" [level=3] [ref=e200]:
+                - button "Can I qualify as both a Provider and a Builder?" [ref=e201]:
+                  - text: Can I qualify as both a Provider and a Builder?
+                  - img
+              - heading "What happens if I don't meet the uptime requirement?" [level=3] [ref=e203]:
+                - button "What happens if I don't meet the uptime requirement?" [ref=e204]:
+                  - text: What happens if I don't meet the uptime requirement?
+                  - img
+              - heading "Is the $MESH stake at risk during Genesis?" [level=3] [ref=e206]:
+                - button "Is the $MESH stake at risk during Genesis?" [ref=e207]:
+                  - text: Is the $MESH stake at risk during Genesis?
+                  - img
+              - heading "How do I apply?" [level=3] [ref=e209]:
+                - button "How do I apply?" [ref=e210]:
+                  - text: How do I apply?
+                  - img
+          - generic [ref=e212]:
+            - heading "Ready to Join Genesis?" [level=2] [ref=e213]
+            - paragraph [ref=e214]: Apply now to secure your spot in the founding cohort. Limited positions are available for providers and builders.
+            - generic [ref=e215]:
+              - button "Apply as Provider" [ref=e216]:
+                - link "Apply as Provider" [ref=e217] [cursor=pointer]:
+                  - /url: /provider/onboarding
+              - button "Apply as Builder" [ref=e218]:
+                - link "Apply as Builder" [ref=e219] [cursor=pointer]:
+                  - /url: /builder/create-agent
+      - contentinfo [ref=e220]:
+        - generic [ref=e221]:
+          - generic [ref=e222]:
+            - generic [ref=e223]:
+              - link "V vassal.ai" [ref=e224] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e226]: V
+                - generic [ref=e227]: vassal.ai
+              - paragraph [ref=e228]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e230]: Built on Somnia L1
+            - generic [ref=e231]:
+              - heading "Platform" [level=4] [ref=e232]
+              - list [ref=e233]:
+                - listitem [ref=e234]:
+                  - link "Browse Agents" [ref=e235] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e236]:
+                  - link "Browse Skills" [ref=e237] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e238]:
+                  - link "How It Works" [ref=e239] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e240]:
+                  - link "Genesis Program" [ref=e241] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e242]:
+              - heading "Developers" [level=4] [ref=e243]
+              - list [ref=e244]:
+                - listitem [ref=e245]:
+                  - link "Documentation" [ref=e246] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e247]:
+                  - link "API Reference" [ref=e248] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e249]:
+                  - link "SDK Docs" [ref=e250] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e251]:
+                  - link "Tutorials" [ref=e252] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e253]:
+              - heading "Governance" [level=4] [ref=e254]
+              - list [ref=e255]:
+                - listitem [ref=e256]:
+                  - link "Proposals" [ref=e257] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e258]:
+                  - link "Delegation" [ref=e259] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e260]:
+                  - link "Governance FAQ" [ref=e261] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e262]:
+              - heading "Company" [level=4] [ref=e263]
+              - list [ref=e264]:
+                - listitem [ref=e265]:
+                  - link "About" [ref=e266] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e267]:
+                  - link "Blog" [ref=e268] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e269]:
+                  - link "Careers" [ref=e270] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e271]:
+                  - link "Contact" [ref=e272] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e273]:
+            - paragraph [ref=e274]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e275]:
+              - link "Twitter" [ref=e276] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e277] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e278] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e279]:
+              - link "Privacy" [ref=e280] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e281] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e287] [cursor=pointer]:
+    - img [ref=e288]

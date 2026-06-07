@@ -19,6 +19,7 @@ import {
 } from '@/components/ui'
 import { MOCK_SKILLS, MOCK_USER_PROFILE } from '@/lib/mock-data'
 import type { Skill, SkillStatus } from '@/types'
+import { BarChart3, GitBranch } from 'lucide-react'
 
 // Audit status stages
 type AuditStage = 'submitted' | 'in_review' | 'approved' | 'rejected'
@@ -80,6 +81,7 @@ function StatusBadge({ status }: { status: SkillStatus }) {
   const variants: Record<SkillStatus, { label: string; className: string }> = {
     approved: { label: 'Approved', className: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' },
     under_review: { label: 'Under Review', className: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' },
+    pending: { label: 'Pending', className: 'bg-amber-500/10 text-amber-500 border-amber-500/20' },
     rejected: { label: 'Rejected', className: 'bg-red-500/10 text-red-500 border-red-500/20' },
     deprecated: { label: 'Deprecated', className: 'bg-gray-500/10 text-gray-500 border-gray-500/20' },
     draft: { label: 'Draft', className: 'bg-blue-500/10 text-blue-500 border-blue-500/20' },
@@ -251,7 +253,16 @@ function SkillCard({ skill, onDeprecate }: { skill: SkillWithAudit; onDeprecate:
             <Link href={`/skill/${skill.id}`}>View Details</Link>
           </Button>
           <Button variant="outline" className="flex-1">
-            Update Skill
+            <Link href={`/my-skills/${skill.id}/analytics`}>
+              <BarChart3 className="size-4 mr-1" />
+              Analytics
+            </Link>
+          </Button>
+          <Button variant="outline" className="flex-1">
+            <Link href={`/my-skills/${skill.id}/version`}>
+              <GitBranch className="size-4 mr-1" />
+              Versions
+            </Link>
           </Button>
           {skill.status !== 'deprecated' && (
             <Button
@@ -350,7 +361,7 @@ export default function MySkillsPage() {
             </p>
           </div>
           <Button>
-            <Link href="/skills/new">Publish New Skill</Link>
+            <Link href="/browse">Publish New Skill</Link>
           </Button>
         </div>
 
@@ -388,7 +399,7 @@ export default function MySkillsPage() {
                         You have not published any skills yet.
                       </p>
                       <Button>
-                        <Link href="/skills/new">Publish Your First Skill</Link>
+                        <Link href="/browse">Publish Your First Skill</Link>
                       </Button>
                     </CardContent>
                   </Card>
