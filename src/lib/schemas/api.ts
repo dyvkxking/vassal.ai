@@ -60,7 +60,7 @@ export const ProposalSortSchema = SortSchema.extend({
 // Skill Filters
 export const SkillFiltersSchema = z.object({
   category: z.string().optional(),
-  status: z.enum(['draft', 'under_review', 'approved', 'rejected', 'deprecated']).optional(),
+  status: z.enum(['draft', 'under_review', 'approved', 'rejected', 'deprecated', 'pending']).optional(),
   minUsage: z.number().int().nonnegative().optional(),
   search: z.string().optional(),
 })
