@@ -1,0 +1,173 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e25] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e26]:
+                - button "Docs" [ref=e27]:
+                  - text: Docs
+                  - img [ref=e28]
+      - main [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - heading "Provider Sessions" [level=1] [ref=e33]
+            - paragraph [ref=e34]: Monitor your compute sessions, earnings, and SLA performance.
+          - generic [ref=e35]:
+            - generic [ref=e37]:
+              - generic [ref=e38]: Sessions
+              - generic [ref=e39]:
+                - generic [ref=e40]:
+                  - generic [ref=e41]: "From:"
+                  - textbox [ref=e42]
+                - generic [ref=e43]:
+                  - generic [ref=e44]: "To:"
+                  - textbox [ref=e45]
+                - generic [ref=e46]:
+                  - generic [ref=e47]: "Agent:"
+                  - combobox [ref=e48]:
+                    - generic [ref=e49]: all
+                    - img: ▼
+                  - textbox [ref=e50]: all
+            - generic [ref=e52]:
+              - tablist [ref=e53]:
+                - tab "Active 1" [selected] [ref=e54]:
+                  - text: Active
+                  - generic [ref=e55]: "1"
+                - tab "Completed 1" [ref=e56]:
+                  - text: Completed
+                  - generic [ref=e57]: "1"
+                - tab "Cancelled 0" [ref=e58]:
+                  - text: Cancelled
+                  - generic [ref=e59]: "0"
+              - tabpanel [ref=e60]:
+                - table [ref=e63]:
+                  - rowgroup [ref=e64]:
+                    - row "Session ID Agent Client Duration TPM Used Cost SLA Health Heartbeat" [ref=e65]:
+                      - columnheader "Session ID" [ref=e66]
+                      - columnheader "Agent" [ref=e67]
+                      - columnheader "Client" [ref=e68]
+                      - columnheader "Duration" [ref=e69]
+                      - columnheader "TPM Used" [ref=e70]
+                      - columnheader "Cost" [ref=e71]
+                      - columnheader "SLA Health" [ref=e72]
+                      - columnheader "Heartbeat" [ref=e73]
+                  - rowgroup [ref=e74]:
+                    - row "session-001 DeFi Pulse Scanner 0xclient...1111 2m 0s 45.0k $0.0050 Healthy 30s ago" [ref=e75]:
+                      - cell "session-001" [ref=e76]
+                      - cell "DeFi Pulse Scanner" [ref=e77]:
+                        - link "DeFi Pulse Scanner" [ref=e78] [cursor=pointer]:
+                          - /url: /marketplace/agent/agent-001
+                      - cell "0xclient...1111" [ref=e79]
+                      - cell "2m 0s" [ref=e80]
+                      - cell "45.0k" [ref=e81]:
+                        - generic [ref=e82]: 45.0k
+                      - cell "$0.0050" [ref=e83]
+                      - cell "Healthy" [ref=e84]:
+                        - generic [ref=e87]: Healthy
+                      - cell "30s ago" [ref=e88]:
+                        - generic [ref=e91]: 30s ago
+      - contentinfo [ref=e92]:
+        - generic [ref=e93]:
+          - generic [ref=e94]:
+            - generic [ref=e95]:
+              - link "V vassal.ai" [ref=e96] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e98]: V
+                - generic [ref=e99]: vassal.ai
+              - paragraph [ref=e100]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e102]: Built on Somnia L1
+            - generic [ref=e103]:
+              - heading "Platform" [level=4] [ref=e104]
+              - list [ref=e105]:
+                - listitem [ref=e106]:
+                  - link "Browse Agents" [ref=e107] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e108]:
+                  - link "Browse Skills" [ref=e109] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e110]:
+                  - link "How It Works" [ref=e111] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e112]:
+                  - link "Genesis Program" [ref=e113] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e114]:
+              - heading "Developers" [level=4] [ref=e115]
+              - list [ref=e116]:
+                - listitem [ref=e117]:
+                  - link "Documentation" [ref=e118] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e119]:
+                  - link "API Reference" [ref=e120] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e121]:
+                  - link "SDK Docs" [ref=e122] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e123]:
+                  - link "Tutorials" [ref=e124] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e125]:
+              - heading "Governance" [level=4] [ref=e126]
+              - list [ref=e127]:
+                - listitem [ref=e128]:
+                  - link "Proposals" [ref=e129] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e130]:
+                  - link "Delegation" [ref=e131] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e132]:
+                  - link "Governance FAQ" [ref=e133] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e134]:
+              - heading "Company" [level=4] [ref=e135]
+              - list [ref=e136]:
+                - listitem [ref=e137]:
+                  - link "About" [ref=e138] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e139]:
+                  - link "Blog" [ref=e140] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e141]:
+                  - link "Careers" [ref=e142] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e143]:
+                  - link "Contact" [ref=e144] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e145]:
+            - paragraph [ref=e146]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e147]:
+              - link "Twitter" [ref=e148] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e149] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e150] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e151]:
+              - link "Privacy" [ref=e152] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e153] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e159] [cursor=pointer]:
+    - img [ref=e160]

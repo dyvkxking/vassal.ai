@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-import { MOCK_AGENTS } from '@/lib/mock-data'
+import { useAgents } from '@/hooks/use-agents'
 import { PAGE_SIZE_DEFAULT } from '@/constants'
 import { useLenisWithMobileSupport } from '@/hooks/use-lenis'
 import { usePageHeaderAnimations } from '@/components/marketplace/browse-agents-animations'
@@ -101,9 +101,21 @@ export default function BrowseAgentsPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  const filtered = filterAndSort(MOCK_AGENTS, filters, sortKey)
-  const paginated = filtered.slice(0, page * PAGE_SIZE_DEFAULT)
-  const hasMore = filtered.length > paginated.length
+  // Fetch agents from API
+  const { data, isLoading, error } = useAgents({
+    category: filters.categories[0],
+    status: filters.availabilityOnly ? 'active' : undefined,
+    search: filters.search || undefined,
+    page,
+    pageSize: PAGE_SIZE_DEFAULT,
+  })
+
+  const agents = data?.data ?? []
+  const total = data?.total ?? 0
+
+  // Apply client-side sorting and additional filtering
+  const filtered = filterAndSort(agents, filters, sortKey)
+  const hasMore = total > agents.length
 
   const handleSelectAgent = (agent: Agent) => {
     setSelectedAgents((prev) => {
@@ -218,7 +230,7 @@ export default function BrowseAgentsPage() {
                 className="text-2xl font-semibold"
                 style={{ fontFamily: 'var(--font-display-serif, inherit)' }}
               >
-                {filtered.length}
+                {isLoading ? '...' : total}
               </span>
               <span className="text-sm text-muted-foreground">agents available</span>
             </div>
@@ -391,12 +403,41 @@ export default function BrowseAgentsPage() {
             {/* ================================================
                 AGENT GRID — Premium spacing + entrance animation
                 ================================================ */}
-            {paginated.length > 0 ? (
+            {isLoading ? (
               <div
                 className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
                 style={{ gap: 'var(--grid-gap-desktop)' }}
               >
-                {paginated.map((agent, index) => (
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <AgentCardSkeleton key={index} />
+                ))}
+              </div>
+            ) : error ? (
+              <div className="flex flex-col items-center justify-center py-24 text-center">
+                <div className="text-5xl mb-4">⚠️</div>
+                <h3
+                  className="text-lg font-semibold mb-2"
+                  style={{ fontFamily: 'var(--font-display-serif, inherit)' }}
+                >
+                  Failed to load agents
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Please try again later.
+                </p>
+                <Button
+                  variant="outline"
+                  onClick={() => window.location.reload()}
+                  className="btn-ghost-transition"
+                >
+                  Retry
+                </Button>
+              </div>
+            ) : filtered.length > 0 ? (
+              <div
+                className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3"
+                style={{ gap: 'var(--grid-gap-desktop)' }}
+              >
+                {filtered.map((agent, index) => (
                   <div
                     key={agent.id}
                     className="pw-agent-card"
@@ -447,7 +488,7 @@ export default function BrowseAgentsPage() {
             {/* ================================================
                 LOAD MORE — Premium button styling
                 ================================================ */}
-            {hasMore && (
+            {hasMore && !isLoading && (
               <div className="mt-12 text-center">
                 <Button
                   variant="outline"
@@ -461,7 +502,7 @@ export default function BrowseAgentsPage() {
                 >
                   <span className="mr-2">Load More</span>
                   <span className="text-muted-foreground">
-                    ({filtered.length - paginated.length} remaining)
+                    ({total - agents.length} remaining)
                   </span>
                 </Button>
               </div>

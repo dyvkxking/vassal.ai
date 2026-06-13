@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAgentById, MOCK_AGENTS } from '@/lib/mock-data'
+import { prisma } from '@/lib/prisma'
+import { transformAgent } from '@/lib/db/transformers'
 import { UpdateAgentSchema } from '@/lib/schemas/agents'
 
 interface RouteParams {
@@ -12,16 +13,31 @@ export async function GET(
   { params }: RouteParams
 ) {
   const { id } = await params
-  const agent = getAgentById(id)
 
-  if (!agent) {
+  try {
+    const agent = await prisma.agent.findUnique({
+      where: { id },
+      include: {
+        capabilities: true,
+        skillDependencies: true,
+      },
+    })
+
+    if (!agent) {
+      return NextResponse.json(
+        { error: 'Agent not found', code: 'NOT_FOUND' },
+        { status: 404 }
+      )
+    }
+
+    return NextResponse.json({ data: transformAgent(agent) }, { status: 200 })
+  } catch (error) {
+    console.error('Failed to fetch agent:', error)
     return NextResponse.json(
-      { error: 'Agent not found', code: 'NOT_FOUND' },
-      { status: 404 }
+      { error: 'Failed to fetch agent', code: 'INTERNAL_ERROR' },
+      { status: 500 }
     )
   }
-
-  return NextResponse.json({ data: agent }, { status: 200 })
 }
 
 // PATCH /api/agents/[id] — Update agent (owner only)
@@ -30,14 +46,6 @@ export async function PATCH(
   { params }: RouteParams
 ) {
   const { id } = await params
-  const agent = getAgentById(id)
-
-  if (!agent) {
-    return NextResponse.json(
-      { error: 'Agent not found', code: 'NOT_FOUND' },
-      { status: 404 }
-    )
-  }
 
   // Check authentication
   const walletAddress = request.headers.get('x-wallet-address')
@@ -48,15 +56,27 @@ export async function PATCH(
     )
   }
 
-  // Verify ownership
-  if (agent.creator !== walletAddress) {
-    return NextResponse.json(
-      { error: 'Only the owner can update this agent', code: 'FORBIDDEN' },
-      { status: 403 }
-    )
-  }
-
   try {
+    // Fetch current agent to check ownership
+    const existingAgent = await prisma.agent.findUnique({
+      where: { id },
+ })
+
+    if (!existingAgent) {
+      return NextResponse.json(
+        { error: 'Agent not found', code: 'NOT_FOUND' },
+        { status: 404 }
+      )
+    }
+
+    // Verify ownership
+    if (existingAgent.creator !== walletAddress) {
+      return NextResponse.json(
+        { error: 'Only the owner can update this agent', code: 'FORBIDDEN' },
+        { status: 403 }
+      )
+    }
+
     const body = await request.json()
 
     // Validate update data
@@ -68,18 +88,43 @@ export async function PATCH(
       )
     }
 
-    // Apply update
-    const updatedAgent = {
-      ...agent,
-      ...result.data,
-      updatedAt: Date.now(),
+    const updateData = result.data as Record<string, unknown>
+
+    // Build pricing data separately
+    const pricingData: Record<string, unknown> = {}
+    if (updateData.pricing) {
+      const pricing = updateData.pricing as { type: string; pricePerMinute?: number; pricePerSecond?: number; flatPrice?: number }
+      pricingData.pricingType = pricing.type
+      if (pricing.type === 'per_minute') {
+        pricingData.pricePerMinute = pricing.pricePerMinute
+      } else if (pricing.type === 'per_second') {
+        pricingData.pricePerSecond = pricing.pricePerSecond
+      } else if (pricing.type === 'flat_rate') {
+        pricingData.flatPrice = pricing.flatPrice
+      }
+      delete updateData.pricing
     }
 
-    return NextResponse.json({ data: updatedAgent }, { status: 200 })
-  } catch {
+    // Update agent
+    const updatedAgent = await prisma.agent.update({
+      where: { id },
+      data: {
+        ...updateData,
+        ...pricingData,
+        updatedAt: new Date(),
+      },
+      include: {
+        capabilities: true,
+        skillDependencies: true,
+      },
+    })
+
+    return NextResponse.json({ data: transformAgent(updatedAgent) }, { status: 200 })
+  } catch (error) {
+    console.error('Failed to update agent:', error)
     return NextResponse.json(
-      { error: 'Invalid request body', code: 'BAD_REQUEST' },
-      { status: 400 }
+      { error: 'Failed to update agent', code: 'INTERNAL_ERROR' },
+      { status: 500 }
     )
   }
 }
@@ -90,14 +135,6 @@ export async function DELETE(
   { params }: RouteParams
 ) {
   const { id } = await params
-  const agent = getAgentById(id)
-
-  if (!agent) {
-    return NextResponse.json(
-      { error: 'Agent not found', code: 'NOT_FOUND' },
-      { status: 404 }
-    )
-  }
 
   // Check authentication
   const walletAddress = request.headers.get('x-wallet-address')
@@ -108,23 +145,45 @@ export async function DELETE(
     )
   }
 
-  // Verify ownership
-  if (agent.creator !== walletAddress) {
+  try {
+    // Fetch current agent to check ownership
+    const existingAgent = await prisma.agent.findUnique({
+      where: { id },
+    })
+
+    if (!existingAgent) {
+      return NextResponse.json(
+        { error: 'Agent not found', code: 'NOT_FOUND' },
+        { status: 404 }
+      )
+    }
+
+    // Verify ownership
+    if (existingAgent.creator !== walletAddress) {
+      return NextResponse.json(
+        { error: 'Only the owner can delete this agent', code: 'FORBIDDEN' },
+        { status: 403 }
+      )
+    }
+
+    // Soft delete by setting status to archived
+    await prisma.agent.update({
+      where: { id },
+      data: {
+        status: 'archived',
+        updatedAt: new Date(),
+      },
+    })
+
     return NextResponse.json(
-      { error: 'Only the owner can delete this agent', code: 'FORBIDDEN' },
-      { status: 403 }
+      { data: { id, status: 'archived' }, message: 'Agent archived successfully' },
+      { status: 200 }
+    )
+  } catch (error) {
+    console.error('Failed to delete agent:', error)
+    return NextResponse.json(
+      { error: 'Failed to delete agent', code: 'INTERNAL_ERROR' },
+      { status: 500 }
     )
   }
-
-  // Soft delete by setting status to archived
-  const deletedAgent = {
-    ...agent,
-    status: 'archived' as const,
-    updatedAt: Date.now(),
-  }
-
-  return NextResponse.json(
-    { data: { id: deletedAgent.id, status: 'archived' }, message: 'Agent archived successfully' },
-    { status: 200 }
-  )
 }

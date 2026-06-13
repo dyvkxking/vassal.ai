@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(sed -i 's/const agent = getAgentById\\(agentId\\)/const { data: agent, isLoading, error } = useAgentById\\(agentId\\)/' src/app/\\\\\\(marketplace\\\\\\)/agent/\\\\[id\\\\]/page.tsx)",
+      "Bash(npm run *)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\RaihanMbois\\Documents\\vassal.ai\\src\\app\\(marketplace)\\agent\\[id]"
+    ]
+  }
+}

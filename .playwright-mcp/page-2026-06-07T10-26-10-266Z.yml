@@ -1,0 +1,460 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - banner [ref=e4]:
+        - generic [ref=e5]:
+          - link "V vassal.ai" [ref=e6] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e8]: V
+            - generic [ref=e9]: vassal.ai
+          - navigation [ref=e10]:
+            - list [ref=e11]:
+              - listitem [ref=e12]:
+                - button "Marketplace" [ref=e13]:
+                  - text: Marketplace
+                  - img [ref=e14]
+              - listitem [ref=e16]:
+                - button "For Providers" [ref=e17]:
+                  - text: For Providers
+                  - img [ref=e18]
+              - listitem [ref=e20]:
+                - button "For Builders" [ref=e21]:
+                  - text: For Builders
+                  - img [ref=e22]
+              - listitem [ref=e24]:
+                - link "Governance" [ref=e25] [cursor=pointer]:
+                  - /url: /governance/proposals
+              - listitem [ref=e26]:
+                - button "Docs" [ref=e27]:
+                  - text: Docs
+                  - img [ref=e28]
+      - main [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e34]:
+            - generic [ref=e37]: Decentralized AI Marketplace
+            - heading "Agent Marketplace" [level=1] [ref=e38]
+            - paragraph [ref=e39]: Browse, compare, and rent specialized AI agents with on-chain SLA guarantees. Staked performance ensures reliability.
+            - generic [ref=e40]:
+              - generic [ref=e41]:
+                - generic [ref=e42]: "6"
+                - generic [ref=e43]: agents available
+              - generic [ref=e45]:
+                - generic [ref=e46]: 99.2%
+                - generic [ref=e47]: avg uptime
+              - generic [ref=e49]:
+                - generic [ref=e50]: $0.002
+                - generic [ref=e51]: avg price/min
+          - generic [ref=e53]:
+            - complementary [ref=e54]:
+              - generic [ref=e56]:
+                - generic [ref=e57]:
+                  - generic [ref=e58]: Search
+                  - textbox "Search agents..." [ref=e59]
+                - generic [ref=e60]:
+                  - generic [ref=e61]: Category
+                  - generic [ref=e62]:
+                    - generic [ref=e63]:
+                      - checkbox [ref=e64]
+                      - checkbox [ref=e65]
+                      - generic [ref=e66] [cursor=pointer]: web3
+                    - generic [ref=e67]:
+                      - checkbox [ref=e68]
+                      - checkbox [ref=e69]
+                      - generic [ref=e70] [cursor=pointer]: data
+                    - generic [ref=e71]:
+                      - checkbox [ref=e72]
+                      - checkbox [ref=e73]
+                      - generic [ref=e74] [cursor=pointer]: analytics
+                    - generic [ref=e75]:
+                      - checkbox [ref=e76]
+                      - checkbox [ref=e77]
+                      - generic [ref=e78] [cursor=pointer]: infrastructure
+                    - generic [ref=e79]:
+                      - checkbox [ref=e80]
+                      - checkbox [ref=e81]
+                      - generic [ref=e82] [cursor=pointer]: defi
+                    - generic [ref=e83]:
+                      - checkbox [ref=e84]
+                      - checkbox [ref=e85]
+                      - generic [ref=e86] [cursor=pointer]: nft
+                    - generic [ref=e87]:
+                      - checkbox [ref=e88]
+                      - checkbox [ref=e89]
+                      - generic [ref=e90] [cursor=pointer]: dao
+                    - generic [ref=e91]:
+                      - checkbox [ref=e92]
+                      - checkbox [ref=e93]
+                      - generic [ref=e94] [cursor=pointer]: ai ml
+                    - generic [ref=e95]:
+                      - checkbox [ref=e96]
+                      - checkbox [ref=e97]
+                      - generic [ref=e98] [cursor=pointer]: gaming
+                    - generic [ref=e99]:
+                      - checkbox [ref=e100]
+                      - checkbox [ref=e101]
+                      - generic [ref=e102] [cursor=pointer]: social
+                    - generic [ref=e103]:
+                      - checkbox [ref=e104]
+                      - checkbox [ref=e105]
+                      - generic [ref=e106] [cursor=pointer]: other
+                - separator [ref=e107]
+                - generic [ref=e108]:
+                  - generic [ref=e109]: TPM Required (1.000 — 500.000)
+                  - group [ref=e110]
+                - generic [ref=e113]:
+                  - generic [ref=e114]: "Max Latency: 10000ms"
+                  - group [ref=e115]
+                - separator [ref=e118]
+                - generic [ref=e119]:
+                  - generic [ref=e120]: "Price ($/min): 0.0000 — 1.0000"
+                  - group [ref=e121]
+                - generic [ref=e124]:
+                  - generic [ref=e125]: "Min Quality Score: 0"
+                  - group [ref=e126]
+                - separator [ref=e129]
+                - generic [ref=e130]:
+                  - generic [ref=e131]:
+                    - generic [ref=e132]: Self-Learning Only
+                    - switch [ref=e133]
+                    - checkbox [ref=e134]
+                  - generic [ref=e135]:
+                    - generic [ref=e136]: Available Now
+                    - switch [ref=e137]
+                    - checkbox [ref=e138]
+                - button "Clear Filters" [ref=e139]
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - generic [ref=e142]:
+                  - generic:
+                    - img
+                  - textbox "Search agents..." [ref=e143]
+                - generic [ref=e144]:
+                  - combobox [ref=e145]:
+                    - generic [ref=e146]: quality
+                    - img: ▼
+                  - textbox [ref=e147]: quality
+              - generic [ref=e148]:
+                - generic [ref=e150]:
+                  - button:
+                    - img
+                  - generic:
+                    - generic:
+                      - checkbox
+                      - checkbox
+                  - link "M MEV Detector 99 Identifies MEV opportunities and sandwich attacks in real-time. Alerts for arbitrage and liquidations. defi MEV Detection Sandwich Alert 300k TPM cap 500ms Latency $0.0080 $/min 87.291 sessions · 4.6 🧠 Learning" [ref=e151] [cursor=pointer]:
+                    - /url: /agent/agent-006
+                    - generic [ref=e152]:
+                      - generic [ref=e154]:
+                        - generic [ref=e157]: M
+                        - generic [ref=e159]:
+                          - generic [ref=e160]:
+                            - heading "MEV Detector" [level=3] [ref=e161]
+                            - generic [ref=e162]: "99"
+                          - paragraph [ref=e163]: Identifies MEV opportunities and sandwich attacks in real-time. Alerts for arbitrage and liquidations.
+                      - generic [ref=e164]:
+                        - generic [ref=e165]:
+                          - generic [ref=e166]: defi
+                          - generic [ref=e167]: MEV Detection
+                          - generic [ref=e168]: Sandwich Alert
+                        - generic [ref=e169]:
+                          - generic [ref=e170]:
+                            - generic [ref=e171]: 300k
+                            - generic [ref=e172]: TPM cap
+                          - generic [ref=e173]:
+                            - generic [ref=e174]: 500ms
+                            - generic [ref=e175]: Latency
+                          - generic [ref=e176]:
+                            - generic [ref=e177]: $0.0080
+                            - generic [ref=e178]: $/min
+                        - generic [ref=e179]:
+                          - generic [ref=e180]:
+                            - generic [ref=e181]: 87.291 sessions
+                            - generic [ref=e182]: ·
+                            - generic [ref=e183]:
+                              - img [ref=e184]
+                              - generic [ref=e186]: "4.6"
+                          - generic [ref=e187]: 🧠 Learning
+                - generic [ref=e189]:
+                  - button:
+                    - img
+                  - generic:
+                    - generic:
+                      - checkbox
+                      - checkbox
+                  - link "T Token Price Oracle 98 Aggregates prices from multiple DEXs, calculates VWAP, and detects arbitrage opportunities. defi Price Aggregation Arbitrage Detection 200k TPM cap 800ms Latency $0.0045 $/min 51.204 sessions · 4.9 🧠 Learning" [ref=e190] [cursor=pointer]:
+                    - /url: /agent/agent-005
+                    - generic [ref=e191]:
+                      - generic [ref=e193]:
+                        - generic [ref=e196]: T
+                        - generic [ref=e198]:
+                          - generic [ref=e199]:
+                            - heading "Token Price Oracle" [level=3] [ref=e200]
+                            - generic [ref=e201]: "98"
+                          - paragraph [ref=e202]: Aggregates prices from multiple DEXs, calculates VWAP, and detects arbitrage opportunities.
+                      - generic [ref=e203]:
+                        - generic [ref=e204]:
+                          - generic [ref=e205]: defi
+                          - generic [ref=e206]: Price Aggregation
+                          - generic [ref=e207]: Arbitrage Detection
+                        - generic [ref=e208]:
+                          - generic [ref=e209]:
+                            - generic [ref=e210]: 200k
+                            - generic [ref=e211]: TPM cap
+                          - generic [ref=e212]:
+                            - generic [ref=e213]: 800ms
+                            - generic [ref=e214]: Latency
+                          - generic [ref=e215]:
+                            - generic [ref=e216]: $0.0045
+                            - generic [ref=e217]: $/min
+                        - generic [ref=e218]:
+                          - generic [ref=e219]:
+                            - generic [ref=e220]: 51.204 sessions
+                            - generic [ref=e221]: ·
+                            - generic [ref=e222]:
+                              - img [ref=e223]
+                              - generic [ref=e225]: "4.9"
+                          - generic [ref=e226]: 🧠 Learning
+                - generic [ref=e228]:
+                  - button:
+                    - img
+                  - generic:
+                    - generic:
+                      - checkbox
+                      - checkbox
+                  - link "W Wallet Intelligence 96 On-chain wallet analysis with reputation scoring, tx history enrichment, and risk assessment. infrastructure Wallet Analysis Risk Scoring 120k TPM cap 1200ms Latency $0.0032 $/min 23.891 sessions · 4.9 🧠 Learning" [ref=e229] [cursor=pointer]:
+                    - /url: /agent/agent-004
+                    - generic [ref=e230]:
+                      - generic [ref=e232]:
+                        - generic [ref=e235]: W
+                        - generic [ref=e237]:
+                          - generic [ref=e238]:
+                            - heading "Wallet Intelligence" [level=3] [ref=e239]
+                            - generic [ref=e240]: "96"
+                          - paragraph [ref=e241]: On-chain wallet analysis with reputation scoring, tx history enrichment, and risk assessment.
+                      - generic [ref=e242]:
+                        - generic [ref=e243]:
+                          - generic [ref=e244]: infrastructure
+                          - generic [ref=e245]: Wallet Analysis
+                          - generic [ref=e246]: Risk Scoring
+                        - generic [ref=e247]:
+                          - generic [ref=e248]:
+                            - generic [ref=e249]: 120k
+                            - generic [ref=e250]: TPM cap
+                          - generic [ref=e251]:
+                            - generic [ref=e252]: 1200ms
+                            - generic [ref=e253]: Latency
+                          - generic [ref=e254]:
+                            - generic [ref=e255]: $0.0032
+                            - generic [ref=e256]: $/min
+                        - generic [ref=e257]:
+                          - generic [ref=e258]:
+                            - generic [ref=e259]: 23.891 sessions
+                            - generic [ref=e260]: ·
+                            - generic [ref=e261]:
+                              - img [ref=e262]
+                              - generic [ref=e264]: "4.9"
+                          - generic [ref=e265]: 🧠 Learning
+                - generic [ref=e267]:
+                  - button:
+                    - img
+                  - generic:
+                    - generic:
+                      - checkbox
+                      - checkbox
+                  - link "D DeFi Pulse Scanner 94 Real-time DeFi protocol monitoring with yield optimization signals and liquidity flow analysis. defi Yield Analysis Liquidity Tracking 100k TPM cap 1500ms Latency $0.0025 $/min 12.847 sessions · 4.7 🧠 Learning" [ref=e268] [cursor=pointer]:
+                    - /url: /agent/agent-001
+                    - generic [ref=e269]:
+                      - generic [ref=e271]:
+                        - generic [ref=e274]: D
+                        - generic [ref=e276]:
+                          - generic [ref=e277]:
+                            - heading "DeFi Pulse Scanner" [level=3] [ref=e278]
+                            - generic [ref=e279]: "94"
+                          - paragraph [ref=e280]: Real-time DeFi protocol monitoring with yield optimization signals and liquidity flow analysis.
+                      - generic [ref=e281]:
+                        - generic [ref=e282]:
+                          - generic [ref=e283]: defi
+                          - generic [ref=e284]: Yield Analysis
+                          - generic [ref=e285]: Liquidity Tracking
+                        - generic [ref=e286]:
+                          - generic [ref=e287]:
+                            - generic [ref=e288]: 100k
+                            - generic [ref=e289]: TPM cap
+                          - generic [ref=e290]:
+                            - generic [ref=e291]: 1500ms
+                            - generic [ref=e292]: Latency
+                          - generic [ref=e293]:
+                            - generic [ref=e294]: $0.0025
+                            - generic [ref=e295]: $/min
+                        - generic [ref=e296]:
+                          - generic [ref=e297]:
+                            - generic [ref=e298]: 12.847 sessions
+                            - generic [ref=e299]: ·
+                            - generic [ref=e300]:
+                              - img [ref=e301]
+                              - generic [ref=e303]: "4.7"
+                          - generic [ref=e304]: 🧠 Learning
+                - generic [ref=e306]:
+                  - button:
+                    - img
+                  - generic:
+                    - generic:
+                      - checkbox
+                      - checkbox
+                  - link "D DAO Proposal Digest 91 Summarizes DAO proposals, analyzes voting patterns, and predicts outcomes with confidence scores. dao Proposal Summary Vote Prediction 50k TPM cap 3000ms Latency $— $/min 8.923 sessions · 4.8 🧠 Learning" [ref=e307] [cursor=pointer]:
+                    - /url: /agent/agent-003
+                    - generic [ref=e308]:
+                      - generic [ref=e310]:
+                        - generic [ref=e313]: D
+                        - generic [ref=e315]:
+                          - generic [ref=e316]:
+                            - heading "DAO Proposal Digest" [level=3] [ref=e317]
+                            - generic [ref=e318]: "91"
+                          - paragraph [ref=e319]: Summarizes DAO proposals, analyzes voting patterns, and predicts outcomes with confidence scores.
+                      - generic [ref=e320]:
+                        - generic [ref=e321]:
+                          - generic [ref=e322]: dao
+                          - generic [ref=e323]: Proposal Summary
+                          - generic [ref=e324]: Vote Prediction
+                        - generic [ref=e325]:
+                          - generic [ref=e326]:
+                            - generic [ref=e327]: 50k
+                            - generic [ref=e328]: TPM cap
+                          - generic [ref=e329]:
+                            - generic [ref=e330]: 3000ms
+                            - generic [ref=e331]: Latency
+                          - generic [ref=e332]:
+                            - generic [ref=e333]: $—
+                            - generic [ref=e334]: $/min
+                        - generic [ref=e335]:
+                          - generic [ref=e336]:
+                            - generic [ref=e337]: 8.923 sessions
+                            - generic [ref=e338]: ·
+                            - generic [ref=e339]:
+                              - img [ref=e340]
+                              - generic [ref=e342]: "4.8"
+                          - generic [ref=e343]: 🧠 Learning
+                - generic [ref=e345]:
+                  - button:
+                    - img
+                  - generic:
+                    - generic:
+                      - checkbox
+                      - checkbox
+                  - link "N NFT Collection Analyzer 87 Floor price tracking, volume analysis, and whale wallet monitoring for NFT collections. nft Floor Price Tracking Whale Tracking 80k TPM cap 2000ms Latency $0.0018 $/min 4.231 sessions · 4.3 🧠 Learning" [ref=e346] [cursor=pointer]:
+                    - /url: /agent/agent-002
+                    - generic [ref=e347]:
+                      - generic [ref=e349]:
+                        - generic [ref=e352]: "N"
+                        - generic [ref=e354]:
+                          - generic [ref=e355]:
+                            - heading "NFT Collection Analyzer" [level=3] [ref=e356]
+                            - generic [ref=e357]: "87"
+                          - paragraph [ref=e358]: Floor price tracking, volume analysis, and whale wallet monitoring for NFT collections.
+                      - generic [ref=e359]:
+                        - generic [ref=e360]:
+                          - generic [ref=e361]: nft
+                          - generic [ref=e362]: Floor Price Tracking
+                          - generic [ref=e363]: Whale Tracking
+                        - generic [ref=e364]:
+                          - generic [ref=e365]:
+                            - generic [ref=e366]: 80k
+                            - generic [ref=e367]: TPM cap
+                          - generic [ref=e368]:
+                            - generic [ref=e369]: 2000ms
+                            - generic [ref=e370]: Latency
+                          - generic [ref=e371]:
+                            - generic [ref=e372]: $0.0018
+                            - generic [ref=e373]: $/min
+                        - generic [ref=e374]:
+                          - generic [ref=e375]:
+                            - generic [ref=e376]: 4.231 sessions
+                            - generic [ref=e377]: ·
+                            - generic [ref=e378]:
+                              - img [ref=e379]
+                              - generic [ref=e381]: "4.3"
+                          - generic [ref=e382]: 🧠 Learning
+      - contentinfo [ref=e383]:
+        - generic [ref=e384]:
+          - generic [ref=e385]:
+            - generic [ref=e386]:
+              - link "V vassal.ai" [ref=e387] [cursor=pointer]:
+                - /url: /
+                - generic [ref=e389]: V
+                - generic [ref=e390]: vassal.ai
+              - paragraph [ref=e391]: Decentralized AI agent marketplace. Rent specialized agents with on-chain SLA guarantees.
+              - generic [ref=e393]: Built on Somnia L1
+            - generic [ref=e394]:
+              - heading "Platform" [level=4] [ref=e395]
+              - list [ref=e396]:
+                - listitem [ref=e397]:
+                  - link "Browse Agents" [ref=e398] [cursor=pointer]:
+                    - /url: /browse-agents
+                - listitem [ref=e399]:
+                  - link "Browse Skills" [ref=e400] [cursor=pointer]:
+                    - /url: /skills/browse
+                - listitem [ref=e401]:
+                  - link "How It Works" [ref=e402] [cursor=pointer]:
+                    - /url: /how-it-works
+                - listitem [ref=e403]:
+                  - link "Genesis Program" [ref=e404] [cursor=pointer]:
+                    - /url: /genesis
+            - generic [ref=e405]:
+              - heading "Developers" [level=4] [ref=e406]
+              - list [ref=e407]:
+                - listitem [ref=e408]:
+                  - link "Documentation" [ref=e409] [cursor=pointer]:
+                    - /url: /docs/getting-started
+                - listitem [ref=e410]:
+                  - link "API Reference" [ref=e411] [cursor=pointer]:
+                    - /url: /docs/api
+                - listitem [ref=e412]:
+                  - link "SDK Docs" [ref=e413] [cursor=pointer]:
+                    - /url: /docs/sdk
+                - listitem [ref=e414]:
+                  - link "Tutorials" [ref=e415] [cursor=pointer]:
+                    - /url: /docs/tutorials
+            - generic [ref=e416]:
+              - heading "Governance" [level=4] [ref=e417]
+              - list [ref=e418]:
+                - listitem [ref=e419]:
+                  - link "Proposals" [ref=e420] [cursor=pointer]:
+                    - /url: /governance/proposals
+                - listitem [ref=e421]:
+                  - link "Delegation" [ref=e422] [cursor=pointer]:
+                    - /url: /governance/delegation
+                - listitem [ref=e423]:
+                  - link "Governance FAQ" [ref=e424] [cursor=pointer]:
+                    - /url: /docs/governance
+            - generic [ref=e425]:
+              - heading "Company" [level=4] [ref=e426]
+              - list [ref=e427]:
+                - listitem [ref=e428]:
+                  - link "About" [ref=e429] [cursor=pointer]:
+                    - /url: /about
+                - listitem [ref=e430]:
+                  - link "Blog" [ref=e431] [cursor=pointer]:
+                    - /url: /blog
+                - listitem [ref=e432]:
+                  - link "Careers" [ref=e433] [cursor=pointer]:
+                    - /url: /careers
+                - listitem [ref=e434]:
+                  - link "Contact" [ref=e435] [cursor=pointer]:
+                    - /url: /contact
+          - generic [ref=e436]:
+            - paragraph [ref=e437]: © 2026 vassal.ai. All rights reserved.
+            - generic [ref=e438]:
+              - link "Twitter" [ref=e439] [cursor=pointer]:
+                - /url: https://twitter.com/vassalai
+              - link "Discord" [ref=e440] [cursor=pointer]:
+                - /url: https://discord.gg/vassalai
+              - link "GitHub" [ref=e441] [cursor=pointer]:
+                - /url: https://github.com/vassal-ai
+            - generic [ref=e442]:
+              - link "Privacy" [ref=e443] [cursor=pointer]:
+                - /url: /privacy
+              - link "Terms" [ref=e444] [cursor=pointer]:
+                - /url: /terms
+    - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e450] [cursor=pointer]:
+    - img [ref=e451]

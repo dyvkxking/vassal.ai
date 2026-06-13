@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { MOCK_AGENTS } from '@/lib/mock-data'
-import { AgentSchema, CreateAgentSchema } from '@/lib/schemas/agents'
+import { prisma } from '@/lib/prisma'
+import { transformAgent } from '@/lib/db/transformers'
+import { CreateAgentSchema } from '@/lib/schemas/agents'
 import { PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX } from '@/constants'
 
 // GET /api/agents — List agents with pagination, filtering
@@ -18,54 +19,78 @@ export async function GET(request: NextRequest) {
   const category = searchParams.get('category')
   const status = searchParams.get('status')
   const search = searchParams.get('search')?.toLowerCase()
+  const minRating = searchParams.get('minRating')
+  const maxPrice = searchParams.get('maxPrice')
 
-  // Apply filters
-  let filtered = [...MOCK_AGENTS]
+  // Build Prisma where clause
+  const where: Record<string, unknown> = {}
 
   if (category) {
-    filtered = filtered.filter((a) => a.category === category)
+    where.category = category
   }
 
   if (status) {
-    filtered = filtered.filter((a) => a.status === status)
+    where.status = status
   }
 
   if (search) {
-    filtered = filtered.filter(
-      (a) =>
-        a.name.toLowerCase().includes(search) ||
-        a.description.toLowerCase().includes(search)
-    )
+    where.OR = [
+      { name: { contains: search, mode: 'insensitive' } },
+      { description: { contains: search, mode: 'insensitive' } },
+    ]
   }
 
-  // Pagination
-  const total = filtered.length
-  const totalPages = Math.ceil(total / pageSize)
-  const offset = (page - 1) * pageSize
-  const paginated = filtered.slice(offset, offset + pageSize)
+  if (minRating) {
+    where.avgRating = { gte: parseFloat(minRating) }
+  }
 
-  // Validate response data
-  const validated = paginated.map((agent) => {
-    const result = AgentSchema.safeParse(agent)
-    if (!result.success) {
-      return null
-    }
-    return result.data
-  }).filter(Boolean)
+  if (maxPrice) {
+    where.OR = [
+      { pricePerMinute: { lte: parseFloat(maxPrice) } },
+      { pricePerSecond: { lte: parseFloat(maxPrice) } },
+      { pricePerCall: { lte: parseFloat(maxPrice) } },
+      { flatPrice: { lte: parseFloat(maxPrice) } },
+    ]
+  }
 
-  const response = NextResponse.json(
-    { data: validated, total, page, pageSize, totalPages },
-    {
-      status: 200,
-      headers: {
-        'X-Total-Count': String(total),
-        'X-Page': String(page),
-        'X-Per-Page': String(pageSize),
+  try {
+    // Get total count
+    const total = await prisma.agent.count({ where })
+
+    // Get paginated agents with relations
+    const agents = await prisma.agent.findMany({
+      where,
+      include: {
+        capabilities: true,
+        skillDependencies: true,
       },
-    }
-  )
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: { qualityScore: 'desc' },
+    })
 
-  return response
+    const totalPages = Math.ceil(total / pageSize)
+
+    const response = NextResponse.json(
+      { data: agents.map(transformAgent), total, page, pageSize, totalPages },
+      {
+        status: 200,
+        headers: {
+          'X-Total-Count': String(total),
+          'X-Page': String(page),
+          'X-Per-Page': String(pageSize),
+        },
+      }
+    )
+
+    return response
+  } catch (error) {
+    console.error('Failed to fetch agents:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch agents', code: 'INTERNAL_ERROR' },
+      { status: 500 }
+    )
+  }
 }
 
 // POST /api/agents — Create agent (authenticated, builder role)
@@ -84,7 +109,7 @@ export async function POST(request: NextRequest) {
 
     const data = result.data
 
-    // Check authentication (mock: check for wallet address in header)
+    // Check authentication
     const walletAddress = request.headers.get('x-wallet-address')
     if (!walletAddress) {
       return NextResponse.json(
@@ -101,7 +126,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check role (mock: check for role header)
+    // Check role
     const role = request.headers.get('x-role')
     if (role !== 'creator' && role !== 'builder') {
       return NextResponse.json(
@@ -110,33 +135,73 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create new agent
-    const newAgent = {
-      ...data,
-      id: `agent-${Date.now()}`,
-      qualityScore: 0,
-      totalSessions: 0,
-      avgRating: 0,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      status: 'draft' as const,
-      version: '1.0.0',
+    // Extract pricing type and values
+    const pricing = data.pricing
+    let pricingType = 'per_minute'
+    let pricePerMinute: number | undefined
+    let pricePerSecond: number | undefined
+    let pricePerCall: number | undefined
+    let flatPrice: number | undefined
+
+    if (pricing.type === 'per_minute') {
+      pricingType = 'per_minute'
+      pricePerMinute = pricing.pricePerMinute
+    } else if (pricing.type === 'per_second') {
+      pricingType = 'per_second'
+      pricePerSecond = pricing.pricePerSecond
+    } else if (pricing.type === 'flat_rate') {
+      pricingType = 'flat_rate'
+      flatPrice = pricing.flatPrice
+    } else if (pricing.type === 'tiered' && pricing.tiers) {
+      pricingType = 'tiered'
+      // Use first tier for base pricing
+      pricePerMinute = pricing.tiers[0]?.pricePerMinute
     }
 
-    // Validate the created agent
-    const agentResult = AgentSchema.safeParse(newAgent)
-    if (!agentResult.success) {
-      return NextResponse.json(
-        { error: 'Failed to create agent', code: 'INTERNAL_ERROR', details: agentResult.error.flatten() },
-        { status: 500 }
-      )
-    }
+    // Create agent in database
+    const newAgent = await prisma.agent.create({
+      data: {
+        creator: data.creator,
+        name: data.name,
+        description: data.description,
+        category: data.category.replace('ai-ml', 'ai_ml') as any,
+        pricingType,
+        pricePerMinute,
+        pricePerSecond,
+        pricePerCall,
+        flatPrice,
+        qualityScore: 0,
+        totalSessions: BigInt(0),
+        avgRating: 0,
+        status: 'draft',
+        version: '1.0.0',
+        learningEnabled: data.learningEnabled ?? false,
+        capabilities: {
+          create: data.capabilities.map((cap) => ({
+            name: cap.name,
+            description: cap.description,
+            tpmRequired: cap.tpmRequired,
+            category: cap.category,
+          })),
+        },
+        skillDependencies: {
+          create: data.skillDependencies.map((skillId) => ({
+            skillId,
+          })),
+        },
+      },
+      include: {
+        capabilities: true,
+        skillDependencies: true,
+      },
+    })
 
-    return NextResponse.json({ data: agentResult.data }, { status: 201 })
+    return NextResponse.json({ data: transformAgent(newAgent) }, { status: 201 })
   } catch (error) {
+    console.error('Failed to create agent:', error)
     return NextResponse.json(
-      { error: 'Invalid request body', code: 'BAD_REQUEST' },
-      { status: 400 }
+      { error: 'Failed to create agent', code: 'INTERNAL_ERROR' },
+      { status: 500 }
     )
   }
 }

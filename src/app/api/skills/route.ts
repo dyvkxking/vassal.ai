@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSkillById, MOCK_SKILLS } from '@/lib/mock-data'
-import { SkillSchema, CreateSkillSchema } from '@/lib/schemas/skills'
-import { SkillFiltersSchema } from '@/lib/schemas/api'
+import { prisma } from '@/lib/prisma'
+import { transformSkill } from '@/lib/db/transformers'
+import { CreateSkillSchema } from '@/lib/schemas/skills'
 import { PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX } from '@/constants'
 
-// In-memory store for skills (mutable copy of MOCK_SKILLS)
-let skillsStore = [...MOCK_SKILLS]
-
-function validateJsonSchema(schema: unknown, fieldName: string): boolean {
+function validateJsonSchema(schema: unknown): boolean {
   if (typeof schema !== 'object' || schema === null) return false
-  // Must be a valid JSON Schema object (at minimum an object with optional properties)
   const s = schema as Record<string, unknown>
   if (typeof s.type !== 'undefined' && typeof s.type !== 'string') return false
   if (typeof s.properties !== 'undefined' && typeof s.properties !== 'object') return false
@@ -33,71 +29,60 @@ export async function GET(request: NextRequest) {
   const minUsage = searchParams.get('minUsage')
   const search = searchParams.get('search')?.toLowerCase()
 
-  // Validate filter combination
-  const filterResult = SkillFiltersSchema.safeParse({
-    category,
-    status,
-    minUsage: minUsage ? parseInt(minUsage, 10) : undefined,
-    search,
-  })
-  if (!filterResult.success) {
-    return NextResponse.json(
-      { error: 'Invalid filter parameters', code: 'VALIDATION_ERROR', details: filterResult.error.flatten() },
-      { status: 400 }
-    )
-  }
-
-  // Apply filters
-  let filtered = skillsStore
+  // Build Prisma where clause
+  const where: Record<string, unknown> = {}
 
   if (category) {
-    filtered = filtered.filter((s) => s.category === category)
+    where.category = category
   }
 
   if (status) {
-    filtered = filtered.filter((s) => s.status === status)
+    where.status = status
   }
 
   if (minUsage) {
-    const minUsageNum = parseInt(minUsage, 10)
-    filtered = filtered.filter((s) => s.usageCount >= minUsageNum)
+    where.usageCount = { gte: BigInt(parseInt(minUsage, 10)) }
   }
 
   if (search) {
-    filtered = filtered.filter(
-      (s) =>
-        s.name.toLowerCase().includes(search) ||
-        s.description.toLowerCase().includes(search)
-    )
+    where.OR = [
+      { name: { contains: search, mode: 'insensitive' } },
+      { description: { contains: search, mode: 'insensitive' } },
+    ]
   }
 
-  // Sort by createdAt descending
-  filtered = filtered.sort((a, b) => b.createdAt - a.createdAt)
+  try {
+    // Get total count
+    const total = await prisma.skill.count({ where })
 
-  // Pagination
-  const total = filtered.length
-  const totalPages = Math.ceil(total / pageSize)
-  const offset = (page - 1) * pageSize
-  const paginated = filtered.slice(offset, offset + pageSize)
+    // Get paginated skills
+    const skills = await prisma.skill.findMany({
+      where,
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: { createdAt: 'desc' },
+    })
 
-  // Validate response data
-  const validated = paginated.map((skill) => {
-    const result = SkillSchema.safeParse(skill)
-    if (!result.success) return null
-    return result.data
-  }).filter(Boolean)
+    const totalPages = Math.ceil(total / pageSize)
 
-  return NextResponse.json(
-    { data: validated, total, page, pageSize, totalPages },
-    {
-      status: 200,
-      headers: {
-        'X-Total-Count': String(total),
-        'X-Page': String(page),
-        'X-Per-Page': String(pageSize),
-      },
-    }
-  )
+    return NextResponse.json(
+      { data: skills.map(transformSkill), total, page, pageSize, totalPages },
+      {
+        status: 200,
+        headers: {
+          'X-Total-Count': String(total),
+          'X-Page': String(page),
+          'X-Per-Page': String(pageSize),
+        },
+      }
+    )
+  } catch (error) {
+    console.error('Failed to fetch skills:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch skills', code: 'INTERNAL_ERROR' },
+      { status: 500 }
+    )
+  }
 }
 
 // POST /api/skills — Publish a new skill (authenticated, creator role)
@@ -133,7 +118,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check role (creator role required)
+    // Check role
     const role = request.headers.get('x-role')
     if (role !== 'creator') {
       return NextResponse.json(
@@ -143,7 +128,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate inputSchema is a valid JSON Schema object
-    if (!validateJsonSchema(data.spec.inputSchema, 'inputSchema')) {
+    if (!validateJsonSchema(data.spec.inputSchema)) {
       return NextResponse.json(
         { error: 'inputSchema must be a valid JSON Schema object', code: 'VALIDATION_ERROR' },
         { status: 400 }
@@ -151,64 +136,38 @@ export async function POST(request: NextRequest) {
     }
 
     // Validate outputSchema is a valid JSON Schema object
-    if (!validateJsonSchema(data.spec.outputSchema, 'outputSchema')) {
+    if (!validateJsonSchema(data.spec.outputSchema)) {
       return NextResponse.json(
         { error: 'outputSchema must be a valid JSON Schema object', code: 'VALIDATION_ERROR' },
         { status: 400 }
       )
     }
 
-    // Validate parameters array items have required fields
-    for (const param of data.spec.parameters) {
-      if (!param.name || typeof param.name !== 'string') {
-        return NextResponse.json(
-          { error: 'Each parameter must have a name field', code: 'VALIDATION_ERROR' },
-          { status: 400 }
-        )
-      }
-      if (!param.type || typeof param.type !== 'string') {
-        return NextResponse.json(
-          { error: 'Each parameter must have a type field', code: 'VALIDATION_ERROR' },
-          { status: 400 }
-        )
-      }
-      if (typeof param.required !== 'boolean') {
-        return NextResponse.json(
-          { error: 'Each parameter must have a required boolean field', code: 'VALIDATION_ERROR' },
-          { status: 400 }
-        )
-      }
-    }
-
     // Create new skill
-    const newSkill = {
-      ...data,
-      id: `skill-${Date.now()}`,
-      usageCount: 0,
-      avgRating: 0,
-      status: 'draft' as const,
-      version: '1.0.0',
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    }
+    const newSkill = await prisma.skill.create({
+      data: {
+        author: data.author,
+        name: data.name,
+        description: data.description,
+        category: data.category,
+        version: '1.0.0',
+        pricePerInvocation: data.pricePerInvocation,
+        usageCount: BigInt(0),
+        avgRating: 0,
+        status: 'draft',
+        inputSchema: data.spec.inputSchema as object,
+        outputSchema: data.spec.outputSchema as object,
+        parameters: data.spec.parameters as object,
+        examples: data.spec.examples as object,
+      },
+    })
 
-    // Validate the created skill
-    const skillResult = SkillSchema.safeParse(newSkill)
-    if (!skillResult.success) {
-      return NextResponse.json(
-        { error: 'Failed to create skill', code: 'INTERNAL_ERROR', details: skillResult.error.flatten() },
-        { status: 500 }
-      )
-    }
-
-    // Add to store
-    skillsStore.push(skillResult.data)
-
-    return NextResponse.json({ data: skillResult.data }, { status: 201 })
-  } catch {
+    return NextResponse.json({ data: transformSkill(newSkill) }, { status: 201 })
+  } catch (error) {
+    console.error('Failed to create skill:', error)
     return NextResponse.json(
-      { error: 'Invalid request body', code: 'BAD_REQUEST' },
-      { status: 400 }
+      { error: 'Failed to create skill', code: 'INTERNAL_ERROR' },
+      { status: 500 }
     )
   }
 }

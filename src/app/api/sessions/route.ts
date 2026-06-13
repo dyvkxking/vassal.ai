@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { MOCK_SESSIONS, MOCK_AGENTS, getAgentById, getNodeById } from '@/lib/mock-data'
-import { CreateSessionSchema, SessionSchema } from '@/lib/schemas/sessions'
-import { SessionFiltersSchema } from '@/lib/schemas/api'
-import { PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX, SESSION_STATUS } from '@/constants'
-
-// In-memory session store (mutable for demo purposes)
-let sessions = [...MOCK_SESSIONS]
+import { prisma } from '@/lib/prisma'
+import { transformSession } from '@/lib/db/transformers'
+import { CreateSessionSchema } from '@/lib/schemas/sessions'
+import { PAGE_SIZE_DEFAULT, PAGE_SIZE_MAX } from '@/constants'
 
 // GET /api/sessions — List sessions with pagination and filtering
 export async function GET(request: NextRequest) {
@@ -22,51 +19,64 @@ export async function GET(request: NextRequest) {
   const status = searchParams.get('status')
   const agentId = searchParams.get('agentId')
   const client = searchParams.get('client')
+  const providerNodeId = searchParams.get('providerNodeId')
 
-  // Apply filters using SessionFiltersSchema
-  let filtered = [...sessions]
+  // Build Prisma where clause
+  const where: Record<string, unknown> = {}
 
   if (status) {
-    const statusResult = SessionFiltersSchema.shape.status.safeParse(status)
-    if (statusResult.success) {
-      filtered = filtered.filter((s) => s.status === statusResult.data)
-    }
+    where.status = status
   }
 
   if (agentId) {
-    filtered = filtered.filter((s) => s.agentId === agentId)
+    where.agentId = agentId
   }
 
   if (client) {
-    filtered = filtered.filter((s) => s.client === client)
+    where.client = client
   }
 
-  // Pagination
-  const total = filtered.length
-  const totalPages = Math.ceil(total / pageSize)
-  const offset = (page - 1) * pageSize
-  const paginated = filtered.slice(offset, offset + pageSize)
+  if (providerNodeId) {
+    where.providerNodeId = providerNodeId
+  }
 
-  // Validate response data
-  const validated = paginated.map((session) => {
-    const result = SessionSchema.safeParse(session)
-    if (!result.success) {
-      return null
-    }
-    return result.data
-  }).filter(Boolean)
+  try {
+    // Get total count
+    const total = await prisma.session.count({ where })
 
-  return NextResponse.json(
-    { data: validated, total, page, pageSize, totalPages },
-    {
-      status: 200,
-      headers: {
-        'X-Total-Count': String(total),
-        'X-Page': String(page),
-        'X-Per-Page': String(pageSize),
+    // Get paginated sessions with relations
+    const sessions = await prisma.session.findMany({
+      where,
+      include: {
+        slashEvents: true,
+        agent: true,
+        providerNode: true,
       },
-    }
-  )
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: { startTime: 'desc' },
+    })
+
+    const totalPages = Math.ceil(total / pageSize)
+
+    return NextResponse.json(
+      { data: sessions.map(transformSession), total, page, pageSize, totalPages },
+      {
+        status: 200,
+        headers: {
+          'X-Total-Count': String(total),
+          'X-Page': String(page),
+          'X-Per-Page': String(pageSize),
+        },
+      }
+    )
+  } catch (error) {
+    console.error('Failed to fetch sessions:', error)
+    return NextResponse.json(
+      { error: 'Failed to fetch sessions', code: 'INTERNAL_ERROR' },
+      { status: 500 }
+    )
+  }
 }
 
 // POST /api/sessions — Create/start new session (requires auth, validates stake)
@@ -103,13 +113,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Check agent exists and is active
-    const agent = getAgentById(data.agentId)
+    const agent = await prisma.agent.findUnique({
+      where: { id: data.agentId },
+    })
+
     if (!agent) {
       return NextResponse.json(
         { error: 'Agent not found', code: 'NOT_FOUND' },
         { status: 404 }
       )
     }
+
     if (agent.status !== 'active') {
       return NextResponse.json(
         { error: 'Agent is not active', code: 'AGENT_NOT_ACTIVE' },
@@ -118,13 +132,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Check provider node exists and is online
-    const node = getNodeById(data.providerNode)
+    const node = await prisma.providerNode.findUnique({
+      where: { id: data.providerNode },
+    })
+
     if (!node) {
       return NextResponse.json(
         { error: 'Provider node not found', code: 'NOT_FOUND' },
         { status: 404 }
       )
     }
+
     if (node.status !== 'online') {
       return NextResponse.json(
         { error: 'Provider node is not online', code: 'NODE_NOT_ONLINE' },
@@ -133,38 +151,29 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new session
-    const newSession = {
-      id: `session-${Date.now()}`,
-      client: data.client,
-      agentId: data.agentId,
-      providerNode: data.providerNode,
-      status: 'pending' as const,
-      slaParams: agent.slaParams,
-      startTime: Date.now(),
-      tpmUsed: 0,
-      totalCost: 0,
-      latencyMetrics: { avgLatencyMs: 0, p50LatencyMs: 0, p95LatencyMs: 0, p99LatencyMs: 0, breaches: 0 },
-      slashEvents: [],
-      learningSignal: undefined,
-    }
+    const newSession = await prisma.session.create({
+      data: {
+        client: data.client,
+        agentId: data.agentId,
+        providerNodeId: data.providerNode,
+        status: 'pending',
+        latencyThresholdMs: 2000,
+        tpmCap: 100000,
+        uptimeGuaranteePercent:99,
+        minStakeRequired: 0,
+        startTime: new Date(),
+      },
+      include: {
+        slashEvents: true,
+      },
+    })
 
-    // Validate the created session
-    const sessionResult = SessionSchema.safeParse(newSession)
-    if (!sessionResult.success) {
-      return NextResponse.json(
-        { error: 'Failed to create session', code: 'INTERNAL_ERROR', details: sessionResult.error.flatten() },
-        { status: 500 }
-      )
-    }
-
-    // Add to in-memory store
-    sessions.unshift(sessionResult.data)
-
-    return NextResponse.json({ data: sessionResult.data }, { status: 201 })
+    return NextResponse.json({ data: transformSession(newSession) }, { status: 201 })
   } catch (error) {
+    console.error('Failed to create session:', error)
     return NextResponse.json(
-      { error: 'Invalid request body', code: 'BAD_REQUEST' },
-      { status: 400 }
+      { error: 'Failed to create session', code: 'INTERNAL_ERROR' },
+      { status: 500 }
     )
   }
 }

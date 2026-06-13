@@ -3,8 +3,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { signOut, useSession } from 'next-auth/react'
+import { useAccount, useConnect } from 'wagmi'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,7 +32,7 @@ const MARKETPLACE_LINKS = [
 ]
 
 const PROVIDER_LINKS = [
-  { label: 'Dashboard', href: '/provider/dashboard' },
+  { label: 'Home', href: '/provider/home' },
   { label: 'Sessions', href: '/provider/sessions' },
   { label: 'Earnings', href: '/provider/earnings' },
   { label: 'Node Management', href: '/provider/node' },
@@ -37,7 +40,7 @@ const PROVIDER_LINKS = [
 ]
 
 const BUILDER_LINKS = [
-  { label: 'Dashboard', href: '/builder/dashboard' },
+  { label: 'Home', href: '/builder/home' },
   { label: 'My Agents', href: '/builder/my-agents' },
   { label: 'Create Agent', href: '/builder/create-agent' },
   { label: 'Analytics', href: '/builder/analytics' },
@@ -56,8 +59,134 @@ const DOCS_LINKS = [
   { label: 'FAQ', href: '/docs/faq' },
 ]
 
+function UserMenu() {
+  const { data: session } = useSession()
+  const { address, isConnected } = useAccount()
+  const { connect, connectors, isPending } = useConnect()
+
+  // No OAuth session and no wallet connected
+  if (!session?.user && !isConnected) {
+    return null
+  }
+
+  const user = session?.user
+  const displayName = user?.name || (address ? `${address.slice(0, 6)}...${address.slice(-4)}` : 'User')
+  const userImage = user?.image
+  const userInitials = user?.name
+    ? user.name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+    : address ? address.slice(2, 4).toUpperCase() : '??'
+
+  const hasWalletLinked = !!session?.address || isConnected
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: '/auth/signin' })
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+          <Avatar className="h-10 w-10 border-2 border-border hover:border-primary transition-colors cursor-pointer">
+            {userImage ? (
+              <AvatarImage src={userImage} alt={displayName} />
+            ) : null}
+            <AvatarFallback className="bg-gradient-to-br from-violet-600 to-purple-600 text-white font-semibold">
+              {userInitials}
+            </AvatarFallback>
+          </Avatar>
+          {/* Wallet status indicator */}
+          {hasWalletLinked && (
+            <span className="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full bg-emerald-500 border-2 border-background" title="Wallet connected" />
+          )}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-64">
+        {/* User info */}
+        <div className="px-3 py-2">
+          <p className="text-sm font-medium truncate">{displayName}</p>
+          {user?.email && (
+            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+          )}
+          {session?.address && (
+            <p className="text-xs text-muted-foreground font-mono truncate mt-0.5">
+              {session.address.slice(0, 10)}...{session.address.slice(-6)}
+            </p>
+          )}
+        </div>
+        <DropdownMenuSeparator />
+
+        {/* Wallet status */}
+        {!hasWalletLinked && (
+          <>
+            <div className="px-3 py-2">
+              <p className="text-xs text-amber-500">No wallet linked</p>
+              <Button
+                variant="outline"
+                size="sm"
+                className="w-full mt-2 h-8 text-xs"
+                onClick={() => connectors[0] && connect({ connector: connectors[0] })}
+                disabled={isPending}
+              >
+                {isPending ? 'Connecting...' : 'Connect Wallet'}
+              </Button>
+            </div>
+            <DropdownMenuSeparator />
+          </>
+        )}
+
+        {/* Links */}
+        <DropdownMenuItem asChild>
+          <Link href="/account/profile">Account Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/settings">Settings</Link>
+        </DropdownMenuItem>
+
+        {/* Show "Link Wallet" if OAuth user without wallet */}
+        {session?.user && !session.address && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/auth/link-wallet" className="text-amber-500">
+                🔗 Link Wallet
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
+
+        {/* Show "Link OAuth" if wallet user without OAuth */}
+        {isConnected && !session?.user && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/auth/signin" className="text-blue-500">
+                🔗 Link Social Account
+              </Link>
+            </DropdownMenuItem>
+          </>
+        )}
+
+        <DropdownMenuSeparator />
+
+        {/* Sign out */}
+        <DropdownMenuItem
+          className="text-destructive focus:text-destructive"
+          onClick={handleSignOut}
+        >
+          Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 export function Navbar() {
   const pathname = usePathname()
+  const { data: session } = useSession()
+  const { isConnected } = useAccount()
+
+  // Show user menu if OAuth session OR wallet connected
+  const showUserMenu = !!session?.user || isConnected
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -172,11 +301,13 @@ export function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-3">
-          <ConnectButton
-            chainStatus="icon"
-            accountStatus="avatar"
-            showBalance={false}
-          />
+          {showUserMenu ? (
+            <UserMenu />
+          ) : (
+            <Button asChild>
+              <Link href="/auth/signin">Sign In</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

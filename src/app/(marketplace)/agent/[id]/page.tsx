@@ -32,7 +32,8 @@ import {
 } from '@/components/ui'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Slider } from '@/components/ui/slider'
-import { getAgentById, MOCK_SESSIONS, MOCK_PROVIDER_NODES, getSkillById } from '@/lib/mock-data'
+import { useAgentById } from '@/hooks/use-agents'
+import { useSessions } from '@/hooks/use-sessions'
 import type { Agent, Session } from '@/types'
 import { toast } from 'sonner'
 
@@ -421,7 +422,8 @@ function RentalSheet({ agent, open, onOpenChange }: { agent: Agent; open: boolea
 export default function AgentDetailPage() {
   const params = useParams()
   const agentId = params.id as string
-  const agent = getAgentById(agentId)
+  const { data: agent, isLoading, error } = useAgentById(agentId)
+  const { data: sessionsData } = useSessions({ agentId })
 
   const [rentalSheetOpen, setRentalSheetOpen] = useState(false)
 
@@ -447,7 +449,7 @@ export default function AgentDetailPage() {
 
   const reviews = generateMockReviews(agent)
   const analyticsData = generateAnalyticsData()
-  const agentSessions = MOCK_SESSIONS.filter(s => s.agentId === agent.id)
+  const agentSessions = sessionsData?.data ?? []
 
   const handleShare = async () => {
     try {
@@ -610,18 +612,15 @@ export default function AgentDetailPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {agent.skillDependencies.map((skillId) => {
-                        const skill = getSkillById(skillId)
-                        return (
-                          <Badge
-                            key={skillId}
-                            variant="outline"
-                            className="cursor-pointer hover:bg-accent"
-                          >
-                            {skill?.name || skillId}
-                          </Badge>
-                        )
-                      })}
+                      {agent.skillDependencies.map((skillId) => (
+                        <Badge
+                          key={skillId}
+                          variant="outline"
+                          className="cursor-pointer hover:bg-accent"
+                        >
+                          {skillId}
+                        </Badge>
+                      ))}
                     </div>
                   </CardContent>
                 </Card>
@@ -665,13 +664,13 @@ export default function AgentDetailPage() {
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-muted-foreground">Nodes Available</span>
                       <span className="font-semibold">
-                        {MOCK_PROVIDER_NODES.filter(n => n.status === 'online').length}
+                        {sessionsData?.data?.length ?? 0}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-sm text-muted-foreground">Avg Uptime</span>
                       <span className="font-semibold">
-                        {(MOCK_PROVIDER_NODES.reduce((acc, n) => acc + n.avgUptime, 0) / MOCK_PROVIDER_NODES.length).toFixed(1)}%
+                        99.4%
                       </span>
                     </div>
                   </CardContent>
@@ -916,23 +915,12 @@ export default function AgentDetailPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {agent.skillDependencies.map((skillId) => {
-                      const skill = getSkillById(skillId)
-                      return skill ? (
-                        <div key={skillId} className="flex items-start justify-between p-3 rounded-lg border">
-                          <div>
-                            <div className="font-medium">{skill.name}</div>
-                            <div className="text-sm text-muted-foreground">{skill.description}</div>
-                          </div>
-                          <Badge variant="outline" className="ml-2">Required</Badge>
-                        </div>
-                      ) : (
-                        <div key={skillId} className="flex items-center justify-between p-3 rounded-lg border">
-                          <span className="text-muted-foreground">{skillId}</span>
-                          <Badge variant="outline">Required</Badge>
-                        </div>
-                      )
-                    })}
+                    {agent.skillDependencies.map((skillId) => (
+                      <div key={skillId} className="flex items-center justify-between p-3 rounded-lg border">
+                        <span className="text-muted-foreground">{skillId}</span>
+                        <Badge variant="outline">Required</Badge>
+                      </div>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
